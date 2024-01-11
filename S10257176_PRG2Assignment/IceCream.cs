@@ -6,6 +6,8 @@ namespace S10257176_PRG2Assignment
     {
         private string option;
         private int scoops;
+        private List<Flavour> flavours;
+        private List<Topping> toppings;
 
         public string Option
         {
@@ -19,9 +21,9 @@ namespace S10257176_PRG2Assignment
             set { scoops = value; }
         }
 
-        public List<Flavour> flavours { get { return flavours; } } = new List<Flavour> ();
+        public List<Flavour> Flavours { get; set; } = new List<Flavour> ();
 
-        public List<Topping> toppings { get { return toppings; } } = new List<Topping> ();
+        public List<Topping> Toppings { get; set; } = new List<Topping> ();
 
 
         public IceCream()

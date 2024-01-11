@@ -13,7 +13,7 @@ namespace S10257176_PRG2Assignment
         public int PunchCards
         { get; set; }
         public string Tier
-        { get; set; }
+        { get; set; } = "Ordinary";
 
         public PointCard() { }
         public PointCard(int p, int c)
@@ -25,6 +25,11 @@ namespace S10257176_PRG2Assignment
         public void AddPoints(int point)
         {
             Points += point;
+
+            if(Points >= 100 && Tier != "Gold")
+                Tier = "Gold";
+            if (Points >= 50 && Tier != "Silver")
+                Tier = "Silver";
         }
 
         public void RedeemPoints(int point)
