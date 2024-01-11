@@ -24,17 +24,17 @@ namespace S10257176_PRG2Assignment
 
         public void AddPoints(int point)
         {
-
+            Points += point;
         }
 
         public void RedeemPoints(int point)
         {
-
+            Points -= point;
         }
 
         public void Punch()
         {
-
+            PunchCards++;
         }
 
         public override string ToString()
