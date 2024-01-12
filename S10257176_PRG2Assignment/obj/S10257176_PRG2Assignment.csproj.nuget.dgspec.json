@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj": {}
+    "D:\\NP(CSF)\\Sem 2\\PRG II\\Assignment\\IceCream\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj": {}
   },
   "projects": {
-    "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj": {
+    "D:\\NP(CSF)\\Sem 2\\PRG II\\Assignment\\IceCream\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
+        "projectUniqueName": "D:\\NP(CSF)\\Sem 2\\PRG II\\Assignment\\IceCream\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
         "projectName": "S10257176_PRG2Assignment",
-        "projectPath": "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
-        "packagesPath": "C:\\Users\\benja\\.nuget\\packages\\",
-        "outputPath": "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\obj\\",
+        "projectPath": "D:\\NP(CSF)\\Sem 2\\PRG II\\Assignment\\IceCream\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
+        "packagesPath": "C:\\Users\\araki\\.nuget\\packages\\",
+        "outputPath": "D:\\NP(CSF)\\Sem 2\\PRG II\\Assignment\\IceCream\\S10257176_PRG2Assignment\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\benja\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\araki\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -50,7 +54,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

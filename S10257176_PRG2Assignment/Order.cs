@@ -27,6 +27,12 @@ namespace S10257176_PRG2Assignment
 
         public void ModifyIceCream(int id)
         {
+            string serving;
+            int scoops;
+            Topping topping;
+            Flavour flavour;
+
+
             bool loop = true;
             while (loop)
             {
@@ -51,6 +57,30 @@ Enter Option : ");
                         break;
 
                     case 1:
+                        while (true)
+                        {
+                            Console.WriteLine(@"1. Cup
+2. Cone
+3. Waffle
+0. Exit
+Enter Option : ");
+                            int opt1 = Convert.ToInt32(Console.ReadLine());
+
+                            if (opt1 == 1)
+                            { 
+                                Cup cup = new Cup();
+                            
+                            }
+                            else if (opt1 == 2)
+                            { serving = "Cone"; }
+                            else if (opt1 == 3)
+                            { serving = "Waffle"; }
+                            else if (opt1 == 0)
+                                break;
+                            else
+                            { Console.WriteLine("Invalid Option"); }
+                            break;
+                        }
                         break;
 
                     case 2:
@@ -58,7 +88,7 @@ Enter Option : ");
 2. Double
 3. Triple
 Enter Option : ");
-                        int opt = Convert.ToInt32(Console.ReadLine());
+                        int opt2 = Convert.ToInt32(Console.ReadLine());
 
 
 
