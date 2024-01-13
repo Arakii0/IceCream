@@ -10,16 +10,21 @@ namespace S10257176_PRG2Assignment
     {
 
         public Cup() { }
-        public Cup(string n, int s, List<Flavour> f, List<Topping> t) : base(n,s,f,t) { }
 
-        public override double CalculatePrice()
+        public Cup(string option, int scoops, List<Flavour> flavours, List<Topping> toppings) : base(option, scoops, flavours, toppings)
         {
-                
+
+        }
+
+        public double CalculatePrice(double total)
+        {
+            double price = total;
         }
 
         public override string ToString()
         {
-            return "";
+            return base.ToString();
         }
     }
+}
 }

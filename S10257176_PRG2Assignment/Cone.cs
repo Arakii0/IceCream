@@ -8,5 +8,31 @@ namespace S10257176_PRG2Assignment
 {
     internal class Cone
     {
+        private bool dipped;
+
+        public bool Dipped
+        {
+            get { return dipped; }
+            set { dipped = value; }
+        }
+
+        public Cone() { }
+
+        public Cone(bool dipped, string option, int scoops, List<Flavour> flavours, List<Topping> toppings) : base(option, scoops, flavours, toppings)
+        {
+            Dipped = dipped;
+        }
+
+        public override CalculatePrice(double total)
+        {
+            double price = total + 2;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + $"\t Dipped: {Dipped}";
+        }
+
     }
+}
 }

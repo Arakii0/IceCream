@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\NP(CSF)\\Sem 2\\PRG II\\Assignment\\IceCream\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj": {}
+    "D:\\NP Stuff\\PRG2\\Assignment\\Assignment New\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj": {}
   },
   "projects": {
-    "D:\\NP(CSF)\\Sem 2\\PRG II\\Assignment\\IceCream\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj": {
+    "D:\\NP Stuff\\PRG2\\Assignment\\Assignment New\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\NP(CSF)\\Sem 2\\PRG II\\Assignment\\IceCream\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
+        "projectUniqueName": "D:\\NP Stuff\\PRG2\\Assignment\\Assignment New\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
         "projectName": "S10257176_PRG2Assignment",
-        "projectPath": "D:\\NP(CSF)\\Sem 2\\PRG II\\Assignment\\IceCream\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
-        "packagesPath": "C:\\Users\\araki\\.nuget\\packages\\",
-        "outputPath": "D:\\NP(CSF)\\Sem 2\\PRG II\\Assignment\\IceCream\\S10257176_PRG2Assignment\\obj\\",
+        "projectPath": "D:\\NP Stuff\\PRG2\\Assignment\\Assignment New\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\NP Stuff\\PRG2\\Assignment\\Assignment New\\S10257176_PRG2Assignment\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\araki\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -54,12 +50,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }
