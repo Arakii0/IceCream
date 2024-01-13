@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace S10257176_PRG2Assignment
 {
-    internal class Cone
+    internal class Cone : IceCream
     {
         private bool dipped;
 
@@ -23,9 +23,9 @@ namespace S10257176_PRG2Assignment
             Dipped = dipped;
         }
 
-        public override CalculatePrice(double total)
+        public override double CalculatePrice(double total)
         {
-            double price = total + 2;
+            return total + 2;
         }
 
         public override string ToString()
@@ -35,4 +35,4 @@ namespace S10257176_PRG2Assignment
 
     }
 }
-}
+

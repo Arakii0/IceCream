@@ -12,16 +12,64 @@ namespace S10257176_PRG2Assignment
         private PointCard rewards;
 
         public string Name
-        { get; set; }
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
         public int MemberId
-        { get; set; }
+        {
+            get { return memberId; }
+            set { memberId = value;  }
+        }
         public DateTime Dob
-        { get; set; }
+        {
+            get { return dob; }
+            set { dob = value; }
+        }
         public Order CurrentOrder
-        { get; set; }
+        {
+            get { return  currentOrder; }
+            set { currentOrder = value; }
+        }
         public List<Order> OrderHistory { get; set; } = new List<Order>();
+
         public PointCard Rewards
-        { get; set; }
-    
+        {
+            get { return rewards; }
+            set { rewards = value; }
+        }
+
+        public Customer() { }
+
+        public Customer(string name, int memberId, DateTime dob)
+        {
+            Name = name;
+            MemberId = memberId;
+            Dob = dob;
+        }
+
+        public Order MakeOrder()
+        {
+            return $"Order: {OrderHistory}";
+        }
+
+        public bool IsBirthday()
+        {
+            if (DateTime.Today == Dob.Date)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"Name: {Name} \tMemberId: {MemberId} \tDate of Birth: {Dob} \tCurrent Order: {CurrentOrder} \tOrder History: {OrderHistory} \tRewards: {Rewards} ";
+        }
+
     }
 }

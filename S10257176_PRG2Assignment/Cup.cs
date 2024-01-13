@@ -18,7 +18,7 @@ namespace S10257176_PRG2Assignment
 
         public double CalculatePrice(double total)
         {
-            double price = total;
+            return total;
         }
 
         public override string ToString()
@@ -26,5 +26,5 @@ namespace S10257176_PRG2Assignment
             return base.ToString();
         }
     }
-}
+
 }
