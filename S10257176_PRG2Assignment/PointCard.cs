@@ -44,7 +44,7 @@ namespace S10257176_PRG2Assignment
 
         public override string ToString()
         {
-            return "";
+            return $"Points: {Points} \tPunchCards: {PunchCards} \tTier: {Tier}";
         }
     }
 }

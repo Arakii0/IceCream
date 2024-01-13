@@ -16,11 +16,11 @@ namespace S10257176_PRG2Assignment
         { get; set; }
 
         public Flavour() { }
-        public Flavour(string t, bool p, int q)
+        public Flavour(string type, bool premium, int quantity)
         {
-            Type = t;
-            Premium = p;
-            Quantity = q;
+            Type = type;
+            Premium = premium;
+            Quantity = quantity;
         }
 
         public override string ToString()

@@ -51,12 +51,13 @@ namespace S10257176_PRG2Assignment
 
         public Order MakeOrder()
         {
-            return $"Order: {OrderHistory}";
+            return new Order(); 
         }
+
 
         public bool IsBirthday()
         {
-            if (DateTime.Today == Dob.Date)
+            if (DateTime.Today.Day == Dob.Day && DateTime.Today.Month == Dob.Month) 
             {
                 return true;
             }
