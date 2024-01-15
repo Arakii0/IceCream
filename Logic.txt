@@ -1,0 +1,34 @@
+Cup 
+Cone - Chocolate +2
+Waffle - +$3 Flavour +3
+
+1 - 3 Toppings +$1
+Premium Flavour +$2
+
+
+USE A QUEUE FOR orders recieved
+
+One order - Many Ice Creams
+
+On birthdays, first order made by customer, free most ex icecream
+
+
+starts at member -> silver -> gold
+0                      50     100
+
+cannot drop rank, even if points are used
+
+Points Equation = Floor(amount * 0.72) = 2 points.
+
+
+Only Silver and Gold can redeem points
+1 points == $0.02
+
+
+Gold Members
+- Special gold member queue
+--> Always prioritized first before regular queue
+
+
+PointCards
+Every 10 punches, next icecream free, punches resets to zero
