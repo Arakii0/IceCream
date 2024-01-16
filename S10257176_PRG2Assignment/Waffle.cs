@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace S10257176_PRG2Assignment
 {
@@ -23,9 +19,9 @@ namespace S10257176_PRG2Assignment
             WaffleFlavour = waffleFlavour;
         }
 
-        public double CalculatePrice(double total)
+        public override double CalculatePrice()
         {
-            return total + 3;
+            return 0.00 + 3;
         }
 
         public override string ToString()

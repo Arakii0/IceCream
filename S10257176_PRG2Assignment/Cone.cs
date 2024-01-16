@@ -23,9 +23,9 @@ namespace S10257176_PRG2Assignment
             Dipped = dipped;
         }
 
-        public override double CalculatePrice(double total)
+        public override double CalculatePrice()
         {
-            return total + 2;
+            return 0.0 + 2;
         }
 
         public override string ToString()

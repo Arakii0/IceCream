@@ -31,7 +31,7 @@ namespace S10257176_PRG2Assignment
             int scoops;
             Topping topping;
             Flavour flavour;
-
+            IceCream iceCream;
 
             bool loop = true;
             while (loop)
@@ -39,7 +39,7 @@ namespace S10257176_PRG2Assignment
                 Console.WriteLine("Modification Table");
                 Console.WriteLine("==================");
 
-                Console.WriteLine(@"1. Option
+                Console.Write(@"1. Option
 2. Scoops
 3. Toppings
 4. Flavours
@@ -59,7 +59,7 @@ Enter Option : ");
                     case 1:
                         while (true)
                         {
-                            Console.WriteLine(@"1. Cup
+                            Console.Write(@"1. Cup
 2. Cone
 3. Waffle
 0. Exit
@@ -67,14 +67,18 @@ Enter Option : ");
                             int opt1 = Convert.ToInt32(Console.ReadLine());
 
                             if (opt1 == 1)
-                            { 
-                                Cup cup = new Cup();
-                            
+                            {
+                                iceCream = new Cup();
+
                             }
                             else if (opt1 == 2)
-                            { serving = "Cone"; }
+                            {
+                                iceCream = new Cone();
+                            }
                             else if (opt1 == 3)
-                            { serving = "Waffle"; }
+                            { 
+                                iceCream = new Waffle();
+                            }
                             else if (opt1 == 0)
                                 break;
                             else
@@ -84,7 +88,7 @@ Enter Option : ");
                         break;
 
                     case 2:
-                        Console.WriteLine(@"1. Single
+                        Console.Write(@"1. Single
 2. Double
 3. Triple
 Enter Option : ");
@@ -100,6 +104,7 @@ Enter Option : ");
                     case 5:
                         break;
                     case 6:
+                        IceCreamList.Add(iceCream);
                         break;
                     default:
                         Console.WriteLine("Invalid Option, Please try again!");

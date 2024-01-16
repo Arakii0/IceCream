@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace S10257176_PRG2Assignment
 {
@@ -16,9 +12,9 @@ namespace S10257176_PRG2Assignment
 
         }
 
-        public double CalculatePrice(double total)
+        public override double CalculatePrice()
         {
-            return total;
+            return 0.00;
         }
 
         public override string ToString()
