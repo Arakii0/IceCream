@@ -31,13 +31,32 @@ namespace S10257176_PRG2Assignment
             int scoops;
             Topping topping;
             Flavour flavour;
-            IceCream iceCream;
 
             bool loop = true;
             while (loop)
             {
                 Console.WriteLine("Modification Table");
                 Console.WriteLine("==================");
+
+                for(int i = 0; i < IceCreamList.Count; i++)
+                {
+                    Console.WriteLine($"{i+1}. {IceCreamList[i].Option}");
+                }
+                try
+                {
+                    Console.Write("Enter Icecream to modify : ");
+                    int icecreamOption = Convert.ToInt32(Console.ReadLine());
+                }
+                catch(FormatException e)
+                {
+                    Console.WriteLine("Please enter a number, please try again");
+                }
+
+
+
+
+
+
 
                 Console.Write(@"1. Option
 2. Scoops
@@ -126,7 +145,7 @@ Enter Option : ");
 
         public void DeleteIceCream(int id)
         {
-            
+            IceCreamList.RemoveAt(id-1);
         }
 
         public double CalculateTotal()
