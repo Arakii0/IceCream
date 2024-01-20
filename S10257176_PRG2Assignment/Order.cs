@@ -53,17 +53,11 @@ namespace S10257176_PRG2Assignment
                 }
 
 
-
-
-
-
-
                 Console.Write(@"1. Option
 2. Scoops
 3. Toppings
 4. Flavours
 5. Additional Upgrades
-6. Finish Ice Cream
 0. Exit
 Enter Option : ");
                 int option = Convert.ToInt32(Console.ReadLine());
