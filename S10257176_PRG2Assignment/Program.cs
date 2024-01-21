@@ -11,44 +11,49 @@ namespace S10257176_PRG2Assignment
         static void Main(string[] args)
         {
             List<Customer> customers = new List<Customer>();
-            ReadfileCustomer(customers);
-  
+
             List<Flavour> flavours = new List<Flavour>();
-            ReadFileFlavors(flavors);
 
             List<Order> orders = new List<Order>();
-            ReadFileOrders(orders);
 
             List<Topping> topping = new List<Topping>();
-            ReadFileToppings(toppings);
+         
 
             List<IceCream> options = new List<IceCream>();
-            ReadFileOptions(options);
+                            
+            
 
-
-            foreach (Customer customer in customers)
+            while (true)
             {
-                Console.WriteLine(customer.ToString());
-            }
+                Console.WriteLine("1) List all customers");
+                Console.WriteLine("2) List all current orders");
+                Console.WriteLine("3) Register a new customer");
+                Console.WriteLine("4) Create a customer's order");
+                Console.WriteLine("5) Exit");
+                Console.Write("Enter your choice: ");
+                string choice = Console.ReadLine();
 
-            foreach (Flavour flavour in flavours)
-            {
-                Console.WriteLine(flavour.ToString());
-            }
-
-            foreach (Order order in orders)
-            {
-                Console.WriteLine(order.ToString());
-            }
-
-            foreach (Topping topping in toppings)
-            {
-                Console.WriteLine(topping.ToString());
-            }
-
-            foreach (IceCream option in options)
-            {
-                Console.WriteLine(option.ToString());
+                switch (choice)
+                {
+                    case "1":
+                        ListAllCustomers(customers);
+                        break;
+                    case "2":
+                        ListAllCurrentOrders(customers);
+                        break;
+                    case "3":
+                        RegisterNewCustomer(customers);
+                        break;
+                    case "4":
+                        
+                        break;
+                    case "5":
+                        Console.WriteLine("Exiting program...");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid choice. Please try again.");
+                        break;
+                }
             }
         }
 
@@ -65,6 +70,11 @@ namespace S10257176_PRG2Assignment
 
                 customers.Add(new Customer { Name = name, MemberId = memberId, Dob = dob });
             }
+
+            foreach (Customer customer in customers)
+            {
+                Console.WriteLine(customer.ToString());
+            }
         }
 
         static void ReadFileFlavors(List<Flavor> flavors)
@@ -78,6 +88,11 @@ namespace S10257176_PRG2Assignment
                 double cost = Convert.ToDouble(data[1]);
 
                 flavors.Add(new Flavor { Name = name, Cost = cost });
+            }
+
+            foreach (Flavour flavour in flavours)
+            {
+                Console.WriteLine(flavour.ToString());
             }
         }
 
@@ -123,6 +138,11 @@ namespace S10257176_PRG2Assignment
                     Topping4 = topping4
                 });
             }
+
+            foreach (Order order in orders)
+            {
+                Console.WriteLine(order.ToString());
+            }
         }
 
         static void ReadFileToppings(List<Topping> toppings)
@@ -136,6 +156,11 @@ namespace S10257176_PRG2Assignment
                 double cost = Convert.ToDecimal(data[1]);
 
                 toppings.Add(new Topping { Name = name, Cost = cost });
+            }
+
+            foreach (Topping topping in toppings)
+            {
+                Console.WriteLine(topping.ToString());
             }
         }
 
@@ -154,9 +179,54 @@ namespace S10257176_PRG2Assignment
                 double cost = Convert.ToDouble(data[4]);
 
                 options.Add(new IceCream { Option = option, Scoops = scoops, Dipped = dipped, WaffleFlavour = waffleFlavour, Cost = cost });
+
+                foreach (IceCream option in options)
+                {
+                    Console.WriteLine(option.ToString());
+                }
             }
         }
 
 
+        static void ListAllCustomers(List<Customer> customers)
+        {
+            Console.WriteLine("List of all customers:");
+            foreach (Customer customer in customers)
+            {
+                Console.WriteLine(customer.ToString());
+            }
+        }
+
+        static void ListAllCurrentOrders(List<Customer> customers)
+        {
+            Console.WriteLine("List of all current orders:");
+            foreach (Customer customer in customers)
+            {
+                if (customer.CurrentOrder != null)
+                {
+                    Console.WriteLine($"Customer: {customer.Name}, Current Order: {customer.CurrentOrder.ToString()}");
+                }
+            }
+        }
+
+        static void RegisterNewCustomer(List<Customer> customers)
+        {
+            Console.Write("Enter customer name: ");
+            string name = Console.ReadLine();
+
+            Console.Write("Enter customer ID number: ");
+            int memberId = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Enter customer date of birth (MM/DD/YYYY): ");
+            DateTime dob = Convert.ToDateTime(Console.ReadLine());
+
+            Customer newCustomer = new Customer(name, memberId, dob);
+            newCustomer.Rewards = new PointCard();
+
+            customers.Add(newCustomer);
+
+            Console.WriteLine("Customer registered successfully!");
+
+        }
     }
 }
