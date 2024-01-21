@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -77,7 +77,7 @@ namespace S10257176_PRG2Assignment
             }
         }
 
-        static void ReadFileFlavors(List<Flavor> flavors)
+        static void ReadFileFlavors(List<Flavour> flavours)
         {
             string[] lines = File.ReadAllLines("flavors.csv");
 
@@ -87,7 +87,7 @@ namespace S10257176_PRG2Assignment
                 string name = Convert.ToString(data[0]);
                 double cost = Convert.ToDouble(data[1]);
 
-                flavors.Add(new Flavor { Name = name, Cost = cost });
+                flavours.Add(new Flavour { Type = name, Cost = cost });
             }
 
             foreach (Flavour flavour in flavours)
