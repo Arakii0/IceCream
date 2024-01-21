@@ -1,4 +1,9 @@
-﻿namespace S10257176_PRG2Assignment
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+
+
+namespace S10257176_PRG2Assignment
 {
     class Program
     {
@@ -7,44 +12,44 @@
         {
             List<Customer> customers = new List<Customer>();
             ReadfileCustomer(customers);
-
-            foreach (Customer customer in customers)
-            {
-                Console.WriteLine(customers.ToString());
-            }
-
+  
             List<Flavour> flavours = new List<Flavour>();
             ReadFileFlavors(flavors);
-
-            foreach (Flavour flavour in flavours)
-            {
-                Console.WriteLine(flavours.ToString());
-            }
 
             List<Order> orders = new List<Order>();
             ReadFileOrders(orders);
 
-            foreach (Order order in orders)
-            {
-                Console.WriteLine(orders.ToString());
-            }
-
             List<Topping> topping = new List<Topping>();
             ReadFileToppings(toppings);
-
-            foreach (Topping toppings in toppings)
-            {
-                Console.WriteLine(toppings.ToString());
-            }
 
             List<IceCream> options = new List<IceCream>();
             ReadFileOptions(options);
 
-            foreach (IceCream option in options)
+
+            foreach (Customer customer in customers)
             {
-                Console.WriteLine(options.ToString());
+                Console.WriteLine(customer.ToString());
             }
 
+            foreach (Flavour flavour in flavours)
+            {
+                Console.WriteLine(flavour.ToString());
+            }
+
+            foreach (Order order in orders)
+            {
+                Console.WriteLine(order.ToString());
+            }
+
+            foreach (Topping topping in toppings)
+            {
+                Console.WriteLine(topping.ToString());
+            }
+
+            foreach (IceCream option in options)
+            {
+                Console.WriteLine(option.ToString());
+            }
         }
 
         static void ReadfileCustomer(List<Customer> customers)
@@ -148,7 +153,7 @@
                 string waffleFlavour = Convert.ToString(data[3]);
                 double cost = Convert.ToDouble(data[4]);
 
-                iceCreamOptions.Add(new IceCreamOption { Option = option, Scoops = scoops, Dipped = dipped, WaffleFlavour = waffleFlavour, Cost = cost });
+                options.Add(new IceCream { Option = option, Scoops = scoops, Dipped = dipped, WaffleFlavour = waffleFlavour, Cost = cost });
             }
         }
 
