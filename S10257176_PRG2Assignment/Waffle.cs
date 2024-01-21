@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace S10257176_PRG2Assignment
 {
@@ -14,7 +14,7 @@ namespace S10257176_PRG2Assignment
 
         public Waffle() { }
 
-        public Waffle(string waffleFlavour, string option, int scoops, List<Flavour> flavours, List<Topping> toppings) : base(option, scoops, flavours, toppings)
+        public Waffle(string option, int scoops, List<Flavour> flavours, List<Topping> toppings, string waffleFlavour) : base(option, scoops, flavours, toppings)
         {
             WaffleFlavour = waffleFlavour;
         }
