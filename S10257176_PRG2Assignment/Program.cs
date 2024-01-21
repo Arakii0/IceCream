@@ -8,7 +8,7 @@
             List<Customer> customers = new List<Customer>();
             ReadfileCustomer(customers);
 
-            foreach (Customer customers in customers)
+            foreach (Customer customer in customers)
             {
                 Console.WriteLine(customers.ToString());
             }
@@ -16,7 +16,7 @@
             List<Flavour> flavours = new List<Flavour>();
             ReadFileFlavors(flavors);
 
-            foreach (Flavour flavours in flavours)
+            foreach (Flavour flavour in flavours)
             {
                 Console.WriteLine(flavours.ToString());
             }
@@ -24,12 +24,12 @@
             List<Order> orders = new List<Order>();
             ReadFileOrders(orders);
 
-            foreach (Order orders in orders)
+            foreach (Order order in orders)
             {
                 Console.WriteLine(orders.ToString());
             }
 
-            List<Topping> toppings = new List<Topping>();
+            List<Topping> topping = new List<Topping>();
             ReadFileToppings(toppings);
 
             foreach (Topping toppings in toppings)
@@ -40,7 +40,7 @@
             List<IceCream> options = new List<IceCream>();
             ReadFileOptions(options);
 
-            foreach (IceCream options in options)
+            foreach (IceCream option in options)
             {
                 Console.WriteLine(options.ToString());
             }
@@ -151,5 +151,7 @@
                 iceCreamOptions.Add(new IceCreamOption { Option = option, Scoops = scoops, Dipped = dipped, WaffleFlavour = waffleFlavour, Cost = cost });
             }
         }
+
+
     }
 }
