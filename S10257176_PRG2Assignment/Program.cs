@@ -145,7 +145,7 @@ namespace S10257176_PRG2Assignment
             }
         }
 
-        static void ReadFileToppings(List<Topping> toppings)
+        static void ReadFileToppings(Dictionary<string,double> toppings)
         {
             string[] lines = File.ReadAllLines("toppings.csv");
 
@@ -153,14 +153,14 @@ namespace S10257176_PRG2Assignment
             {
                 string[] data = lines[i].Split(',');
                 string name = Convert.ToString(data[0]);
-                double cost = Convert.ToDecimal(data[1]);
+                double cost = Convert.ToDouble(data[1]);
 
-                toppings.Add(new Topping { Name = name, Cost = cost });
+                toppings.Add(name, cost);
             }
 
-            foreach (Topping topping in toppings)
+            foreach (var kvp in toppings)
             {
-                Console.WriteLine(topping.ToString());
+                Console.WriteLine($"Topping : {kvp.Key}\nCost : {kvp.Value}");
             }
         }
 
@@ -176,9 +176,17 @@ namespace S10257176_PRG2Assignment
                 int scoops = Convert.ToInt32(data[1]);
                 bool dipped = Convert.ToBoolean(data[2]);
                 string waffleFlavour = Convert.ToString(data[3]);
-                double cost = Convert.ToDouble(data[4]);
 
-                options.Add(new IceCream { Option = option, Scoops = scoops, Dipped = dipped, WaffleFlavour = waffleFlavour, Cost = cost });
+                if (option == "Cup")
+                    options.Add(new Cup(option,scoops,));
+                if (option == "Cone")
+                    options.Add(new Cone());
+                if (option == "Waffle")
+                    options.Add(new Waffle());
+
+
+
+                options.Add(new IceCream { Option = option, Scoops = scoops, Dipped = dipped, WaffleFlavour = waffleFlavour});
 
                 foreach (IceCream option in options)
                 {
