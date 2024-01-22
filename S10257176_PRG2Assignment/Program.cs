@@ -119,7 +119,6 @@ namespace S10257176_PRG2Assignment
                 string topping3 = Convert.ToString(data[13]);
                 string topping4 = Convert.ToString(data[14]);
 
-                Order ord = new Order(); 
             }
 
             foreach (Order order in orders)
