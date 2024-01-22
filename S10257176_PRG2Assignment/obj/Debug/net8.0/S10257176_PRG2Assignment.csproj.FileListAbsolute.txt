@@ -1,0 +1,5 @@
+D:\NP(CSF)\Sem 2\PRG II\Assignment\S10257176_PRG2Assignment\obj\Debug\net8.0\S10257176_PRG2Assignment.GeneratedMSBuildEditorConfig.editorconfig
+D:\NP(CSF)\Sem 2\PRG II\Assignment\S10257176_PRG2Assignment\obj\Debug\net8.0\S10257176_PRG2Assignment.AssemblyInfoInputs.cache
+D:\NP(CSF)\Sem 2\PRG II\Assignment\S10257176_PRG2Assignment\obj\Debug\net8.0\S10257176_PRG2Assignment.AssemblyInfo.cs
+D:\NP(CSF)\Sem 2\PRG II\Assignment\S10257176_PRG2Assignment\obj\Debug\net8.0\S10257176_PRG2Assignment.csproj.CoreCompileInputs.cache
+D:\NP(CSF)\Sem 2\PRG II\Assignment\S10257176_PRG2Assignment\obj\Debug\net8.0\S10257176_PRG2Assignment.sourcelink.json

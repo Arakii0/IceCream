@@ -12,11 +12,11 @@ namespace S10257176_PRG2Assignment
         {
             List<Customer> customers = new List<Customer>();
 
-            List<Flavour> flavours = new List<Flavour>();
+            Dictionary<string, double> flavours = new Dictionary<string, double>();
 
-            List<Order> orders = new List<Order>();
+            Dictionary<int, List<Order>> orders = new Dictionary<int, List<Order>>();
 
-            List<Topping> topping = new List<Topping>();
+            Dictionary<string, double> topping = new Dictionary<string, double>();
          
 
             List<IceCream> options = new List<IceCream>();
@@ -68,7 +68,7 @@ namespace S10257176_PRG2Assignment
                 int memberId = Convert.ToInt32(data[1]);
                 DateTime dob = Convert.ToDateTime(data[2]);
 
-                customers.Add(new Customer { Name = name, MemberId = memberId, Dob = dob });
+                customers.Add(new Customer(name, memberId, dob));
             }
 
             foreach (Customer customer in customers)
@@ -77,7 +77,7 @@ namespace S10257176_PRG2Assignment
             }
         }
 
-        static void ReadFileFlavors(List<Flavour> flavours)
+        static void ReadFileFlavors(Dictionary<string, double> flavours)
         {
             string[] lines = File.ReadAllLines("flavors.csv");
 
@@ -87,16 +87,16 @@ namespace S10257176_PRG2Assignment
                 string name = Convert.ToString(data[0]);
                 double cost = Convert.ToDouble(data[1]);
 
-                flavours.Add(new Flavour { Type = name, Cost = cost });
+                flavours.Add(name, cost);
             }
 
-            foreach (Flavour flavour in flavours)
+            foreach (var kvp in flavours)
             {
-                Console.WriteLine(flavour.ToString());
+                Console.WriteLine($"Flavour: {kvp.Key}\nCost: {kvp.Value}");
             }
         }
 
-        static void ReadFileOrders(List<Order> orders)
+        static void ReadFileOrders(Dictionary<int, List<Order>> orders)
         {
             string[] lines = File.ReadAllLines("orders.csv");
 
@@ -119,24 +119,7 @@ namespace S10257176_PRG2Assignment
                 string topping3 = Convert.ToString(data[13]);
                 string topping4 = Convert.ToString(data[14]);
 
-                orders.Add(new Order
-                {
-                    Id = id,
-                    MemberId = memberId,
-                    TimeReceived = timeReceived,
-                    TimeFulfilled = timeFulfilled,
-                    Option = option,
-                    Scoops = scoops,
-                    Dipped = dipped,
-                    WaffleFlavour = waffleFlavour,
-                    Flavour1 = flavour1,
-                    Flavour2 = flavour2,
-                    Flavour3 = flavour3,
-                    Topping1 = topping1,
-                    Topping2 = topping2,
-                    Topping3 = topping3,
-                    Topping4 = topping4
-                });
+                Order ord = new Order(); 
             }
 
             foreach (Order order in orders)
@@ -178,7 +161,7 @@ namespace S10257176_PRG2Assignment
                 string waffleFlavour = Convert.ToString(data[3]);
 
                 if (option == "Cup")
-                    options.Add(new Cup(option,scoops,));
+                    options.Add(new Cup(option, scoops, new List<Flavour>(), new List<Topping>()));
                 if (option == "Cone")
                     options.Add(new Cone());
                 if (option == "Waffle")
