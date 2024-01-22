@@ -61,12 +61,10 @@ namespace S10257176_PRG2Assignment
 
                 while(loop)
                 {
-                    iceCream = IceCreamList[icecreamOption - 1];
                     Console.Write(@"1. Option
 2. Scoops
 3. Toppings
 4. Flavours
-5. Additional Upgrades
 0. Exit
 Enter Option : ");
                     int option = Convert.ToInt32(Console.ReadLine());
@@ -210,31 +208,6 @@ Enter Option : ");
                             break;
 
                         case 5:
-                            if (iceCream.Option == "Cone")
-                            {
-                                Console.Write("Chocolate-dipped cone (+$2) (y/n) : ");
-                                string option5 = Console.ReadLine();
-                                if (option5.ToLower() == "y") ;
-                                {
-                                    Cone cone = (Cone)iceCream;
-                                    cone.Dipped = true;
-                                }
-                            }
-
-                            if (iceCream.Option == "Waffle")
-                            {
-                                Console.Write("Red velvet, charcoal, pandan waffle or n (+$3) : ");
-                                string waffleFlavour = Console.ReadLine();
-                                if (waffleFlavour.ToLower() != "n")
-                                {
-                                    Waffle waffle = (Waffle)iceCream;
-                                    waffle.WaffleFlavour = waffleFlavour;
-                                }
-                                else
-                                    continue;
-                            }
-                            break;
-                        case 6:
                             Console.WriteLine(iceCream.Option);
                             foreach (Flavour f in iceCream.Flavours)
                             {

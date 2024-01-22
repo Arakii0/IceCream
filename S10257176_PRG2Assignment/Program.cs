@@ -178,7 +178,6 @@ namespace S10257176_PRG2Assignment
             }
         }
 
-
         static void ListAllCustomers(List<Customer> customers)
         {
             Console.WriteLine("List of all customers:");
