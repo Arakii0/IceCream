@@ -30,8 +30,10 @@ namespace S10257176_PRG2Assignment
             IceCream iceCream = null;
             bool loop = true;
 
-                Console.WriteLine("Modification Table");
-                Console.WriteLine("==================");
+            Console.WriteLine("Modification Table");
+            Console.WriteLine("==================");
+
+            int icecreamOption;
 
                 while (true)
                 {
@@ -42,7 +44,7 @@ namespace S10257176_PRG2Assignment
                     try
                     {
                         Console.Write("Enter Icecream to modify : ");
-                        int icecreamOption = Convert.ToInt32(Console.ReadLine());
+                        icecreamOption = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine($"Choosen option {icecreamOption} ({IceCreamList[icecreamOption - 1].Option})");
                         iceCream = IceCreamList[icecreamOption - 1];
                         break;
@@ -59,6 +61,7 @@ namespace S10257176_PRG2Assignment
 
                 while(loop)
                 {
+                    iceCream = IceCreamList[icecreamOption - 1];
                     Console.Write(@"1. Option
 2. Scoops
 3. Toppings
@@ -76,35 +79,32 @@ Enter Option : ");
                             break;
 
                         case 1:
-                            while (true)
+                        while (true)
+                        {
+                            try
                             {
                                 Console.Write(@"1. Cup
-2. Cone
-3. Waffle
-0. Exit
-Enter Option : ");
+    2. Cone
+    3. Waffle
+    0. Exit
+    Enter Option : ");
                                 int opt1 = Convert.ToInt32(Console.ReadLine());
 
                                 if (opt1 == 1)
-                                {
-                                    Cup cup = (Cup)iceCream;
-                                    cup.Option = "Cup";
-                                }
-                                else if (opt1 == 2)
-                                {
-                                    Cone cone = (Cone)iceCream;
-                                    cone.Option = "Cup";
-                                }
-                                else if (opt1 == 3)
-                                {
-                                    Waffle waffle= (Waffle)iceCream;
-                                    waffle.Option = "Waffle";
-                            }
-                                else if (opt1 == 0)
+                                    { IceCreamList[icecreamOption - 1] = new Cup("Cup", iceCream.Scoops, iceCream.Flavours, iceCream.Toppings); break; }
+                                if (opt1 == 2)
+                                    { IceCreamList[icecreamOption - 1] = new Cone("Cone", iceCream.Scoops, iceCream.Flavours, iceCream.Toppings, false); break; }
+                                if (opt1 == 3)
+                                    { IceCreamList[icecreamOption - 1] = new Waffle("Waffle", iceCream.Scoops, iceCream.Flavours, iceCream.Toppings, "Original"); break; }
+                                if (opt1 == 0)
                                     break;
                                 else
-                                { Console.WriteLine("Invalid Option"); }
-                                break;
+                                    { Console.WriteLine("Invalid Option"); }
+                            }
+                            catch(ArgumentOutOfRangeException e)
+                            {
+                                Console.WriteLine("Enter an Integer");
+                            }
                             }
                             break;
 
