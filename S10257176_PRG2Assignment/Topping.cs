@@ -1,7 +1,7 @@
 ﻿//==========================================================
 // Student Number : S10257176H 
 // Student Name : Araki Yeo
-// Partner Name : 
+// Partner Name : Benjamin Hwang
 //==========================================================
 
 using System;

@@ -1,6 +1,6 @@
 ﻿//==========================================================
-// Student Number : 
-// Student Name : 
+// Student Number : Benjamin Hwang
+// Student Name : S10262171E
 // Partner Name : Araki Yeo
 //==========================================================
 
@@ -20,8 +20,37 @@ namespace S10257176_PRG2Assignment
 
         public override double CalculatePrice()
         {
-            return 0.00;
+            double cost = 0.0;
+
+            switch (Scoops)
+            {
+                case 1:
+                    cost = 4.00;
+                    break;
+                case 2:
+                    cost = 5.50;
+                    break;
+                case 3:
+                    cost = 6.50;
+                    break;
+                default:
+                    Console.WriteLine("Invalid number of scoops");
+                    return 0;
+            }
+
+            foreach (Flavour flavour in Flavours)
+            {
+                if (flavour.IsPremium)
+                {
+                    cost += 2; 
+                }
+            }
+
+            cost += Toppings.Count;
+
+            return cost;
         }
+    }
 
         public override string ToString()
         {
