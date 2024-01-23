@@ -68,6 +68,7 @@ namespace S10257176_PRG2Assignment
                         RegisterNewCustomer(customers);
                         break;
                     case "4":
+                        CreateCustomerOrder(customers, orders, goldQueue, regularQueue);
                         break;
                     case "5":
                         foreach (Customer customer in customers)
@@ -341,5 +342,95 @@ namespace S10257176_PRG2Assignment
             Console.WriteLine("Customer registered successfully!");
 
         }
+
+        static void CreateCustomerOrder(List<Customer> customers, Dictionary<int, Order> orders, Queue<Order> goldQueue, Queue<Order> regularQueue)
+        {
+            Console.WriteLine("List of all customers:");
+            ListAllCustomers(customers);
+
+            Console.Write("Enter the Member ID of the customer to create an order: ");
+            int memberId = Convert.ToInt32(Console.ReadLine());
+
+            Customer selectedCustomer = customers.Find(customer => customer.MemberId == memberId);
+
+            if (selectedCustomer == null)
+            {
+                Console.WriteLine("Customer not found!");
+                return;
+            }
+
+            Order newOrder = new Order();
+            do
+            {
+                Console.Write("Enter ice cream option (Cup, Cone, Waffle): ");
+                string option = Console.ReadLine();
+
+                Console.Write("Enter number of scoops (1, 2, 3): ");
+                int scoops = Convert.ToInt32(Console.ReadLine());
+
+                List<Flavour> flavours = new List<Flavour>();
+                Console.WriteLine("Enter ice cream flavours:");
+                string flavourInput = Console.ReadLine();
+                   
+
+                flavours.Add(new Flavour(flavourInput)); 
+                
+
+                List<Topping> toppings = new List<Topping>();
+                Console.WriteLine("Enter ice cream toppings (press Enter when finished):");
+                while (true)
+                {
+                    Console.Write("Topping (or press Enter to finish): ");
+                    string toppingInput = Console.ReadLine();
+                    if (string.IsNullOrEmpty(toppingInput))
+                    {
+                        break;
+                    }
+
+                    toppings.Add(new Topping(toppingInput));
+                }
+
+
+                IceCream iceCream;
+
+
+                switch (option.ToLower())
+                {
+                    case "cup":
+                        iceCream = new Cup(option, scoops, flavours, toppings);
+                        break;
+                    case "cone":
+                        Console.Write("Is it a chocolate-dipped cone? (true/false): ");
+                        bool dipped = Convert.ToBoolean(Console.ReadLine());
+                        iceCream = new Cone(option, scoops, flavours, toppings, dipped);
+                        break;
+                    case "waffle":
+                        Console.Write("Enter waffle flavour (or 'n' for no additional cost): ");
+                        string waffleFlavour = Console.ReadLine();
+                        iceCream = new Waffle(option, scoops, flavours, toppings, waffleFlavour);
+                        break;
+                    default:
+                        Console.WriteLine("Invalid ice cream option. Please try again.");
+                        return;
+                }
+
+                newOrder.AddIceCream(iceCream);
+
+                Console.Write("Do you want to add another ice cream to the order? (Y/N): ");
+            } 
+            
+            while (Console.ReadLine().ToLower() == "y");
+
+            selectedCustomer.CurrentOrder = newOrder;
+
+
+            if (selectedCustomer.Rewards.Tier == "Gold")
+                goldQueue.Enqueue(selectedCustomer.CurrentOrder);
+            else
+                regularQueue.Enqueue(selectedCustomer.CurrentOrder);
+
+            Console.WriteLine("Order has been made successfully!");
+        }
+
     }
 }
