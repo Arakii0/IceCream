@@ -266,15 +266,11 @@ Enter Option : ");
 
 
 
-        public void AddIceCream(string option, int scoop, List<Flavour> f, List<Topping> t, bool dip = false, string wafflef = "Original")
+        public void AddIceCream(IceCream icecream)
         {
-            if (option == "Cup")
-                { Cup cup = new Cup(option, scoop, f, t); IceCreamList.Add(cup); }
-            if (option == "Cone")
-                { Cone cone = new Cone(option, scoop, f, t, dip); IceCreamList.Add(cone); }
-            if (option == "Waffle")
-                { Waffle waffle = new Waffle(option, scoop, f, t, wafflef); IceCreamList.Add(waffle); }
+            IceCreamList.Add(icecream);
         }
+
 
         public void DeleteIceCream(int id)
         {
@@ -288,7 +284,13 @@ Enter Option : ");
 
         public override string ToString()
         {
-            return "";
+            string order = "";
+            for(int i = 0; i < IceCreamList.Count; i++)
+            {
+                order = $"Id : {Id}\tTime Recieved: {TimeRecieved}\t Order: {IceCreamList[i].Option}\n";
+            }
+
+            return order;
         }
     }
 }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Security.AccessControl;
 
 
 namespace S10257176_PRG2Assignment
@@ -14,13 +16,15 @@ namespace S10257176_PRG2Assignment
 
             Dictionary<string, double> flavours = new Dictionary<string, double>();
 
-            Dictionary<int, List<Order>> orders = new Dictionary<int, List<Order>>();
+            Dictionary<int, Order> orders = new Dictionary<int, Order>();
 
             Dictionary<string, double> topping = new Dictionary<string, double>();
          
 
             List<IceCream> options = new List<IceCream>();
 
+            Queue<Order> goldQueue = new Queue<Order>();
+            Queue<Order> regularQueue = new Queue<Order>();
 
             ReadfileCustomer(customers);
 
@@ -30,7 +34,8 @@ namespace S10257176_PRG2Assignment
                 Console.WriteLine("2) List all current orders");
                 Console.WriteLine("3) Register a new customer");
                 Console.WriteLine("4) Create a customer's order");
-                Console.WriteLine("5) Exit");
+                Console.WriteLine("5) Display order details of a customer");
+                Console.WriteLine("6) Exit");
                 Console.Write("Enter your choice: ");
                 string choice = Console.ReadLine();
 
@@ -40,15 +45,29 @@ namespace S10257176_PRG2Assignment
                         ListAllCustomers(customers);
                         break;
                     case "2":
-                        ListAllCurrentOrders(customers);
+                        // ListAllCurrentOrders(customers);
+                        ReadFileOrders(orders);
+                        Customer_to_Order(orders, customers);
+
+                        foreach(Customer customer in customers)
+                        {
+                            if (customer.Rewards.Tier == "Gold")
+                                goldQueue.Enqueue(customer.CurrentOrder);
+                            else
+                                regularQueue.Enqueue(customer.CurrentOrder);
+                        }
+                        ListAllCurrentOrders(regularQueue, goldQueue);
                         break;
                     case "3":
                         RegisterNewCustomer(customers);
                         break;
                     case "4":
-                        
                         break;
                     case "5":
+                        foreach (Customer customer in customers)
+                            Console.WriteLine($"{customer.MemberId}: {customer.Name}");
+                        return;
+                    case "6":
                         Console.WriteLine("Exiting program...");
                         return;
                     default:
@@ -69,7 +88,10 @@ namespace S10257176_PRG2Assignment
                 int memberId = Convert.ToInt32(data[1]);
                 DateTime dob = Convert.ToDateTime(data[2]);
 
-                customers.Add(new Customer(name, memberId, dob));
+                Customer addcustomer = new Customer(name, memberId, dob);
+                addcustomer.Rewards = new PointCard();
+                customers.Add(addcustomer);
+                
             }
         }
 
@@ -87,72 +109,114 @@ namespace S10257176_PRG2Assignment
             }
         }
 
-        static void ReadFileOrders(Dictionary<int, List<Order>> orders)
+        static void ReadFileOrders(Dictionary<int, Order> orders)
         {
-            string[] lines = File.ReadAllLines("orders.csv");
-
-            for (int i = 1; i < lines.Length; i++)
+            using (StreamReader sr = new StreamReader("Orders.csv"))
             {
-                string[] data = lines[i].Split(',');
-                int id = Convert.ToInt32(data[0]);
-                int memberId = Convert.ToInt32(data[1]);
-                DateTime timeReceived = Convert.ToDateTime(data[2]);
-                DateTime timeFulfilled = Convert.ToDateTime(data[3]);
-                string option = data[4];
-                int scoops = Convert.ToInt32(data[5]);
-                bool dipped = Convert.ToBoolean(data[6]);
-                string waffleFlavour = data[7];
-                string flavour1 = data[8];
-                string flavour2 = data[9];
-                string flavour3 = data[10];
-                string topping1 = data[11];
-                string topping2 = data[12];
-                string topping3 = data[13];
-                string topping4 = data[14];
-
-                List<Flavour> f = new List<Flavour>();
-                for(int x = 8; x < 11; x++)
+                string line = sr.ReadLine();
+                List<string[]> datas = new List<string[]>();
+                while ((line = sr.ReadLine()) != null)
                 {
-                    if (data[x] != "")
-                        if (data[x] == "Durian" || data[x] == "Ube" || data[x] == "Sea salt")
+                    datas.Add(line.Split(","));
+                }
+                foreach (string[] data in datas)
+                {
+                    try
+                    {
+
+                        List<Flavour> flavs = new List<Flavour>();
+                        List<string> Flavoursdata = new List<string>();
+                        Flavoursdata.Add(data[8]);
+                        Flavoursdata.Add(data[9]);
+                        Flavoursdata.Add(data[10]);
+                        Dictionary<string, int> flavourcounter = new Dictionary<string, int>();
+                        foreach (string flav in Flavoursdata)
                         {
-                            if (f.Any(flavour => flavour.Type == data[x]))
+                            if (flavourcounter.ContainsKey(flav))
                             {
-                                int index = f.FindIndex(flavour => flavour.Type == data[x]);
-                                f[index].Quantity += 1;
+                                flavourcounter[flav] = flavourcounter[flav] + 1;
                             }
                             else
-                                f.Add(new Flavour(data[x], true, 1));
-                        }
-                        else
-                        {
-                            if (f.Any(flavour => flavour.Type == data[x]))
                             {
-                                int index = f.FindIndex(flavour => flavour.Type == data[x]);
-                                f[index].Quantity += 1;
+                                flavourcounter[flav] = 1;
+                            }
+
+                        }
+                        foreach (KeyValuePair<string, int> k in flavourcounter)
+                        {
+                            bool prem = false;
+                            if (k.Key == "Durian" || k.Key == "Ube" || k.Key == "Sea Salt")
+                            {
+                                prem = true;
+                            }
+                            flavs.Add(new Flavour(k.Key, prem, k.Value));
+                        }
+
+                        List<Topping> tops = new List<Topping>();
+                        List<string> Toppingdata = new List<string>();
+                        Toppingdata.Add(data[11]);
+                        Toppingdata.Add(data[12]);
+                        Toppingdata.Add(data[13]);
+                        Toppingdata.Add(data[14]);
+                        List<string> newToppingdata = new List<string>();
+                        foreach (string topping in Toppingdata)
+                        {
+                            if (topping != "")
+                            {
+                                tops.Add(new Topping(topping));
+                            }
+                        }
+                        if (data[4].ToLower() == "waffle")
+                        {
+                            Waffle tempicecream = new Waffle(data[4], Convert.ToInt32(data[5]), flavs, tops, data[7]);
+                            if (orders.ContainsKey(Convert.ToInt32(data[1])))
+                            {
+                                orders[Convert.ToInt32(data[1])].AddIceCream(tempicecream);
                             }
                             else
-                                f.Add(new Flavour(data[x], false, 1));
+                            {
+                                Order neworder = new Order(Convert.ToInt32(data[1]), DateTime.Parse(data[3]));
+                                neworder.AddIceCream(tempicecream);
+                                orders[Convert.ToInt32(data[1])] = neworder;
+                            }
+
                         }
+                        else if (data[4].ToLower() == "cone")
+                        {
+                            Cone tempicecream = new Cone(data[4], Convert.ToInt32(data[5]), flavs, tops, Convert.ToBoolean(data[6]));
+                            if (orders.ContainsKey(Convert.ToInt32(data[1])))
+                            {
+                                orders[Convert.ToInt32(data[1])].AddIceCream(tempicecream);
+                            }
+                            else
+                            {
+                                Order neworder = new Order(Convert.ToInt32(data[1]), DateTime.Parse(data[3]));
+                                neworder.AddIceCream(tempicecream);
+                                orders[Convert.ToInt32(data[1])] = neworder;
+                            }
+                        }
+                        else if (data[4].ToLower() == "cup")
+                        {
+                            Cup tempicecream = new Cup(data[4], Convert.ToInt32(data[5]), flavs, tops);
+                            if (orders.ContainsKey(Convert.ToInt32(data[1])))
+                            {
+                                orders[Convert.ToInt32(data[1])].AddIceCream(tempicecream);
+                            }
+                            else
+                            {
+                                Order neworder = new Order(Convert.ToInt32(data[1]), DateTime.Parse(data[3]));
+                                neworder.AddIceCream(tempicecream);
+                                orders[Convert.ToInt32(data[1])] = neworder;
+                            }
+                        }
+
+                    }
+                    catch (FormatException)
+                    {
+                    }
                 }
-
-                List<Topping> t = new List<Topping>();
-                for (int x = 11; x < 15; x++)
-                {
-                    if (data[x] != "")
-                        t.Add(new Topping(data[x]));    
-                }
-
-                Order newOrder = new Order(id, timeReceived);
-
-
-                if (!orders.ContainsKey(id))
-                {
-                    orders[id] = new List<Order>();
-                }
-
-                orders[id].Add(newOrder);
             }
+
         }
 
         static void ReadFileToppings(Dictionary<string,double> toppings)
@@ -205,14 +269,47 @@ namespace S10257176_PRG2Assignment
             }
         }
 
-        static void ListAllCurrentOrders(List<Customer> customers)
+        static void ListAllCurrentOrders(Queue<Order> regular, Queue<Order>gold)
         {
             Console.WriteLine("List of all current orders:");
-            foreach (Customer customer in customers)
+            Console.WriteLine("Gold");
+            int i = 1;
+            if (gold.Count == 0)
+                Console.WriteLine("No Queue!");
+            foreach(Order order in gold)
             {
-                if (customer.CurrentOrder != null)
+                if (order != null)
                 {
-                    Console.WriteLine($"Customer: {customer.Name}, Current Order: {customer.CurrentOrder.ToString()}");
+                    Console.WriteLine($"{order.IceCreamList}");
+                    i++;
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine("Regular");
+            int x = 1;
+            if (regular.Count == 0)
+                Console.WriteLine("No Queue!");
+            foreach (Order order in regular)
+            {
+                if (order != null)
+                {
+                    Console.WriteLine($"{order}");
+                    x++;
+                }
+            }
+
+        }   
+        
+        static void Customer_to_Order(Dictionary<int, Order> orderlist, List<Customer> customers)
+        {
+            for(int i = 0; i < customers.Count; i++)
+            {
+                foreach(int member in orderlist.Keys)
+                {
+                    if (customers[i].MemberId == member)
+                    {
+                        customers[i].CurrentOrder = (orderlist[member]);
+                    }
                 }
             }
         }
