@@ -69,7 +69,7 @@ namespace S10257176_PRG2Assignment
 
         public override string ToString()
         {
-            return $"Name: {Name} \tMemberId: {MemberId} \tDate of Birth: {Dob} \tCurrent Order: {CurrentOrder} \tOrder History: {OrderHistory} \tRewards: {Rewards} ";
+            return $"Name: {Name} \tMemberId: {MemberId} \tDate of Birth: {Dob} \tRewards: {Rewards} ";
         }
 
     }

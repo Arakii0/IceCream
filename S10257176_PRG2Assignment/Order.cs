@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 
 namespace S10257176_PRG2Assignment
 {
@@ -89,11 +90,37 @@ Enter Option : ");
                                 int opt1 = Convert.ToInt32(Console.ReadLine());
 
                                 if (opt1 == 1)
-                                    { IceCreamList[icecreamOption - 1] = new Cup("Cup", iceCream.Scoops, iceCream.Flavours, iceCream.Toppings); break; }
+                                { 
+                                    IceCreamList[icecreamOption - 1] = new Cup("Cup", iceCream.Scoops, iceCream.Flavours, iceCream.Toppings);
+                                    iceCream = IceCreamList[icecreamOption - 1];
+                                    break; 
+                                }
                                 if (opt1 == 2)
-                                    { IceCreamList[icecreamOption - 1] = new Cone("Cone", iceCream.Scoops, iceCream.Flavours, iceCream.Toppings, false); break; }
+                                {
+                                    Console.Write("Chocolate-dipped cone (+$2) (y/n) : ");
+                                    string choco = Console.ReadLine();
+                                    bool Dipped = false;
+                                    if (choco.ToLower() == "y")
+                                    {
+                                        Dipped = true;
+                                    }
+                                    IceCreamList[icecreamOption - 1] = new Cone("Cone", iceCream.Scoops, iceCream.Flavours, iceCream.Toppings, Dipped);
+                                    iceCream = IceCreamList[icecreamOption - 1];
+                                    break;
+                                }
                                 if (opt1 == 3)
-                                    { IceCreamList[icecreamOption - 1] = new Waffle("Waffle", iceCream.Scoops, iceCream.Flavours, iceCream.Toppings, "Original"); break; }
+                                {
+                                    Console.Write("Red Velvet, Charcoal, Pandan Waffle or n (+$3) : ");
+                                    string waffleChoice = Console.ReadLine();
+                                    string waffleFlavour = "Original";
+                                    if (waffleChoice.ToLower() != "n")
+                                    {
+                                        waffleFlavour = CapitalizeWords(waffleChoice);
+                                    }
+                                    IceCreamList[icecreamOption - 1] = new Waffle("Waffle", iceCream.Scoops, iceCream.Flavours, iceCream.Toppings, waffleFlavour);
+                                    iceCream = IceCreamList[icecreamOption - 1];
+                                    break;
+                                }
                                 if (opt1 == 0)
                                     break;
                                 else
@@ -223,6 +250,13 @@ Enter Option : ");
                             break;
                     }
                 }
+                static string CapitalizeWords(string input)
+                {
+                    CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+                    TextInfo textInfo = cultureInfo.TextInfo;
+
+                    return textInfo.ToTitleCase(input);
+                }
         }
 
 
@@ -230,11 +264,16 @@ Enter Option : ");
 
 
 
-    
 
-        public void AddIceCream(IceCream iceCream)
+
+        public void AddIceCream(string option, int scoop, List<Flavour> f, List<Topping> t, bool dip = false, string wafflef = "Original")
         {
-            IceCreamList.Add(iceCream);
+            if (option == "Cup")
+                { Cup cup = new Cup(option, scoop, f, t); IceCreamList.Add(cup); }
+            if (option == "Cone")
+                { Cone cone = new Cone(option, scoop, f, t, dip); IceCreamList.Add(cone); }
+            if (option == "Waffle")
+                { Waffle waffle = new Waffle(option, scoop, f, t, wafflef); IceCreamList.Add(waffle); }
         }
 
         public void DeleteIceCream(int id)

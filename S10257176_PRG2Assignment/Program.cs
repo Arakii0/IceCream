@@ -20,8 +20,9 @@ namespace S10257176_PRG2Assignment
          
 
             List<IceCream> options = new List<IceCream>();
-                            
-            
+
+
+            ReadfileCustomer(customers);
 
             while (true)
             {
@@ -36,6 +37,7 @@ namespace S10257176_PRG2Assignment
                 switch (choice)
                 {
                     case "1":
+                        
                         ListAllCustomers(customers);
                         break;
                     case "2":
@@ -70,11 +72,6 @@ namespace S10257176_PRG2Assignment
 
                 customers.Add(new Customer(name, memberId, dob));
             }
-
-            foreach (Customer customer in customers)
-            {
-                Console.WriteLine(customer.ToString());
-            }
         }
 
         static void ReadFileFlavors(Dictionary<string, double> flavours)
@@ -89,11 +86,6 @@ namespace S10257176_PRG2Assignment
 
                 flavours.Add(name, cost);
             }
-
-            foreach (var kvp in flavours)
-            {
-                Console.WriteLine($"Flavour: {kvp.Key}\nCost: {kvp.Value}");
-            }
         }
 
         static void ReadFileOrders(Dictionary<int, List<Order>> orders)
@@ -107,23 +99,61 @@ namespace S10257176_PRG2Assignment
                 int memberId = Convert.ToInt32(data[1]);
                 DateTime timeReceived = Convert.ToDateTime(data[2]);
                 DateTime timeFulfilled = Convert.ToDateTime(data[3]);
-                string option = Convert.ToString(data[4]);
+                string option = data[4];
                 int scoops = Convert.ToInt32(data[5]);
                 bool dipped = Convert.ToBoolean(data[6]);
-                string waffleFlavour = Convert.ToString(data[7]);
-                string flavour1 = Convert.ToString(data[8]);
-                string flavour2 = Convert.ToString(data[9]);
-                string flavour3 = Convert.ToString(data[10]);
-                string topping1 = Convert.ToString(data[11]);
-                string topping2 = Convert.ToString(data[12]);
-                string topping3 = Convert.ToString(data[13]);
-                string topping4 = Convert.ToString(data[14]);
+                string waffleFlavour = data[7];
+                string flavour1 = data[8];
+                string flavour2 = data[9];
+                string flavour3 = data[10];
+                string topping1 = data[11];
+                string topping2 = data[12];
+                string topping3 = data[13];
+                string topping4 = data[14];
 
-            }
+                List<Flavour> f = new List<Flavour>();
+                for(int x = 8; x < 11; x++)
+                {
+                    if (data[x] != "")
+                        if (data[x] == "Durian" || data[x] == "Ube" || data[x] == "Sea salt")
+                        {
+                            if (f.Any(flavour => flavour.Type == data[x]))
+                            {
+                                int index = f.FindIndex(flavour => flavour.Type == data[x]);
+                                f[index].Quantity += 1;
+                            }
+                            else
+                                f.Add(new Flavour(data[x], true, 1));
+                        }
+                        else
+                        {
+                            if (f.Any(flavour => flavour.Type == data[x]))
+                            {
+                                int index = f.FindIndex(flavour => flavour.Type == data[x]);
+                                f[index].Quantity += 1;
+                            }
+                            else
+                                f.Add(new Flavour(data[x], false, 1));
+                        }
+                }
 
-            foreach (Order order in orders)
-            {
-                Console.WriteLine(order.ToString());
+                List<Topping> t = new List<Topping>();
+                for (int x = 11; x < 15; x++)
+                {
+                    if (data[x] != "")
+                        t.Add(new Topping(data[x]));    
+                }
+
+                Order newOrder = new Order(id, timeReceived);
+
+                newOrder.AddIceCream(option, scoops, f, t, dipped, waffleFlavour);
+
+                if (!orders.ContainsKey(id))
+                {
+                    orders[id] = new List<Order>();
+                }
+
+                orders[id].Add(newOrder);
             }
         }
 
@@ -146,8 +176,7 @@ namespace S10257176_PRG2Assignment
             }
         }
 
-
-        static void ReadFileOptions(List<IceCream> options)
+        static void ReadFileOptions(Dictionary<IceCream, double> options)
         {
             string[] lines = File.ReadAllLines("options.csv");
 
@@ -158,22 +187,14 @@ namespace S10257176_PRG2Assignment
                 int scoops = Convert.ToInt32(data[1]);
                 bool dipped = Convert.ToBoolean(data[2]);
                 string waffleFlavour = Convert.ToString(data[3]);
+                double cost = Convert.ToDouble(data[4]);
 
                 if (option == "Cup")
-                    options.Add(new Cup(option, scoops, new List<Flavour>(), new List<Topping>()));
+                    options.Add(new Cup(option, scoops, new List<Flavour>(), new List<Topping>()), cost);
                 if (option == "Cone")
-                    options.Add(new Cone());
+                    options.Add(new Cone(option, scoops, new List<Flavour>(), new List<Topping>(), dipped), cost);
                 if (option == "Waffle")
-                    options.Add(new Waffle());
-
-
-
-                options.Add(new IceCream { Option = option, Scoops = scoops, Dipped = dipped, WaffleFlavour = waffleFlavour});
-
-                foreach (IceCream option in options)
-                {
-                    Console.WriteLine(option.ToString());
-                }
+                    options.Add(new Waffle(option, scoops, new List<Flavour>(), new List<Topping>(), waffleFlavour), cost);
             }
         }
 
