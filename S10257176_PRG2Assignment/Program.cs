@@ -1,3 +1,9 @@
+//==========================================================
+// Student Number : 
+// Student Name : 
+// Partner Name : 
+//==========================================================
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -147,7 +153,7 @@ namespace S10257176_PRG2Assignment
                         foreach (KeyValuePair<string, int> k in flavourcounter)
                         {
                             bool prem = false;
-                            if (k.Key == "Durian" || k.Key == "Ube" || k.Key == "Sea Salt")
+                            if (k.Key == "Sea Salt" || k.Key == "Ube" || k.Key == "Durian")
                             {
                                 prem = true;
                             }
@@ -168,48 +174,48 @@ namespace S10257176_PRG2Assignment
                                 tops.Add(new Topping(topping));
                             }
                         }
-                        if (data[4].ToLower() == "waffle")
+                        if (data[4].ToLower() == "cone")
                         {
-                            Waffle tempicecream = new Waffle(data[4], Convert.ToInt32(data[5]), flavs, tops, data[7]);
+                            Cone icecream = new Cone(data[4], Convert.ToInt32(data[5]), flavs, tops, Convert.ToBoolean(data[6]));
                             if (orders.ContainsKey(Convert.ToInt32(data[1])))
                             {
-                                orders[Convert.ToInt32(data[1])].AddIceCream(tempicecream);
+                                orders[Convert.ToInt32(data[1])].AddIceCream(icecream);
                             }
                             else
                             {
                                 Order neworder = new Order(Convert.ToInt32(data[1]), DateTime.Parse(data[3]));
-                                neworder.AddIceCream(tempicecream);
-                                orders[Convert.ToInt32(data[1])] = neworder;
-                            }
-
-                        }
-                        else if (data[4].ToLower() == "cone")
-                        {
-                            Cone tempicecream = new Cone(data[4], Convert.ToInt32(data[5]), flavs, tops, Convert.ToBoolean(data[6]));
-                            if (orders.ContainsKey(Convert.ToInt32(data[1])))
-                            {
-                                orders[Convert.ToInt32(data[1])].AddIceCream(tempicecream);
-                            }
-                            else
-                            {
-                                Order neworder = new Order(Convert.ToInt32(data[1]), DateTime.Parse(data[3]));
-                                neworder.AddIceCream(tempicecream);
+                                neworder.AddIceCream(icecream);
                                 orders[Convert.ToInt32(data[1])] = neworder;
                             }
                         }
                         else if (data[4].ToLower() == "cup")
                         {
-                            Cup tempicecream = new Cup(data[4], Convert.ToInt32(data[5]), flavs, tops);
+                            Cup icecream = new Cup(data[4], Convert.ToInt32(data[5]), flavs, tops);
                             if (orders.ContainsKey(Convert.ToInt32(data[1])))
                             {
-                                orders[Convert.ToInt32(data[1])].AddIceCream(tempicecream);
+                                orders[Convert.ToInt32(data[1])].AddIceCream(icecream);
                             }
                             else
                             {
                                 Order neworder = new Order(Convert.ToInt32(data[1]), DateTime.Parse(data[3]));
-                                neworder.AddIceCream(tempicecream);
+                                neworder.AddIceCream(icecream);
                                 orders[Convert.ToInt32(data[1])] = neworder;
                             }
+                        }
+                        else if (data[4].ToLower() == "waffle")
+                        {
+                            Waffle icecream = new Waffle(data[4], Convert.ToInt32(data[5]), flavs, tops, data[7]);
+                            if (orders.ContainsKey(Convert.ToInt32(data[1])))
+                            {
+                                orders[Convert.ToInt32(data[1])].AddIceCream(icecream);
+                            }
+                            else
+                            {
+                                Order neworder = new Order(Convert.ToInt32(data[1]), DateTime.Parse(data[3]));
+                                neworder.AddIceCream(icecream);
+                                orders[Convert.ToInt32(data[1])] = neworder;
+                            }
+
                         }
 
                     }

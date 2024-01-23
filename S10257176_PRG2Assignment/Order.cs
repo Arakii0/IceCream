@@ -1,3 +1,9 @@
+//==========================================================
+// Student Number : S10257176H
+// Student Name : Araki Yeo
+// Partner Name : 
+//==========================================================
+
 using System;
 using System.Globalization;
 

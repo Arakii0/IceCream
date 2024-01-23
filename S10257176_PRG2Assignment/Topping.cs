@@ -1,4 +1,10 @@
-﻿using System;
+﻿//==========================================================
+// Student Number : S10257176H 
+// Student Name : Araki Yeo
+// Partner Name : 
+//==========================================================
+
+using System;
 
 namespace S10257176_PRG2Assignment
 {
