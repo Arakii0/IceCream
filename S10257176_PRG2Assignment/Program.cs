@@ -37,7 +37,6 @@ namespace S10257176_PRG2Assignment
                 switch (choice)
                 {
                     case "1":
-                        
                         ListAllCustomers(customers);
                         break;
                     case "2":
@@ -146,7 +145,6 @@ namespace S10257176_PRG2Assignment
 
                 Order newOrder = new Order(id, timeReceived);
 
-                newOrder.AddIceCream(option, scoops, f, t, dipped, waffleFlavour);
 
                 if (!orders.ContainsKey(id))
                 {
