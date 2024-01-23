@@ -279,8 +279,14 @@ Enter Option : ");
 
         public double CalculateTotal()
         {
-            return 0.00;
+            double price= 0.00;
+            foreach (IceCream c in IceCreamList)
+            {
+                price += c.CalculatePrice();
+            }
+            return price;
         }
+
 
         public override string ToString()
         {

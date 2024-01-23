@@ -66,6 +66,8 @@ namespace S10257176_PRG2Assignment
                     case "5":
                         foreach (Customer customer in customers)
                             Console.WriteLine($"{customer.MemberId}: {customer.Name}");
+                        Console.Write("Enter MemberID : ");
+                        int memberoption = Convert.ToInt32(Console.Read()) -1;
                         return;
                     case "6":
                         Console.WriteLine("Exiting program...");
