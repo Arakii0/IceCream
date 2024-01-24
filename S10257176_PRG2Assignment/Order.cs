@@ -32,7 +32,7 @@ namespace S10257176_PRG2Assignment
             TimeRecieved = tr;
         }
 
-        public void ModifyIceCream(int id)
+        public void ModifyIceCream()
         {
             IceCream iceCream = null;
             bool loop = true;

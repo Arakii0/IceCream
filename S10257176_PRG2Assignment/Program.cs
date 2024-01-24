@@ -35,6 +35,19 @@ namespace S10257176_PRG2Assignment
 
             ReadfileCustomer(customers);
             ReadFileOrders(customers);
+            foreach (Customer customer in customers)
+            {
+                ReplaceCurentOrder(customer);
+            }
+            foreach (Customer customer in customers)
+            {
+                if (customer.Rewards.Tier == "Gold")
+                    goldQueue.Enqueue(customer.CurrentOrder);
+                else
+                    regularQueue.Enqueue(customer.CurrentOrder);
+            }
+
+
             while (true)
             {
                 Console.WriteLine("1) List all customers");
@@ -42,7 +55,8 @@ namespace S10257176_PRG2Assignment
                 Console.WriteLine("3) Register a new customer");
                 Console.WriteLine("4) Create a customer's order");
                 Console.WriteLine("5) Display order details of a customer");
-                Console.WriteLine("6) Exit");
+                Console.WriteLine("6) Modify order details");
+                Console.WriteLine("7) Exit");
                 Console.Write("Enter your choice: ");
                 string choice = Console.ReadLine();
 
@@ -52,17 +66,6 @@ namespace S10257176_PRG2Assignment
                         ListAllCustomers(customers);
                         break;
                     case "2":
-                        foreach (Customer customer in customers)
-                        {
-                            ReplaceCurentOrder(customer);
-                        }
-                        foreach (Customer customer in customers)
-                        {
-                            if (customer.Rewards.Tier == "Gold")
-                                goldQueue.Enqueue(customer.CurrentOrder);
-                            else
-                                regularQueue.Enqueue(customer.CurrentOrder);
-                        }
                         ListAllCurrentOrders(regularQueue, goldQueue);
                         break;
                     case "3":
@@ -72,23 +75,48 @@ namespace S10257176_PRG2Assignment
                         CreateCustomerOrder(customers, orders, goldQueue, regularQueue);
                         break;
                     case "5":
-                        int i = 0;
+                        int i = 1;
                         foreach (Customer customer in customers)
                         {
-                            Console.WriteLine($"{i+1}: {customer.Name}");
+                            Console.WriteLine($"{i}: {customer.Name}");
                             i++;
                         }
                         Console.Write("Enter Option : ");
-                        int memberoption = Convert.ToInt32(Console.Read()) -1;
-                        foreach(Order order in customers[memberoption].OrderHistory)
+                        int memberoption5 = Convert.ToInt32(Console.ReadLine()) -1;
+                        Console.WriteLine("Order History : ");
+                        foreach(Order order in customers[memberoption5].OrderHistory)
                         {
                             Console.WriteLine(order);
 
                         }
-                        Console.WriteLine(customers[memberoption].CurrentOrder);
+                        Console.WriteLine("Current Order : ");
+                        Console.WriteLine(customers[memberoption5].CurrentOrder);
 
                         return;
                     case "6":
+                        int x = 1;
+                        foreach (Customer customer in customers)
+                        {
+                            Console.WriteLine($"{x}: {customer.Name}");
+                            x++;
+                        }
+                        Console.Write("Enter Option : ");
+                        int memberoption6 = Convert.ToInt32(Console.ReadLine()) - 1;
+                        Customer customerTarget = customers[memberoption6];
+
+                        Console.WriteLine("1) Modify Existing IceCream");
+                        Console.WriteLine("2) Create New IceCream");
+                        Console.WriteLine("3) Delete Existing IceCream");
+                        Console.Write("Enter Option : ");
+                        int option6 = Convert.ToInt32(Console.ReadLine());
+
+                        if (option6 == 1)
+                        { customerTarget.CurrentOrder.ModifyIceCream(); }
+
+
+                        break;
+
+                    case "7":
                         Console.WriteLine("Exiting program...");
                         return;
                     default:
