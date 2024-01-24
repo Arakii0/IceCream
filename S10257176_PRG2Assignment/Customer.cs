@@ -16,6 +16,7 @@ namespace S10257176_PRG2Assignment
         private Order currentOrder;
         private List<Order> orderHistory;
         private PointCard rewards;
+        private int orderCount;
 
         public string Name
         {
@@ -34,10 +35,7 @@ namespace S10257176_PRG2Assignment
             set { dob = value; }
         }
         public Order CurrentOrder
-        {
-            get { return  currentOrder; }
-            set { currentOrder = value; }
-        }
+        { get; set; }
         public List<Order> OrderHistory { get; set; } = new List<Order>();
 
         public PointCard Rewards
@@ -45,6 +43,8 @@ namespace S10257176_PRG2Assignment
             get { return rewards; }
             set { rewards = value; }
         }
+
+        public int OrderCount { get; set; } = 0;
 
         public Customer() { }
 

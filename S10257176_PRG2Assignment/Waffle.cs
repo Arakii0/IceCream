@@ -54,7 +54,7 @@ namespace S10257176_PRG2Assignment
 
                 foreach (Flavour flavour in Flavours)
                 {
-                    if (flavour.IsPremium)
+                    if (flavour.Premium)
                     {
                         cost += 2;
                     }
