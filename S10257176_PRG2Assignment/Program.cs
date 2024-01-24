@@ -111,8 +111,13 @@ namespace S10257176_PRG2Assignment
                         int option6 = Convert.ToInt32(Console.ReadLine());
 
                         if (option6 == 1)
-                        { customerTarget.CurrentOrder.ModifyIceCream(); }
-
+                            customerTarget.CurrentOrder.ModifyIceCream();
+                        else if (option6 == 2)
+                            customerTarget.CurrentOrder.AddIceCream();
+                        else if (option6 == 3)
+                                customerTarget.CurrentOrder.DeleteIceCream();
+                            else
+                                Console.WriteLine("Invalid Option");
 
                         break;
 
