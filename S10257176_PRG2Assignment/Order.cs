@@ -303,7 +303,7 @@ namespace S10257176_PRG2Assignment
             string order = "";
             foreach(IceCream c in IceCreamList)
             {
-                order = $"{Id,-4}\t{TimeRecieved,-15}\t{c.Option}";
+                order = $"{Id,-4}\t{TimeRecieved,-15}";
             }
 
             return order;

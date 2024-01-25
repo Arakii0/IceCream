@@ -20,7 +20,6 @@ namespace S10257176_PRG2Assignment
             Dictionary<int, Order> orders = new Dictionary<int, Order>();
 
             Dictionary<string, double> topping = new Dictionary<string, double>();
-         
 
             List<IceCream> options = new List<IceCream>();
 
@@ -42,7 +41,7 @@ namespace S10257176_PRG2Assignment
                 Console.WriteLine("4) Create a customer's order");
                 Console.WriteLine("5) Display order details of a customer");
                 Console.WriteLine("6) Modify order details");
-                Console.WriteLine("8)Display monthly charged amounts breakdown & total charged amounts for the year");
+                Console.WriteLine("8) Display monthly charged amounts breakdown & total charged amounts for the year");
                 Console.WriteLine("0) Exit");
                 Console.Write("Enter your choice: ");
                 string choice = Console.ReadLine();
@@ -62,24 +61,32 @@ namespace S10257176_PRG2Assignment
                         CreateCustomerOrder(customers, orders, goldQueue, regularQueue);
                         break;
                     case "5":
-                        int i = 1;
+                        Console.WriteLine("============================================");
+                        Console.WriteLine($"{"Customer",-10} {"Member ID"}");
                         foreach (Customer customer in customers)
                         {
-                            Console.WriteLine($"{i}: {customer.Name}");
-                            i++;
+                            Console.WriteLine($"{customer.Name, -10} {customer.MemberId}");
                         }
                         Console.Write("Enter Option : ");
-                        int memberoption5 = Convert.ToInt32(Console.ReadLine()) -1;
-                        Console.WriteLine("Order History : ");
-                        foreach(Order order in customers[memberoption5].OrderHistory)
+                        int memberoption5 = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("=====================================");
+                        
+                        foreach(Customer customer in customers)
                         {
-                            Console.WriteLine(order);
-
+                            if (customer.MemberId == memberoption5)
+                            {
+                                Customer Targetcus = customer;
+                                Console.WriteLine("Current Order : ");
+                                Console.WriteLine(Targetcus.CurrentOrder);
+                                Console.WriteLine("Order History : ");
+                                Console.WriteLine($"{"ID",-7} {"Time Recieved",-25} {"Time Fulfuilled"}");
+                                foreach (Order order in Targetcus.OrderHistory)
+                                {
+                                    Console.WriteLine(order + $"{order.TimeFulfilled,26}");
+                                }
+                            }
                         }
-                        Console.WriteLine("Current Order : ");
-                        Console.WriteLine(customers[memberoption5].CurrentOrder);
-
-                        return;
+                        break;
                     case "6":
                         int x = 1;
                         foreach (Customer customer in customers)
@@ -98,7 +105,10 @@ namespace S10257176_PRG2Assignment
                         int option6 = Convert.ToInt32(Console.ReadLine());
 
                         if (option6 == 1)
-                            customerTarget.CurrentOrder.ModifyIceCream();
+                            if(customerTarget.CurrentOrder != null)
+                                customerTarget.CurrentOrder.ModifyIceCream();
+                            else
+                                Console.WriteLine("No Current Order!");
                         else if (option6 == 2)
                         {
                             AddIceCream(customerTarget);
@@ -107,7 +117,6 @@ namespace S10257176_PRG2Assignment
                             //customerTarget.CurrentOrder.DeleteIceCream();
                             else
                                 Console.WriteLine("Invalid Option");
-
                         break;
 
 
@@ -210,7 +219,8 @@ namespace S10257176_PRG2Assignment
                                 {
                                     if (customer.OrderHistory.Count == 0)
                                     {
-                                        Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[3]));
+                                        Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[2]));
+                                        neworder.TimeFulfilled = DateTime.Parse(data[3]);
                                         neworder.AddIceCream(icecream);
                                         customer.OrderHistory.Add(neworder);
                                     }
@@ -224,7 +234,8 @@ namespace S10257176_PRG2Assignment
                                             }
                                             else
                                             {
-                                                Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[3]));
+                                                Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[2]));
+                                                neworder.TimeFulfilled = DateTime.Parse(data[3]);
                                                 neworder.AddIceCream(icecream);
                                                 customer.OrderHistory.Add(neworder);
                                             }
@@ -243,7 +254,8 @@ namespace S10257176_PRG2Assignment
                                 {
                                     if (customer.OrderHistory.Count == 0)
                                     {
-                                        Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[3]));
+                                        Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[2]));
+                                        neworder.TimeFulfilled = DateTime.Parse(data[3]);
                                         neworder.AddIceCream(icecream);
                                         customer.OrderHistory.Add(neworder);
                                     }
@@ -257,7 +269,8 @@ namespace S10257176_PRG2Assignment
                                             }
                                             else
                                             {
-                                                Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[3]));
+                                                Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[2]));
+                                                neworder.TimeFulfilled = DateTime.Parse(data[3]);
                                                 neworder.AddIceCream(icecream);
                                                 customer.OrderHistory.Add(neworder);
                                             }
@@ -276,7 +289,8 @@ namespace S10257176_PRG2Assignment
                                 {
                                     if (customer.OrderHistory.Count == 0)
                                     {
-                                        Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[3]));
+                                        Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[2]));
+                                        neworder.TimeFulfilled = DateTime.Parse(data[3]);
                                         neworder.AddIceCream(icecream);
                                         customer.OrderHistory.Add(neworder);
                                     }
@@ -290,7 +304,8 @@ namespace S10257176_PRG2Assignment
                                             }
                                             else
                                             {
-                                                Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[3]));
+                                                Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[2]));
+                                                neworder.TimeFulfilled = DateTime.Parse(data[3]);
                                                 neworder.AddIceCream(icecream);
                                                 customer.OrderHistory.Add(neworder);
                                             }
@@ -328,19 +343,22 @@ namespace S10257176_PRG2Assignment
             int i = 1;
             if (gold.Count == 0)
                 Console.WriteLine("No Queue!");
-            Console.WriteLine($"{"ID",5} {"Time Recieved",15} {"Order",15}");
-            foreach (Order order in gold)
+            else
             {
-                if (order != null)
+                Console.WriteLine($"{"ID",5} {"Time Recieved",15}");
+                foreach (Order order in gold)
                 {
-                    int count = 0;
-                    Console.WriteLine($"{i}. {order,5}");
-                    foreach (IceCream ice in order.IceCreamList)
+                    if (order != null)
                     {
-                        count++;
-                        Console.WriteLine($"        {i}.{count}: {ice}");
+                        int count = 0;
+                        Console.WriteLine($"{i}. {order,5}");
+                        foreach (IceCream ice in order.IceCreamList)
+                        {
+                            count++;
+                            Console.WriteLine($"        {i}.{count}: {ice}");
+                        }
+                        i++;
                     }
-                    i++;
                 }
             }
             Console.WriteLine("=========================================");
@@ -349,19 +367,22 @@ namespace S10257176_PRG2Assignment
             int x = 1;
             if (regular.Count == 0)
                 Console.WriteLine("No Queue!");
-            Console.WriteLine($"{"ID",5} {"Time Recieved",15} {"Order",15}");
-            foreach (Order order in regular)
+            else
             {
-                if (order != null)
+                Console.WriteLine($"{"ID",5} {"Time Recieved",15}");
+                foreach (Order order in regular)
                 {
-                    int count = 0;
-                    Console.WriteLine($"{x}. {order,5}");
-                    foreach (IceCream ice in order.IceCreamList)
+                    if (order != null)
                     {
-                        count++;
-                        Console.WriteLine($"        {x}.{count}: {ice}");
+                        int count = 0;
+                        Console.WriteLine($"{x}. {order,5}");
+                        foreach (IceCream ice in order.IceCreamList)
+                        {
+                            count++;
+                            Console.WriteLine($"        {x}.{count}: {ice}");
+                        }
+                        x++;
                     }
-                    x++;
                 }
             }
         }   
@@ -458,6 +479,8 @@ namespace S10257176_PRG2Assignment
                 }
 
                 newOrder.AddIceCream(iceCream);
+                newOrder.Id = 1; // PLACEHOLDER FOR NOW, NEED GET ID FROM CSV FILE
+                newOrder.TimeRecieved = DateTime.Now;
 
                 Console.Write("Do you want to add another ice cream to the order? (Y/N): ");
             } 
