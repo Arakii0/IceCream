@@ -44,8 +44,6 @@ namespace S10257176_PRG2Assignment
             set { rewards = value; }
         }
 
-        public int OrderCount { get; set; } = 0;
-
         public Customer() { }
 
         public Customer(string name, int memberId, DateTime dob)

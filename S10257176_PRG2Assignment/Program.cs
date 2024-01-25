@@ -35,28 +35,21 @@ namespace S10257176_PRG2Assignment
 
             ReadfileCustomer(customers);
             ReadFileOrders(customers);
-            foreach (Customer customer in customers)
-            {
-                ReplaceCurentOrder(customer);
-            }
-            foreach (Customer customer in customers)
-            {
-                if (customer.Rewards.Tier == "Gold")
-                    goldQueue.Enqueue(customer.CurrentOrder);
-                else
-                    regularQueue.Enqueue(customer.CurrentOrder);
-            }
 
 
             while (true)
             {
+                Console.WriteLine("==================================");
+                Console.WriteLine($"{"Main Menu", 22}");
+                Console.WriteLine("==================================");
                 Console.WriteLine("1) List all customers");
                 Console.WriteLine("2) List all current orders");
                 Console.WriteLine("3) Register a new customer");
                 Console.WriteLine("4) Create a customer's order");
                 Console.WriteLine("5) Display order details of a customer");
                 Console.WriteLine("6) Modify order details");
-                Console.WriteLine("7) Exit");
+                Console.WriteLine("8)Display monthly charged amounts breakdown & total charged amounts for the year");
+                Console.WriteLine("0) Exit");
                 Console.Write("Enter your choice: ");
                 string choice = Console.ReadLine();
 
@@ -112,8 +105,10 @@ namespace S10257176_PRG2Assignment
 
                         if (option6 == 1)
                             customerTarget.CurrentOrder.ModifyIceCream();
-                       // else if (option6 == 2)
-                            //customerTarget.CurrentOrder.AddIceCream();
+                        else if (option6 == 2)
+                        {
+                            AddIceCream(customerTarget);
+                        }
                         //else if (option6 == 3)
                             //customerTarget.CurrentOrder.DeleteIceCream();
                             else
@@ -121,7 +116,13 @@ namespace S10257176_PRG2Assignment
 
                         break;
 
-                    case "7":
+
+
+
+                    case "8":
+                        break;
+
+                    case "0":
                         Console.WriteLine("Exiting program...");
                         return;
                     default:
@@ -326,42 +327,50 @@ namespace S10257176_PRG2Assignment
 
         static void ListAllCurrentOrders(Queue<Order> regular, Queue<Order>gold)
         {
-            Console.WriteLine("List of all current orders:");
+            Console.WriteLine("==========================");
+            Console.WriteLine("List of all current orders");
+            Console.WriteLine("==========================");
             Console.WriteLine("Gold");
             int i = 1;
             if (gold.Count == 0)
                 Console.WriteLine("No Queue!");
-            foreach(Order order in gold)
+            Console.WriteLine($"{"ID",5} {"Time Recieved",15} {"Order",15}");
+            foreach (Order order in gold)
             {
                 if (order != null)
                 {
-                    Console.WriteLine($"{order}");
+                    int count = 0;
+                    Console.WriteLine($"{i}. {order,5}");
+                    foreach (IceCream ice in order.IceCreamList)
+                    {
+                        count++;
+                        Console.WriteLine($"        {i}.{count}: {ice}");
+                    }
                     i++;
                 }
             }
+            Console.WriteLine("=========================================");
             Console.WriteLine();
             Console.WriteLine("Regular");
             int x = 1;
             if (regular.Count == 0)
                 Console.WriteLine("No Queue!");
+            Console.WriteLine($"{"ID",5} {"Time Recieved",15} {"Order",15}");
             foreach (Order order in regular)
             {
                 if (order != null)
                 {
-                    Console.WriteLine($"{order}");
+                    int count = 0;
+                    Console.WriteLine($"{x}. {order,5}");
+                    foreach (IceCream ice in order.IceCreamList)
+                    {
+                        count++;
+                        Console.WriteLine($"        {x}.{count}: {ice}");
+                    }
                     x++;
                 }
             }
         }   
-
-        static void ReplaceCurentOrder(Customer customer)
-        {
-            if (customer.OrderHistory.Count != 0)
-            {
-                customer.CurrentOrder = customer.OrderHistory[customer.OrderCount];
-                customer.OrderCount++;
-            }
-        }
 
         static void RegisterNewCustomer(List<Customer> customers)
         {
@@ -472,6 +481,192 @@ namespace S10257176_PRG2Assignment
             Console.WriteLine("Order has been made successfully!");
         }
 
+        static void AddIceCream(Customer customer)
+        {
+            bool loop = true;
+            bool scooped = false;
+            IceCream icecream = null;
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Choose your IceCream Option");
+                    Console.WriteLine("1. Cup");
+                    Console.WriteLine("2. Cone");
+                    Console.WriteLine("3. Waffle");
+                    Console.Write("Enter Option : ");
+
+                    int opt1 = Convert.ToInt32(Console.ReadLine());
+
+                    if (opt1 == 1)
+                    {
+                        icecream = new Cup();
+                        icecream.Option = "Cup";
+                        break;
+                    }
+                    if (opt1 == 2)
+                    {
+                        icecream = new Cone();
+                        icecream.Option = "Cone";
+                        break;
+                    }
+                    if (opt1 == 3)
+                    {
+                        icecream = new Waffle();
+                        icecream.Option = "Waffle";
+                        break;
+                    }
+                    else
+                    { Console.WriteLine("Invalid Option"); }
+                }
+                catch (ArgumentOutOfRangeException e)
+                {
+                    Console.WriteLine("Enter an Integer");
+                }
+            }
+
+            while (loop)
+            {
+                Console.WriteLine("1. Scoops");
+                Console.WriteLine("2. Toppings");
+                Console.WriteLine("3. Flavours");
+                Console.WriteLine("4. Complete IceCream");
+                Console.WriteLine("0. Exit");
+                Console.Write("Enter Option : ");
+                int option = Convert.ToInt32(Console.ReadLine());
+
+                switch (option)
+                {
+                    case 0:
+                        Console.WriteLine("Exiting...");
+                        break;
+
+                    case 1:
+                        Console.WriteLine("1. Single");
+                        Console.WriteLine("2. Double");
+                        Console.WriteLine("3. Triple");
+                        Console.WriteLine("0. Exit");
+                        Console.Write("Enter Option : ");
+
+                        int opt1 = Convert.ToInt32(Console.ReadLine());
+                        if (opt1 == 0)
+                            continue;
+                        else
+                            icecream.Scoops = opt1;
+                        scooped = true;
+                        break;
+
+                    case 2:
+                        Console.WriteLine("1. Sprinkles");
+                        Console.WriteLine("2. Mochi");
+                        Console.WriteLine("3. Sago");
+                        Console.WriteLine("4. Oreos");
+                        Console.WriteLine("0. Exit");
+                        Console.Write("Enter Option : ");
+
+                        int opt2 = Convert.ToInt32(Console.ReadLine());
+                        if (opt2 == 0)
+                            continue;
+                        if (opt2 == 1)
+                            icecream.Toppings.Add(new Topping("SprinKles"));
+                        if (opt2 == 2)
+                            icecream.Toppings.Add(new Topping("Mochi"));
+                        if (opt2 == 3)
+                            icecream.Toppings.Add(new Topping("Sago"));
+                        if (opt2 == 4)
+                            icecream.Toppings.Add(new Topping("Oreos"));
+                        break;
+
+                    case 3:
+                        Console.WriteLine("1. Vanilla");
+                        Console.WriteLine("2. Chocolate");
+                        Console.WriteLine("3. Strawberry");
+                        Console.WriteLine("4. Durian (Premium)");
+                        Console.WriteLine("5. Ube (Premium)");
+                        Console.WriteLine("6. Sea Salt (Premium)");
+                        Console.WriteLine("0. Exit");
+                        Console.Write("Enter Option : ");
+
+                        int opt3 = Convert.ToInt32(Console.ReadLine());
+                        if (opt3 == 0)
+                            continue;
+
+                        if (opt3 == 1)
+                            if (icecream.Flavours.Any(flavour => flavour.Type == "Vanilla"))
+                            {
+                                int index = icecream.Flavours.FindIndex(flavour => flavour.Type == "Vanilla");
+                                icecream.Flavours[index].Quantity += 1;
+                            }
+                            else
+                                icecream.Flavours.Add(new Flavour("Vanilla", false, 1));
+
+                        if (opt3 == 2)
+                            if (icecream.Flavours.Any(flavour => flavour.Type == "Chocolate"))
+                            {
+                                int index = icecream.Flavours.FindIndex(flavour => flavour.Type == "Chocolate");
+                                icecream.Flavours[index].Quantity += 1;
+                            }
+                            else
+                                icecream.Flavours.Add(new Flavour("Chocolate", false, 1));
+
+                        if (opt3 == 3)
+                            if (icecream.Flavours.Any(flavour => flavour.Type == "Strawberry"))
+                            {
+                                int index = icecream.Flavours.FindIndex(flavour => flavour.Type == "Strawberry");
+                                icecream.Flavours[index].Quantity += 1;
+                            }
+                            else
+                                icecream.Flavours.Add(new Flavour("Strawberry", false, 1));
+
+                        if (opt3 == 4)
+                            if (icecream.Flavours.Any(flavour => flavour.Type == "Durian"))
+                            {
+                                int index = icecream.Flavours.FindIndex(flavour => flavour.Type == "Durian");
+                                icecream.Flavours[index].Quantity += 1;
+                            }
+                            else
+                                icecream.Flavours.Add(new Flavour("Durain", true, 1));
+
+                        if (opt3 == 5)
+                            if (icecream.Flavours.Any(flavour => flavour.Type == "Ube"))
+                            {
+                                int index = icecream.Flavours.FindIndex(flavour => flavour.Type == "Ube");
+                                icecream.Flavours[index].Quantity += 1;
+                            }
+                            else
+                                icecream.Flavours.Add(new Flavour("Ube", true, 1));
+
+                        if (opt3 == 6)
+                            if (icecream.Flavours.Any(flavour => flavour.Type == "Sea Salt"))
+                            {
+                                int index = icecream.Flavours.FindIndex(flavour => flavour.Type == "Sea Salt");
+                                icecream.Flavours[index].Quantity += 1;
+                            }
+                            else
+                                icecream.Flavours.Add(new Flavour("Sea Salt", true, 1));
+                        break;
+
+                    case 4:
+                        if (scooped)
+                        {
+                            Console.WriteLine($"Created {icecream.Option}");
+                            customer.CurrentOrder.AddIceCream(icecream);
+                            Console.WriteLine("asdasddddddddddddddddddddd");
+                            loop = false;
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Please Enter Scoop!");
+                            break;
+                        }
+                    default:
+                        Console.WriteLine("Invalid Option, Please try again!");
+                        break;
+                }
+            }
+        }
+    
         static void ReadFileToppings(Dictionary<string, double> toppings)
         {
             string[] lines = File.ReadAllLines("toppings.csv");

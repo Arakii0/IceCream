@@ -301,9 +301,9 @@ namespace S10257176_PRG2Assignment
         public override string ToString()
         {
             string order = "";
-            for(int i = 0; i < IceCreamList.Count; i++)
+            foreach(IceCream c in IceCreamList)
             {
-                order = $"Id : {Id}\tTime Recieved: {TimeRecieved}\t Order: {IceCreamList[i].Option}\n";
+                order = $"{Id,-4}\t{TimeRecieved,-15}\t{c.Option}";
             }
 
             return order;
