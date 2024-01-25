@@ -112,10 +112,10 @@ namespace S10257176_PRG2Assignment
 
                         if (option6 == 1)
                             customerTarget.CurrentOrder.ModifyIceCream();
-                        else if (option6 == 2)
-                            customerTarget.CurrentOrder.AddIceCream();
-                        else if (option6 == 3)
-                                customerTarget.CurrentOrder.DeleteIceCream();
+                       // else if (option6 == 2)
+                            //customerTarget.CurrentOrder.AddIceCream();
+                        //else if (option6 == 3)
+                            //customerTarget.CurrentOrder.DeleteIceCream();
                             else
                                 Console.WriteLine("Invalid Option");
 
@@ -315,61 +315,6 @@ namespace S10257176_PRG2Assignment
 
         }
 
-        static void ReadFileToppings(Dictionary<string,double> toppings)
-        {
-            string[] lines = File.ReadAllLines("toppings.csv");
-
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string[] data = lines[i].Split(',');
-                string name = Convert.ToString(data[0]);
-                double cost = Convert.ToDouble(data[1]);
-
-                toppings.Add(name, cost);
-            }
-
-            foreach (var kvp in toppings)
-            {
-                Console.WriteLine($"Topping : {kvp.Key}\nCost : {kvp.Value}");
-            }
-        }
-
-        static void ReadFileFlavors(Dictionary<string, double> flavours)
-        {
-            string[] lines = File.ReadAllLines("flavors.csv");
-
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string[] data = lines[i].Split(',');
-                string name = Convert.ToString(data[0]);
-                double cost = Convert.ToDouble(data[1]);
-
-                flavours.Add(name, cost);
-            }
-        }
-
-        static void ReadFileOptions(Dictionary<IceCream, double> options)
-        {
-            string[] lines = File.ReadAllLines("options.csv");
-
-            for (int i = 1; i < lines.Length; i++)
-            {
-                string[] data = lines[i].Split(',');
-                string option = Convert.ToString(data[0]);
-                int scoops = Convert.ToInt32(data[1]);
-                bool dipped = Convert.ToBoolean(data[2]);
-                string waffleFlavour = Convert.ToString(data[3]);
-                double cost = Convert.ToDouble(data[4]);
-
-                if (option == "Cup")
-                    options.Add(new Cup(option, scoops, new List<Flavour>(), new List<Topping>()), cost);
-                if (option == "Cone")
-                    options.Add(new Cone(option, scoops, new List<Flavour>(), new List<Topping>(), dipped), cost);
-                if (option == "Waffle")
-                    options.Add(new Waffle(option, scoops, new List<Flavour>(), new List<Topping>(), waffleFlavour), cost);
-            }
-        }
-
         static void ListAllCustomers(List<Customer> customers)
         {
             Console.WriteLine("List of all customers:");
@@ -525,6 +470,61 @@ namespace S10257176_PRG2Assignment
                 regularQueue.Enqueue(selectedCustomer.CurrentOrder);
 
             Console.WriteLine("Order has been made successfully!");
+        }
+
+        static void ReadFileToppings(Dictionary<string, double> toppings)
+        {
+            string[] lines = File.ReadAllLines("toppings.csv");
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string[] data = lines[i].Split(',');
+                string name = Convert.ToString(data[0]);
+                double cost = Convert.ToDouble(data[1]);
+
+                toppings.Add(name, cost);
+            }
+
+            foreach (var kvp in toppings)
+            {
+                Console.WriteLine($"Topping : {kvp.Key}\nCost : {kvp.Value}");
+            }
+        }
+
+        static void ReadFileFlavors(Dictionary<string, double> flavours)
+        {
+            string[] lines = File.ReadAllLines("flavors.csv");
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string[] data = lines[i].Split(',');
+                string name = Convert.ToString(data[0]);
+                double cost = Convert.ToDouble(data[1]);
+
+                flavours.Add(name, cost);
+            }
+        }
+
+        static void ReadFileOptions(Dictionary<IceCream, double> options)
+        {
+            string[] lines = File.ReadAllLines("options.csv");
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string[] data = lines[i].Split(',');
+                string option = Convert.ToString(data[0]);
+                int scoops = Convert.ToInt32(data[1]);
+                bool dipped = Convert.ToBoolean(data[2]);
+                string waffleFlavour = Convert.ToString(data[3]);
+                double cost = Convert.ToDouble(data[4]);
+
+                if (option == "Cup")
+                    options.Add(new Cup(option, scoops, new List<Flavour>(), new List<Topping>()), cost);
+                if (option == "Cone")
+                    options.Add(new Cone(option, scoops, new List<Flavour>(), new List<Topping>(), dipped), cost);
+                if (option == "Waffle")
+                    options.Add(new Waffle(option, scoops, new List<Flavour>(), new List<Topping>(), waffleFlavour), cost);
+            }
         }
 
     }
