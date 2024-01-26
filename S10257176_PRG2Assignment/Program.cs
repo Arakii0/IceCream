@@ -61,62 +61,87 @@ namespace S10257176_PRG2Assignment
                         CreateCustomerOrder(customers, orders, goldQueue, regularQueue);
                         break;
                     case "5":
-                        Console.WriteLine("============================================");
-                        Console.WriteLine($"{"Customer",-10} {"Member ID"}");
-                        foreach (Customer customer in customers)
+                        while (true)
                         {
-                            Console.WriteLine($"{customer.Name, -10} {customer.MemberId}");
-                        }
-                        Console.Write("Enter Option : ");
-                        int memberoption5 = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("=====================================");
-                        
-                        foreach(Customer customer in customers)
-                        {
-                            if (customer.MemberId == memberoption5)
+                            Console.WriteLine("============================================");
+                            Console.WriteLine($"{"Customer",-10} {"Member ID"}");
+                            foreach (Customer customer in customers)
                             {
-                                Customer Targetcus = customer;
-                                Console.WriteLine("Current Order : ");
-                                Console.WriteLine(Targetcus.CurrentOrder);
-                                Console.WriteLine("Order History : ");
-                                Console.WriteLine($"{"ID",-7} {"Time Recieved",-25} {"Time Fulfuilled"}");
-                                foreach (Order order in Targetcus.OrderHistory)
+                                Console.WriteLine($"{customer.Name,-10} {customer.MemberId}");
+                            }
+                            try
+                            {
+                                Console.Write("Enter Option : ");
+                                int memberoption5 = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine("=====================================");
+                                bool memberFound = false;
+                                foreach (Customer customer in customers)
                                 {
-                                    Console.WriteLine(order + $"{order.TimeFulfilled,26}");
+                                    if (customer.MemberId == memberoption5)
+                                    {
+                                        Customer Targetcus = customer;
+                                        Console.WriteLine("Current Order : ");
+                                        Console.WriteLine(Targetcus.CurrentOrder);
+                                        Console.WriteLine("Order History : ");
+                                        Console.WriteLine($"{"ID",-7} {"Time Recieved",-25} {"Time Fulfuilled"}");
+                                        foreach (Order order in Targetcus.OrderHistory)
+                                        {
+                                            Console.WriteLine(order + $"{order.TimeFulfilled,26}");
+                                        }
+                                        memberFound = true;
+                                    }
                                 }
+                                if (!memberFound)
+                                    Console.WriteLine("Member Not Found!");
+                                else
+                                    break;
+                            }
+                            catch(FormatException e)
+                            {
+                                Console.WriteLine("Invalid Option! Integer only!");
                             }
                         }
                         break;
                     case "6":
-                        int x = 1;
                         foreach (Customer customer in customers)
                         {
-                            Console.WriteLine($"{x}: {customer.Name}");
-                            x++;
+                            Console.WriteLine($"{customer.Name,-10} {customer.MemberId}");
                         }
                         Console.Write("Enter Option : ");
-                        int memberoption6 = Convert.ToInt32(Console.ReadLine()) - 1;
-                        Customer customerTarget = customers[memberoption6];
-
-                        Console.WriteLine("1) Modify Existing IceCream");
-                        Console.WriteLine("2) Create New IceCream");
-                        Console.WriteLine("3) Delete Existing IceCream");
-                        Console.Write("Enter Option : ");
-                        int option6 = Convert.ToInt32(Console.ReadLine());
-
-                        if (option6 == 1)
-                            if(customerTarget.CurrentOrder != null)
-                                customerTarget.CurrentOrder.ModifyIceCream();
-                            else
-                                Console.WriteLine("No Current Order!");
-                        else if (option6 == 2)
+                        int memberoption6 = Convert.ToInt32(Console.ReadLine());
+                        bool memberFound6 = false;
+                        foreach (Customer customer in customers)
                         {
-                            AddIceCream(customerTarget);
+                            if (customer.MemberId == memberoption6)
+                            {
+                                memberFound6 = true;
+                                Customer customerTarget = customer;
+                                Console.WriteLine("1) Modify Existing IceCream");
+                                Console.WriteLine("2) Create New IceCream");
+                                Console.WriteLine("3) Delete Existing IceCream");
+                                Console.Write("Enter Option : ");
+                                int option6 = Convert.ToInt32(Console.ReadLine());
+
+                                if (option6 == 1)
+                                    if (customerTarget.CurrentOrder != null)
+                                    { customerTarget.CurrentOrder.ModifyIceCream(); break; }
+                                    else
+                                    { Console.WriteLine("No Current Order!"); break; }
+                                else if (option6 == 2)
+                                {
+                                    if (customerTarget.CurrentOrder != null)
+                                    { AddIceCream(customerTarget); break; }
+                                    else
+                                    { Console.WriteLine("Please Create An Order First!"); break; }
+                                }
+                                //else if (option6 == 3)
+                                //customerTarget.CurrentOrder.DeleteIceCream();
+                                else
+                                    { Console.WriteLine("Invalid Option"); break; }
+                            }
                         }
-                        //else if (option6 == 3)
-                            //customerTarget.CurrentOrder.DeleteIceCream();
-                            else
-                                Console.WriteLine("Invalid Option");
+                        if (!memberFound6)
+                            Console.WriteLine("Member Not Found!");
                         break;
 
 
@@ -479,7 +504,7 @@ namespace S10257176_PRG2Assignment
                 }
 
                 newOrder.AddIceCream(iceCream);
-                newOrder.Id = 1; // PLACEHOLDER FOR NOW, NEED GET ID FROM CSV FILE
+                newOrder.Id = 1; // PLACEHOLDER FOR NOW, NEED GET ID FROM CSV FILE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PLEASE HELP ME DO IT, THANK YOU
                 newOrder.TimeRecieved = DateTime.Now;
 
                 Console.Write("Do you want to add another ice cream to the order? (Y/N): ");
