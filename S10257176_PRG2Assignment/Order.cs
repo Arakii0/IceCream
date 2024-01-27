@@ -269,18 +269,10 @@ namespace S10257176_PRG2Assignment
                 }
         }
 
-
-
-
-
-
-
-
         public void AddIceCream(IceCream icecream)
         {
             IceCreamList.Add(icecream);
         }
-
 
         public void DeleteIceCream(int id)
         {

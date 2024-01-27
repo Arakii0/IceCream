@@ -5,8 +5,6 @@
 //==========================================================
 
 using System;
-using System.Runtime.Serialization;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace S10257176_PRG2Assignment
 {
@@ -53,15 +51,19 @@ namespace S10257176_PRG2Assignment
                     case "1":
                         ListAllCustomers(customers);
                         break;
+
                     case "2":
                         ListAllCurrentOrders(regularQueue, goldQueue);
                         break;
+
                     case "3":
                         RegisterNewCustomer(customers);
                         break;
+
                     case "4":
                         CreateCustomerOrder(customers, orders, goldQueue, regularQueue);
                         break;
+
                     case "5":
                         while (true)
                         {
@@ -115,6 +117,7 @@ namespace S10257176_PRG2Assignment
                             }
                         }
                         break;
+
                     case "6":
                         foreach (Customer customer in customers)
                         {
@@ -147,8 +150,8 @@ namespace S10257176_PRG2Assignment
                                     else
                                     { Console.WriteLine("Please Create An Order First!"); break; }
                                 }
-                                //else if (option6 == 3)
-                                //customerTarget.CurrentOrder.DeleteIceCream();
+                                else if (option6 == 3)
+                                    DeleteAnIceCream(customerTarget);
                                 else
                                     { Console.WriteLine("Invalid Option"); break; }
                             }
@@ -157,8 +160,8 @@ namespace S10257176_PRG2Assignment
                             Console.WriteLine("Member Not Found!");
                         break;
 
-
-
+                    case "7":
+                        break;
 
                     case "8":
                         DisplayMonthlyCharges(customers);
@@ -167,6 +170,7 @@ namespace S10257176_PRG2Assignment
                     case "0":
                         Console.WriteLine("Exiting program...");
                         return;
+
                     default:
                         Console.WriteLine("Invalid choice. Please try again.");
                         break;
@@ -373,6 +377,8 @@ namespace S10257176_PRG2Assignment
         static void ListAllCustomers(List<Customer> customers)
         {
             Console.WriteLine("List of all customers:");
+            Console.WriteLine("======================");
+            Console.WriteLine($"{"Name",-10} {"Member ID",-15} {"Date of Birth",-28} {"Points",-10} {"PunchCard",-12} {"Tier"}");
             foreach (Customer customer in customers)
             {
                 Console.WriteLine(customer.ToString());
@@ -533,7 +539,7 @@ namespace S10257176_PRG2Assignment
             while (Console.ReadLine().ToLower() == "y");
 
             selectedCustomer.CurrentOrder = newOrder;
-
+            // IDK IF THIS ONE CAN OR NOT, COZ IF CUSTOMER MAKES A NEW ORDER WITHOUT FUILFULLING THE FIRST ORDER, THE SECOND ORDER WILL REPLACE THE FIRST ORDER
 
             if (selectedCustomer.Rewards.Tier == "Gold")
                 goldQueue.Enqueue(selectedCustomer.CurrentOrder);
@@ -725,6 +731,46 @@ namespace S10257176_PRG2Assignment
                     default:
                         Console.WriteLine("Invalid Option, Please try again!");
                         break;
+                }
+            }
+        }
+
+        static void DeleteAnIceCream(Customer customer)
+        {
+            while (true)
+            {
+                List<IceCream> currentorder = customer.CurrentOrder.IceCreamList;
+                for (int i = 0; i < currentorder.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {currentorder[i].Option}");
+                }
+                Console.WriteLine("0. Exit");
+                try
+                {
+                    Console.Write("Enter Icecream to delete (0 to exit): ");
+                    int icecreamOption = Convert.ToInt32(Console.ReadLine());
+
+                    if (icecreamOption == 0)
+                        break;
+                    
+                    Console.Write($"You are deleting {currentorder[icecreamOption - 1].Option} (y/n): ");
+                    string confirm = Console.ReadLine();
+                    if (confirm.ToLower() == "n")
+                        continue;
+                    else
+                    {
+                        customer.CurrentOrder.DeleteIceCream(icecreamOption);
+                        Console.WriteLine($"Successfully Deleted({currentorder[icecreamOption - 1].Option})");
+                        break;
+                    }
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Please enter a number, please try again");
+                }
+                catch (ArgumentOutOfRangeException e)
+                {
+                    Console.WriteLine("Invalid Option! Please enter a valid option!");
                 }
             }
         }
