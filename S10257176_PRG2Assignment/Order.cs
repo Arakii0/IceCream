@@ -297,6 +297,15 @@ namespace S10257176_PRG2Assignment
             return price;
         }
 
+        public void ParseDateString(string dateString)
+        {
+            string format = "dd/MM/yyyy HH:mm"; // Specify the format of your input string
+
+            // Parse the string to a nullable DateTime object
+            TimeFulfilled = DateTime.TryParseExact(dateString, format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime parsedDateTime)
+                ? (DateTime?)parsedDateTime
+                : null;
+        }
 
         public override string ToString()
         {

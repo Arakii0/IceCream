@@ -5,6 +5,8 @@
 //==========================================================
 
 using System;
+using System.Runtime.Serialization;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace S10257176_PRG2Assignment
 {
@@ -159,6 +161,7 @@ namespace S10257176_PRG2Assignment
 
 
                     case "8":
+                        DisplayMonthlyCharges(customers);
                         break;
 
                     case "0":
@@ -255,26 +258,28 @@ namespace S10257176_PRG2Assignment
                                 {
                                     if (customer.OrderHistory.Count == 0)
                                     {
-                                        Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[2]));
-                                        neworder.TimeFulfilled = DateTime.Parse(data[3]);
+                                        Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
+                                        neworder.ParseDateString(data[3]);
                                         neworder.AddIceCream(icecream);
                                         customer.OrderHistory.Add(neworder);
                                     }
                                     else
                                     {
+                                        bool seen = false;
                                         for (int i = 0; i < customer.OrderHistory.Count; i++)
                                         {
                                             if (customer.OrderHistory[i].Id == Convert.ToInt32(data[0]))
                                             {
                                                 customer.OrderHistory[i].AddIceCream(icecream);
+                                                seen = true;
                                             }
-                                            else
-                                            {
-                                                Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[2]));
-                                                neworder.TimeFulfilled = DateTime.Parse(data[3]);
-                                                neworder.AddIceCream(icecream);
-                                                customer.OrderHistory.Add(neworder);
-                                            }
+                                        }
+                                        if(!seen)
+                                        {
+                                            Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
+                                            neworder.ParseDateString(data[3]);
+                                            neworder.AddIceCream(icecream);
+                                            customer.OrderHistory.Add(neworder);
                                         }
                                     }
                                 }
@@ -290,26 +295,28 @@ namespace S10257176_PRG2Assignment
                                 {
                                     if (customer.OrderHistory.Count == 0)
                                     {
-                                        Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[2]));
-                                        neworder.TimeFulfilled = DateTime.Parse(data[3]);
+                                        Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
+                                        neworder.ParseDateString(data[3]);
                                         neworder.AddIceCream(icecream);
                                         customer.OrderHistory.Add(neworder);
                                     }
                                     else
                                     {
+                                        bool seen = false;
                                         for (int i = 0; i < customer.OrderHistory.Count; i++)
                                         {
                                             if (customer.OrderHistory[i].Id == Convert.ToInt32(data[0]))
                                             {
                                                 customer.OrderHistory[i].AddIceCream(icecream);
+                                                seen = true;
                                             }
-                                            else
-                                            {
-                                                Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[2]));
-                                                neworder.TimeFulfilled = DateTime.Parse(data[3]);
-                                                neworder.AddIceCream(icecream);
-                                                customer.OrderHistory.Add(neworder);
-                                            }
+                                        }
+                                        if (!seen)
+                                        {
+                                            Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
+                                            neworder.ParseDateString(data[3]);
+                                            neworder.AddIceCream(icecream);
+                                            customer.OrderHistory.Add(neworder);
                                         }
                                     }
                                 }
@@ -325,26 +332,28 @@ namespace S10257176_PRG2Assignment
                                 {
                                     if (customer.OrderHistory.Count == 0)
                                     {
-                                        Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[2]));
-                                        neworder.TimeFulfilled = DateTime.Parse(data[3]);
+                                        Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
+                                        neworder.ParseDateString(data[3]);
                                         neworder.AddIceCream(icecream);
                                         customer.OrderHistory.Add(neworder);
                                     }
                                     else
                                     {
+                                        bool seen = false;
                                         for (int i = 0; i < customer.OrderHistory.Count; i++)
                                         {
                                             if (customer.OrderHistory[i].Id == Convert.ToInt32(data[0]))
                                             {
                                                 customer.OrderHistory[i].AddIceCream(icecream);
+                                                seen = true;
                                             }
-                                            else
-                                            {
-                                                Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.Parse(data[2]));
-                                                neworder.TimeFulfilled = DateTime.Parse(data[3]);
-                                                neworder.AddIceCream(icecream);
-                                                customer.OrderHistory.Add(neworder);
-                                            }
+                                        }
+                                        if (!seen)
+                                        {
+                                            Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
+                                            neworder.ParseDateString(data[3]);
+                                            neworder.AddIceCream(icecream);
+                                            customer.OrderHistory.Add(neworder);
                                         }
                                     }
                                 }
@@ -720,7 +729,50 @@ namespace S10257176_PRG2Assignment
             }
         }
     
-
+        static void DisplayMonthlyCharges(List<Customer> customers)
+        {
+            Console.WriteLine("Displaying monthly charges breakdown and total charged amounts for the year");
+            Console.WriteLine("===========================================================================");
+            
+            Dictionary<int, double> monthlyCharges = new Dictionary<int, double>();
+            for (int i = 1; i <= 12; i++)
+            {
+                monthlyCharges.Add(i, 0);
+            }
+            try
+            {
+                Console.Write("Enter the year: ");
+                int year = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
+                foreach (Customer customer in customers)
+                {
+                    foreach (Order order in customer.OrderHistory)
+                    {
+                        int? isityear = order.TimeFulfilled?.Year;
+                        if (isityear.HasValue)
+                        {
+                            if (isityear == year)
+                            {
+                                int? isitmonth = order.TimeFulfilled?.Month;
+                                if (isitmonth.HasValue)
+                                {
+                                    monthlyCharges[(int)isitmonth] += order.CalculateTotal();
+                                }
+                            }
+                        }
+                    }
+                }
+                for (int i = 1; i <= 12; i++)
+                {
+                    Console.WriteLine($"{new DateTime(1, i, 1).ToString("MMM")} {year} : \t${monthlyCharges[i].ToString("F2")}");
+                }
+                Console.WriteLine($"\nTotal : \t${monthlyCharges.Values.Sum().ToString("F2")}");
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("Invalid Year! Integer only!");
+            }
+        }
 
         static void ReadFileToppings(Dictionary<string, double> toppings)
         {
@@ -779,4 +831,3 @@ namespace S10257176_PRG2Assignment
 
     }
 }
-

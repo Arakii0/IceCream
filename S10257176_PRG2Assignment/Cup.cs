@@ -40,9 +40,12 @@ namespace S10257176_PRG2Assignment
 
             foreach (Flavour flavour in Flavours)
             {
-                if (flavour.Premium)
+                for (int i = 0; i < flavour.Quantity; i++)
                 {
-                    cost += 2;
+                    if (flavour.Premium)
+                    {
+                        cost += 2;
+                    }
                 }
             }
 

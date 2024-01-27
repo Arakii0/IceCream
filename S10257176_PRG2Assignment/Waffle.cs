@@ -47,16 +47,19 @@ namespace S10257176_PRG2Assignment
                 }
 
                 // if there is no input of waffle flavour then it would not add $3
-                if (!string.IsNullOrEmpty(WaffleFlavour))
+                if (WaffleFlavour.ToLower() != "original")
                 {
                     cost += 3; 
                 }
 
                 foreach (Flavour flavour in Flavours)
                 {
-                    if (flavour.Premium)
+                    for (int i = 0; i < flavour.Quantity; i++)
                     {
-                        cost += 2;
+                        if (flavour.Premium)
+                        {
+                            cost += 2;
+                        }
                     }
                 }
 
