@@ -530,7 +530,15 @@ namespace S10257176_PRG2Assignment
                 }
 
                 newOrder.AddIceCream(iceCream);
-                newOrder.Id = 1; // PLACEHOLDER FOR NOW, NEED GET ID FROM CSV FILE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PLEASE HELP ME DO IT, THANK YOU
+
+                string[] lines = File.ReadAllLines("orders.csv");
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    string[] data = lines[i].Split(',');
+                    int orderId = Convert.ToInt32(data[0]);
+                } 
+
+                newOrder.Id = orderId + 1; 
                 newOrder.TimeRecieved = DateTime.Now;
 
                 Console.Write("Do you want to add another ice cream to the order? (Y/N): ");
@@ -540,6 +548,7 @@ namespace S10257176_PRG2Assignment
 
             selectedCustomer.CurrentOrder = newOrder;
             // IDK IF THIS ONE CAN OR NOT, COZ IF CUSTOMER MAKES A NEW ORDER WITHOUT FUILFULLING THE FIRST ORDER, THE SECOND ORDER WILL REPLACE THE FIRST ORDER
+
 
             if (selectedCustomer.Rewards.Tier == "Gold")
                 goldQueue.Enqueue(selectedCustomer.CurrentOrder);
