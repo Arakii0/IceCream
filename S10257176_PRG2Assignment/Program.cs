@@ -81,13 +81,24 @@ namespace S10257176_PRG2Assignment
                                     {
                                         Customer Targetcus = customer;
                                         Console.WriteLine("Current Order : ");
-                                        Console.WriteLine(Targetcus.CurrentOrder);
-                                        Console.WriteLine("Order History : ");
-                                        Console.WriteLine($"{"ID",-7} {"Time Recieved",-25} {"Time Fulfuilled"}");
-                                        foreach (Order order in Targetcus.OrderHistory)
+                                        if (Targetcus.CurrentOrder != null)
                                         {
-                                            Console.WriteLine(order + $"{order.TimeFulfilled,26}");
+                                            Console.WriteLine($"{"ID",-7} {"Time Recieved"}");
+                                            Console.WriteLine(Targetcus.CurrentOrder);
                                         }
+                                        else
+                                            Console.WriteLine("No Current Order!");
+                                        Console.WriteLine("Order History : ");
+                                        if (Targetcus.OrderHistory.Count != 0)
+                                        {
+                                            Console.WriteLine($"{"ID",-7} {"Time Recieved",-25} {"Time Fulfuilled"}");
+                                            foreach (Order order in Targetcus.OrderHistory)
+                                            {
+                                                Console.WriteLine(order + $"{order.TimeFulfilled,26}");
+                                            }
+                                        }
+                                        else
+                                            Console.WriteLine("No Order History!");
                                         memberFound = true;
                                     }
                                 }
@@ -709,6 +720,8 @@ namespace S10257176_PRG2Assignment
             }
         }
     
+
+
         static void ReadFileToppings(Dictionary<string, double> toppings)
         {
             string[] lines = File.ReadAllLines("toppings.csv");
