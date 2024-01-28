@@ -22,10 +22,10 @@ namespace S10257176_PRG2Assignment
         { get; set; } = "Ordinary";
 
         public PointCard() { }
-        public PointCard(int p, int c)
+        public PointCard(int points, int punchCard)
         {
-            Points = p;
-            PunchCards = c;
+            Points = points;
+            PunchCards = punchCard;
         }
 
         public void AddPoints(int point)

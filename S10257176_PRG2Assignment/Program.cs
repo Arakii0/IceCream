@@ -41,6 +41,7 @@ namespace S10257176_PRG2Assignment
                 Console.WriteLine("4) Create a customer's order");
                 Console.WriteLine("5) Display order details of a customer");
                 Console.WriteLine("6) Modify order details");
+                Console.WriteLine("7) Process an order and checkout");
                 Console.WriteLine("8) Display monthly charged amounts breakdown & total charged amounts for the year");
                 Console.WriteLine("0) Exit");
                 Console.Write("Enter your choice: ");
@@ -161,6 +162,7 @@ namespace S10257176_PRG2Assignment
                         break;
 
                     case "7":
+                        ProcessOrderAndCheckout(goldQueue, regularQueue, customers);
                         break;
 
                     case "8":
@@ -531,14 +533,15 @@ namespace S10257176_PRG2Assignment
 
                 newOrder.AddIceCream(iceCream);
 
+
                 string[] lines = File.ReadAllLines("orders.csv");
                 for (int i = 1; i < lines.Length; i++)
                 {
                     string[] data = lines[i].Split(',');
                     int orderId = Convert.ToInt32(data[0]);
+                    newOrder.Id = orderId + 1;
                 } 
 
-                newOrder.Id = orderId + 1; 
                 newOrder.TimeRecieved = DateTime.Now;
 
                 Console.Write("Do you want to add another ice cream to the order? (Y/N): ");
@@ -546,8 +549,11 @@ namespace S10257176_PRG2Assignment
             
             while (Console.ReadLine().ToLower() == "y");
 
+
             selectedCustomer.CurrentOrder = newOrder;
             // IDK IF THIS ONE CAN OR NOT, COZ IF CUSTOMER MAKES A NEW ORDER WITHOUT FUILFULLING THE FIRST ORDER, THE SECOND ORDER WILL REPLACE THE FIRST ORDER
+
+
 
 
             if (selectedCustomer.Rewards.Tier == "Gold")
@@ -744,6 +750,7 @@ namespace S10257176_PRG2Assignment
             }
         }
 
+
         static void DeleteAnIceCream(Customer customer)
         {
             while (true)
@@ -783,8 +790,134 @@ namespace S10257176_PRG2Assignment
                 }
             }
         }
-    
-        static void DisplayMonthlyCharges(List<Customer> customers)
+
+
+
+
+        static void ProcessOrderAndCheckout(Queue<Order> goldQueue, Queue<Order> regularQueue, List<Customer> customers)
+        {
+            //dequeue the first order in the queue
+            Order currentOrder;
+            if (goldQueue.Count > 0)
+            {
+                currentOrder = goldQueue.Dequeue();
+            }
+            else if (regularQueue.Count > 0)
+            {
+                currentOrder = regularQueue.Dequeue();
+            }
+            else
+            {
+                Console.WriteLine("No orders in the queue.");
+                return;
+            }
+
+            //display all the ice creams in the order
+            Console.WriteLine("Ice Creams in the Order:");
+            foreach (IceCream iceCream in currentOrder.IceCreamList)
+            {
+                Console.WriteLine(iceCream);
+            }
+
+            //display the total bill amount
+            double totalBill = currentOrder.CalculateTotal();
+            Console.WriteLine($"Total Bill Amount: ${totalBill}");
+
+
+            // Display customer's membership status and points
+            int customerId = currentOrder.Id; // assuming Id property in Order is the CustomerId
+            Customer customer = customers.Find(c => c.MemberId == customerId);
+
+            if (customer != null)
+            {
+                Console.WriteLine($"Membership Status: {customer.Rewards.Tier}");
+                Console.WriteLine($"Points: {customer.Rewards.Points}");
+            }
+            else
+            {
+                Console.WriteLine("Customer not found.");
+            }
+
+            // check if it's the customer's birthday
+            if (customer.IsBirthday())
+            {
+                // calculate the final bill with the most expensive ice cream costing $0.00
+                totalBill = CalculateBillForBirthday(currentOrder);
+            }
+
+            if (customer.IsBirthday())
+            {
+                // Calculate final bill with the most expensive ice cream costing $0.00
+                totalBill -= currentOrder.IceCreamList.Max(iceCream => iceCream.CalculatePrice());
+            }
+
+            // check if the punch card is completed
+            if (customer.Rewards.PunchCards >= 10)
+            {
+                // Calculate final bill with the first ice cream costing $0.00
+                totalBill -= currentOrder.IceCreamList.First().CalculatePrice();
+
+                // Reset punch card to 0
+                customer.Rewards.PunchCards = 0;
+            }
+
+            // Check Pointcard status for redeeming points
+            if (customer.Rewards.Points > 0)
+            {
+                // Check if the customer is silver tier or above
+                if (customer.Rewards.Tier == "Silver" || customer.Rewards.Tier == "Gold")
+                {
+                    Console.Write("How many points do you want to use to offset the bill? ");
+                    int pointsToRedeem = Convert.ToInt32(Console.ReadLine());
+
+                    // Redeem points, if necessary
+                    totalBill -= Math.Min(pointsToRedeem, customer.Rewards.Points);
+                    customer.Rewards.Points -= Math.Min(pointsToRedeem, customer.Rewards.Points);
+                }
+            }
+
+            // Display the final total bill amount
+            Console.WriteLine($"Final Total Bill: ${totalBill}");
+
+            // Increment punch card for every ice cream in the order (up to 10)
+            foreach (IceCream iceCream in currentOrder.IceCreamList)
+            {
+                if (customer.Rewards.PunchCards < 10)
+                {
+                    customer.Rewards.PunchCards++;
+                }
+            }
+
+            // Earn points and upgrade membership status accordingly
+            double pointsEarned = Math.Floor(totalBill / 10);
+            customer.Rewards.Points += (int)pointsEarned;
+
+            if (customer.Rewards.Points >= 100 && customer.Rewards.Tier != "Gold")
+            {
+                customer.Rewards.Tier = "Gold";
+            }
+            else if (customer.Rewards.Points >= 50 && customer.Rewards.Tier != "Silver")
+            {
+                customer.Rewards.Tier = "Silver";
+            }
+
+            // Mark the order as fulfilled with the current datetime
+            currentOrder.TimeFulfilled = DateTime.Now;
+
+            // Add the fulfilled order to the customer's order history
+            customer.OrderHistory.Add(currentOrder);
+
+        }
+
+
+
+
+
+
+
+
+
+    static void DisplayMonthlyCharges(List<Customer> customers)
         {
             Console.WriteLine("Displaying monthly charges breakdown and total charged amounts for the year");
             Console.WriteLine("===========================================================================");
@@ -883,6 +1016,33 @@ namespace S10257176_PRG2Assignment
                     options.Add(new Waffle(option, scoops, new List<Flavour>(), new List<Topping>(), waffleFlavour), cost);
             }
         }
+
+        static double CalculateBillForBirthday(Order currentOrder)
+        {
+            if (currentOrder.IceCreamList.Count == 0)
+            {
+                return currentOrder.CalculateTotal(); 
+            }
+
+           
+            IceCream mostExpensiveIceCream = currentOrder.IceCreamList[0];
+            foreach (IceCream iceCream in currentOrder.IceCreamList)
+            {
+                if (iceCream.CalculatePrice() > mostExpensiveIceCream.CalculatePrice())
+                {
+                    mostExpensiveIceCream = iceCream;
+                }
+            }
+
+            
+            double discount = mostExpensiveIceCream.CalculatePrice();
+            double finalBill = currentOrder.CalculateTotal() - discount;
+
+            Console.WriteLine($"Birthday discount applied: ${discount} (Most expensive item: {mostExpensiveIceCream})");
+
+            return finalBill;
+        }
+
 
     }
 }

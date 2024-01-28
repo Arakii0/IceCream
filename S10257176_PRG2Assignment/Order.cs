@@ -25,6 +25,7 @@ namespace S10257176_PRG2Assignment
         public List<IceCream> IceCreamList { get; set; } = new List<IceCream>();
 
 
+
         public Order() { }
         public Order(int id, DateTime tr)
         {
