@@ -849,6 +849,7 @@ namespace S10257176_PRG2Assignment
                 totalBill = CalculateBillForBirthday(currentOrder);
             }
 
+            // got error
             if (customer.IsBirthday())
             {
                 // Calculate final bill with the most expensive ice cream costing $0.00
