@@ -189,7 +189,7 @@ namespace S10257176_PRG2Assignment
                 string[] data = lines[i].Split(',');
                 string name = Convert.ToString(data[0]);
                 int memberId = Convert.ToInt32(data[1]);
-                DateTime dob = Convert.ToDateTime(data[2]);
+                DateTime dob = DateTime.ParseExact(data[2], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
                 Customer addcustomer = new Customer(name, memberId, dob);
                 addcustomer.Rewards = new PointCard(Convert.ToInt32(data[4]), Convert.ToInt32(data[5]));
@@ -816,7 +816,7 @@ namespace S10257176_PRG2Assignment
             Console.WriteLine("Ice Creams in the Order:");
             foreach (IceCream iceCream in currentOrder.IceCreamList)
             {
-                Console.WriteLine(iceCream);
+                Console.WriteLine(iceCream.Option);
             }
 
             //display the total bill amount
@@ -825,7 +825,7 @@ namespace S10257176_PRG2Assignment
 
 
             // Display customer's membership status and points
-            int customerId = currentOrder.Id; // assuming Id property in Order is the CustomerId
+            int customerId = currentOrder.Id; // assuming Id property in Order is the CustomerId (IT NOT WTF???????????????????? HAHAHAHAHAHAHHA THE ID IN ORDER IS THE FKING ORDER ID NOT THE CUSTOMER ID ASFNADJOFNJDFJDNFJODN
             Customer customer = customers.Find(c => c.MemberId == customerId);
 
             if (customer != null)

@@ -61,7 +61,7 @@ namespace S10257176_PRG2Assignment
 
         public bool IsBirthday()
         {
-            if (DateTime.Today.Day == Dob.Day && DateTime.Today.Month == Dob.Month) 
+            if (Dob.Day == DateTime.Today.Day && Dob.Month == DateTime.Today.Month) 
             {
                 return true;
             }
