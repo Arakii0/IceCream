@@ -955,6 +955,32 @@ namespace S10257176_PRG2Assignment
             }
         }
 
+        static double CalculateBillForBirthday(Order currentOrder)
+        {
+            if (currentOrder.IceCreamList.Count == 0)
+            {
+                return currentOrder.CalculateTotal(); 
+            }
+
+           
+            IceCream mostExpensiveIceCream = currentOrder.IceCreamList[0];
+            foreach (IceCream iceCream in currentOrder.IceCreamList)
+            {
+                if (iceCream.CalculatePrice() > mostExpensiveIceCream.CalculatePrice())
+                {
+                    mostExpensiveIceCream = iceCream;
+                }
+            }
+
+            
+            double discount = mostExpensiveIceCream.CalculatePrice();
+            double finalBill = currentOrder.CalculateTotal() - discount;
+
+            Console.WriteLine($"Birthday discount applied: ${discount} (Most expensive item: {mostExpensiveIceCream})");
+
+            return finalBill;
+        }
+
         static void ReadFileToppings(Dictionary<string, double> toppings)
         {
             string[] lines = File.ReadAllLines("toppings.csv");
@@ -1008,32 +1034,6 @@ namespace S10257176_PRG2Assignment
                 if (option == "Waffle")
                     options.Add(new Waffle(option, scoops, new List<Flavour>(), new List<Topping>(), waffleFlavour), cost);
             }
-        }
-
-        static double CalculateBillForBirthday(Order currentOrder)
-        {
-            if (currentOrder.IceCreamList.Count == 0)
-            {
-                return currentOrder.CalculateTotal(); 
-            }
-
-           
-            IceCream mostExpensiveIceCream = currentOrder.IceCreamList[0];
-            foreach (IceCream iceCream in currentOrder.IceCreamList)
-            {
-                if (iceCream.CalculatePrice() > mostExpensiveIceCream.CalculatePrice())
-                {
-                    mostExpensiveIceCream = iceCream;
-                }
-            }
-
-            
-            double discount = mostExpensiveIceCream.CalculatePrice();
-            double finalBill = currentOrder.CalculateTotal() - discount;
-
-            Console.WriteLine($"Birthday discount applied: ${discount} (Most expensive item: {mostExpensiveIceCream})");
-
-            return finalBill;
         }
 
     }
