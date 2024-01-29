@@ -754,7 +754,6 @@ namespace S10257176_PRG2Assignment
             }
         }
 
-
         static void DeleteAnIceCream(Customer customer)
         {
             while (true)
@@ -794,9 +793,6 @@ namespace S10257176_PRG2Assignment
                 }
             }
         }
-
-
-
 
         static void ProcessOrderAndCheckout(Queue<Order> goldQueue, Queue<Order> regularQueue, List<Customer> customers)
         {
@@ -914,15 +910,7 @@ namespace S10257176_PRG2Assignment
 
         }
 
-
-
-
-
-
-
-
-
-    static void DisplayMonthlyCharges(List<Customer> customers)
+        static void DisplayMonthlyCharges(List<Customer> customers)
         {
             Console.WriteLine("Displaying monthly charges breakdown and total charged amounts for the year");
             Console.WriteLine("===========================================================================");
@@ -1047,7 +1035,6 @@ namespace S10257176_PRG2Assignment
 
             return finalBill;
         }
-
 
     }
 }
