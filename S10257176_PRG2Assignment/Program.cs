@@ -486,6 +486,8 @@ namespace S10257176_PRG2Assignment
                 int scoops = Convert.ToInt32(Console.ReadLine());
 
                 List<Flavour> flavours = new List<Flavour>();
+
+                // TO DO: LIST OUT ALL FLAVOURS
                 Console.WriteLine("Enter ice cream flavours:");
                 string flavourInput = Console.ReadLine();
                    
@@ -494,6 +496,8 @@ namespace S10257176_PRG2Assignment
                 
 
                 List<Topping> toppings = new List<Topping>();
+
+                // TO DO: LIST OUT ALL TOPPINGS
                 Console.WriteLine("Enter ice cream toppings (press Enter when finished):");
                 while (true)
                 {
