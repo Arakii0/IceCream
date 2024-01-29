@@ -889,7 +889,7 @@ namespace S10257176_PRG2Assignment
             {
                 if (customer.Rewards.PunchCards < 10)
                 {
-                    customer.Rewards.PunchCards++;
+                    customer.Rewards.Punch();
                 }
             }
 
