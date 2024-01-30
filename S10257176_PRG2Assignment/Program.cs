@@ -5,12 +5,14 @@
 //==========================================================
 
 using System;
+using System.Data;
+using System.Runtime.Serialization;
 
 namespace S10257176_PRG2Assignment
 {
     class Program
     {
-
+        static int orderId = 0;
         static void Main(string[] args)
         {
             List<Customer> customers = new List<Customer>();
@@ -28,6 +30,16 @@ namespace S10257176_PRG2Assignment
 
             ReadfileCustomer(customers);
             ReadFileOrders(customers);
+            ReadFileFlavours(flavours);
+            ReadFileToppings(toppings);
+            string[] lines = File.ReadAllLines("orders.csv");
+            List<string> seen = new List<string>();
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string[] data = lines[i].Split(',');
+                if (!seen.Contains(data[0]))
+                    { orderId += 1; seen.Add(data[0]); }
+            }
 
 
             while (true)
@@ -62,8 +74,6 @@ namespace S10257176_PRG2Assignment
                         break;
 
                     case "4":
-                        ReadFileFlavours(flavours);
-                        ReadFileToppings(toppings);
                         CreateCustomerOrder(customers, orders, goldQueue, regularQueue, flavours, toppings);
                         break;
 
@@ -92,6 +102,7 @@ namespace S10257176_PRG2Assignment
                                         {
                                             Console.WriteLine($"{"ID",-7} {"Time Recieved"}");
                                             Console.WriteLine(Targetcus.CurrentOrder);
+                                            PrintIceCreams(Targetcus.CurrentOrder.IceCreamList);
                                         }
                                         else
                                             Console.WriteLine("No Current Order!");
@@ -102,6 +113,7 @@ namespace S10257176_PRG2Assignment
                                             foreach (Order order in Targetcus.OrderHistory)
                                             {
                                                 Console.WriteLine(order + $"{order.TimeFulfilled,26}");
+                                                PrintIceCreams(order.IceCreamList);
                                             }
                                         }
                                         else
@@ -240,7 +252,8 @@ namespace S10257176_PRG2Assignment
                             {
                                 prem = true;
                             }
-                            flavs.Add(new Flavour(k.Key, prem, k.Value));
+                            if(k.Key != "")
+                                flavs.Add(new Flavour(k.Key, prem, k.Value));
                         }
 
                         List<Topping> tops = new List<Topping>();
@@ -407,11 +420,8 @@ namespace S10257176_PRG2Assignment
                     {
                         int count = 0;
                         Console.WriteLine($"{i}. {order,5}");
-                        foreach (IceCream ice in order.IceCreamList)
-                        {
-                            count++;
-                            Console.WriteLine($"        {i}.{count}: {ice}");
-                        }
+                        Console.WriteLine("\tIceCreams : ");
+                        PrintIceCreams(order.IceCreamList);
                         i++;
                     }
                 }
@@ -431,12 +441,8 @@ namespace S10257176_PRG2Assignment
                     {
                         int count = 0;
                         Console.WriteLine($"{x}. {order,5}");
-                        foreach (IceCream ice in order.IceCreamList)
-                        {
-                            count++;
-                            Console.WriteLine($"        {x}.{count}: {ice}");
-                        }
-                        x++;
+                        PrintIceCreams(order.IceCreamList);
+                        x++;  
                     }
                 }
             }
@@ -480,6 +486,8 @@ namespace S10257176_PRG2Assignment
             Order newOrder = new Order();
             do
             {
+                Dictionary<string, int> flavourselect = new Dictionary<string, int>();
+                Dictionary<string, int> toppingselect = new Dictionary<string, int>();
                 Console.Write("Enter ice cream option (Cup, Cone, Waffle): ");
                 string option = Console.ReadLine();
 
@@ -497,7 +505,7 @@ namespace S10257176_PRG2Assignment
                 string flavourInput = Console.ReadLine();
 
 
-                flavours.Add(flavourInput, 1);
+                flavourselect.Add(flavourInput, 1);
 
 
 
@@ -515,7 +523,7 @@ namespace S10257176_PRG2Assignment
                         break;
                     }
 
-                    toppings.Add(toppingInput, 1);
+                    toppingselect.Add(toppingInput, 1);
                 }
 
 
@@ -525,23 +533,23 @@ namespace S10257176_PRG2Assignment
                 switch (option.ToLower())
                 {
                     case "cup":
-                        List<Flavour> cupFlavours = flavours.Keys.Select(key => new Flavour(key, false, 1)).ToList();
-                        List<Topping> cupToppings = toppings.Keys.Select(key => new Topping(key)).ToList();
+                        List<Flavour> cupFlavours = flavourselect.Keys.Select(key => new Flavour(key, false, 1)).ToList();
+                        List<Topping> cupToppings = toppingselect.Keys.Select(key => new Topping(key)).ToList();
                         iceCream = new Cup(option, scoops, cupFlavours, cupToppings);
                         break;
                     case "cone":
                         Console.Write("Is it a chocolate-dipped cone? (true/false): ");
                         bool dipped = Convert.ToBoolean(Console.ReadLine());
-                        List<Flavour> coneFlavours = flavours.Keys.Select(key => new Flavour(key, false, 1)).ToList();
-                        List<Topping> coneToppings = toppings.Keys.Select(key => new Topping(key)).ToList();
+                        List<Flavour> coneFlavours = flavourselect.Keys.Select(key => new Flavour(key, false, 1)).ToList();
+                        List<Topping> coneToppings = toppingselect.Keys.Select(key => new Topping(key)).ToList();
                         iceCream = new Cone(option, scoops, coneFlavours, coneToppings, dipped);
                         break;
                     case "waffle":
                         Console.WriteLine("Waffle Flavour: Red Velvet, Charcoal or Pandan");
                         Console.Write("Enter waffle flavour (or 'n' for no additional cost): ");
                         string waffleFlavour = Console.ReadLine();
-                        List<Flavour> waffleFlavours = flavours.Keys.Select(key => new Flavour(key, false, 1)).ToList();
-                        List<Topping> waffleToppings = toppings.Keys.Select(key => new Topping(key)).ToList();
+                        List<Flavour> waffleFlavours = flavourselect.Keys.Select(key => new Flavour(key, false, 1)).ToList();
+                        List<Topping> waffleToppings = toppingselect.Keys.Select(key => new Topping(key)).ToList();
                         iceCream = new Waffle(option, scoops, waffleFlavours, waffleToppings, waffleFlavour);
                         break;
                     default:
@@ -550,15 +558,8 @@ namespace S10257176_PRG2Assignment
                 }
 
                 newOrder.AddIceCream(iceCream);
-
-
-                string[] lines = File.ReadAllLines("orders.csv");
-                for (int i = 1; i < lines.Length; i++)
-                {
-                    string[] data = lines[i].Split(',');
-                    int orderId = Convert.ToInt32(data[0]);
-                    newOrder.Id = orderId + 1;
-                } 
+                orderId++;
+                newOrder.Id = orderId;
 
                 newOrder.TimeRecieved = DateTime.Now;
 
@@ -569,7 +570,7 @@ namespace S10257176_PRG2Assignment
 
 
             selectedCustomer.CurrentOrder = newOrder;
-            // IDK IF THIS ONE CAN OR NOT, COZ IF CUSTOMER MAKES A NEW ORDER WITHOUT FUILFULLING THE FIRST ORDER, THE SECOND ORDER WILL REPLACE THE FIRST ORDER
+            
 
 
 
@@ -985,6 +986,29 @@ namespace S10257176_PRG2Assignment
             Console.WriteLine($"Birthday discount applied: ${discount} (Most expensive item: {mostExpensiveIceCream})");
 
             return finalBill;
+        }
+
+        static void PrintIceCreams(List<IceCream> icl)
+        {
+            int x = 1;
+            foreach (IceCream ice in icl)
+            {
+                Console.WriteLine("\tIceCreams : ");
+                Console.WriteLine($"\t\t{x} Options: " + ice.Option);
+                Console.WriteLine("\t\tScoops: " + ice.Scoops);
+                Console.WriteLine("\t\tFlavours: ");
+                foreach (Flavour flav in ice.Flavours)
+                {
+                    Console.Write("\t\t\t" + flav.Type);
+                    Console.WriteLine(" " + flav.Quantity);
+                }
+                Console.WriteLine("\t\tToppings: ");
+                foreach (Topping top in ice.Toppings)
+                {
+                    Console.WriteLine("\t\t\t" + top.Type);
+                }
+                x++;
+            }
         }
 
         static void ReadFileToppings(Dictionary<string, double> toppings)
