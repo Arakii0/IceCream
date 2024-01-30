@@ -102,6 +102,7 @@ namespace S10257176_PRG2Assignment
                                         {
                                             Console.WriteLine($"{"ID",-7} {"Time Recieved"}");
                                             Console.WriteLine(Targetcus.CurrentOrder);
+                                            Console.WriteLine("\tIceCreams : ");
                                             PrintIceCreams(Targetcus.CurrentOrder.IceCreamList);
                                         }
                                         else
@@ -113,6 +114,7 @@ namespace S10257176_PRG2Assignment
                                             foreach (Order order in Targetcus.OrderHistory)
                                             {
                                                 Console.WriteLine(order + $"{order.TimeFulfilled,26}");
+                                                Console.WriteLine("\tIceCreams : ");
                                                 PrintIceCreams(order.IceCreamList);
                                             }
                                         }
@@ -441,6 +443,7 @@ namespace S10257176_PRG2Assignment
                     {
                         int count = 0;
                         Console.WriteLine($"{x}. {order,5}");
+                        Console.WriteLine("\tIceCreams : ");
                         PrintIceCreams(order.IceCreamList);
                         x++;  
                     }
@@ -993,7 +996,6 @@ namespace S10257176_PRG2Assignment
             int x = 1;
             foreach (IceCream ice in icl)
             {
-                Console.WriteLine("\tIceCreams : ");
                 Console.WriteLine($"\t\t{x} Options: " + ice.Option);
                 Console.WriteLine("\t\tScoops: " + ice.Scoops);
                 Console.WriteLine("\t\tFlavours: ");
