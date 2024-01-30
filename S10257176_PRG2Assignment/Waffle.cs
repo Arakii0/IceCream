@@ -46,8 +46,7 @@ namespace S10257176_PRG2Assignment
                         return 0;
                 }
 
-                // if there is no input of waffle flavour then it would not add $3
-                if (WaffleFlavour.ToLower() != "original")
+                if (WaffleFlavour.ToLower() != "")
                 {
                     cost += 3; 
                 }

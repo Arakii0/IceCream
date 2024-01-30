@@ -62,6 +62,8 @@ namespace S10257176_PRG2Assignment
                         break;
 
                     case "4":
+                        ReadFileFlavours(flavours);
+                        ReadFileToppings(toppings);
                         CreateCustomerOrder(customers, orders, goldQueue, regularQueue, flavours, toppings);
                         break;
 
@@ -448,7 +450,7 @@ namespace S10257176_PRG2Assignment
             Console.Write("Enter customer ID number: ");
             int memberId = Convert.ToInt32(Console.ReadLine());
 
-            Console.Write("Enter customer date of birth (MM/DD/YYYY): ");
+            Console.Write("Enter customer date of birth (DD/MM//YYYY): ");
             DateTime dob = Convert.ToDateTime(Console.ReadLine());
 
             Customer newCustomer = new Customer(name, memberId, dob);
@@ -462,7 +464,6 @@ namespace S10257176_PRG2Assignment
 
         static void CreateCustomerOrder(List<Customer> customers, Dictionary<int, Order> orders, Queue<Order> goldQueue, Queue<Order> regularQueue, Dictionary<string, double> flavours,Dictionary<string, double> toppings)
         {
-            Console.WriteLine("List of all customers:");
             ListAllCustomers(customers);
 
             Console.Write("Enter the Member ID of the customer to create an order: ");
@@ -485,14 +486,13 @@ namespace S10257176_PRG2Assignment
                 Console.Write("Enter number of scoops (1, 2, 3): ");
                 int scoops = Convert.ToInt32(Console.ReadLine());
 
-
-
                 Console.Write("Regular Flavours: ");
                 Console.WriteLine(string.Join(", ", flavours.Where(kvp => kvp.Value == 0).Select(kvp => kvp.Key)));
 
                 Console.Write("Premium Flavours (+$2 per scoop):");
                 Console.WriteLine(string.Join(", ", flavours.Where(kvp => kvp.Value == 2).Select(kvp => kvp.Key)));
 
+                Console.WriteLine();
                 Console.Write("Enter ice cream flavours: ");
                 string flavourInput = Console.ReadLine();
 
@@ -501,10 +501,10 @@ namespace S10257176_PRG2Assignment
 
 
 
-                Console.Write("Toppings:");
+                Console.Write("Toppings: ");
                 Console.WriteLine(string.Join(", ", toppings.Where(kvp => kvp.Value == 1).Select(kvp => kvp.Key)));
 
-                Console.WriteLine("Enter ice cream toppings (press Enter when finished):");
+               
                 while (true)
                 {
                     Console.Write("Topping (or press Enter to finish): ");
@@ -537,6 +537,7 @@ namespace S10257176_PRG2Assignment
                         iceCream = new Cone(option, scoops, coneFlavours, coneToppings, dipped);
                         break;
                     case "waffle":
+                        Console.WriteLine("Waffle Flavour: Red Velvet, Charcoal or Pandan");
                         Console.Write("Enter waffle flavour (or 'n' for no additional cost): ");
                         string waffleFlavour = Console.ReadLine();
                         List<Flavour> waffleFlavours = flavours.Keys.Select(key => new Flavour(key, false, 1)).ToList();
@@ -829,7 +830,7 @@ namespace S10257176_PRG2Assignment
             Console.WriteLine("Ice Creams in the Order:");
             foreach (IceCream iceCream in currentOrder.IceCreamList)
             {
-                Console.WriteLine(iceCream.Option);
+                Console.WriteLine(iceCream.ToString());
             }
 
             //display the total bill amount
@@ -838,8 +839,7 @@ namespace S10257176_PRG2Assignment
 
 
             // Display customer's membership status and points
-            int customerId = currentOrder.Id; // assuming Id property in Order is the CustomerId (IT NOT WTF???????????????????? HAHAHAHAHAHAHHA THE ID IN ORDER IS THE FKING ORDER ID NOT THE CUSTOMER ID ASFNADJOFNJDFJDNFJODN
-            Customer customer = customers.Find(c => c.MemberId == customerId);
+            Customer customer = customers.Find(c => c.CurrentOrder == currentOrder);
 
             if (customer != null)
             {
@@ -855,14 +855,7 @@ namespace S10257176_PRG2Assignment
             if (customer.IsBirthday())
             {
                 // calculate the final bill with the most expensive ice cream costing $0.00
-                totalBill = CalculateBillForBirthday(currentOrder);
-            }
-
-            // got error
-            if (customer.IsBirthday())
-            {
-                // Calculate final bill with the most expensive ice cream costing $0.00
-                totalBill -= currentOrder.IceCreamList.Max(iceCream => iceCream.CalculatePrice());
+                totalBill -= CalculateBillForBirthday(currentOrder);
             }
 
             // check if the punch card is completed
