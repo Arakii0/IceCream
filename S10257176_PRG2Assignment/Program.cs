@@ -19,7 +19,7 @@ namespace S10257176_PRG2Assignment
 
             Dictionary<int, Order> orders = new Dictionary<int, Order>();
 
-            Dictionary<string, double> topping = new Dictionary<string, double>();
+            Dictionary<string, double> toppings = new Dictionary<string, double>();
 
             List<IceCream> options = new List<IceCream>();
 
@@ -62,7 +62,9 @@ namespace S10257176_PRG2Assignment
                         break;
 
                     case "4":
-                        CreateCustomerOrder(customers, orders, goldQueue, regularQueue);
+                        ReadFileFlavours(flavours);
+                        ReadFileToppings(toppings);
+                        CreateCustomerOrder(customers, orders, goldQueue, regularQueue, flavours, toppings);
                         break;
 
                     case "5":
@@ -460,7 +462,7 @@ namespace S10257176_PRG2Assignment
 
         }
 
-        static void CreateCustomerOrder(List<Customer> customers, Dictionary<int, Order> orders, Queue<Order> goldQueue, Queue<Order> regularQueue)
+        static void CreateCustomerOrder(List<Customer> customers, Dictionary<int, Order> orders, Queue<Order> goldQueue, Queue<Order> regularQueue, Dictionary<string, double> flavours,Dictionary<string, double> toppings)
         {
             Console.WriteLine("List of all customers:");
             ListAllCustomers(customers);
@@ -485,30 +487,37 @@ namespace S10257176_PRG2Assignment
                 Console.Write("Enter number of scoops (1, 2, 3): ");
                 int scoops = Convert.ToInt32(Console.ReadLine());
 
-                List<Flavour> flavours = new List<Flavour>();
 
-                // TO DO: LIST OUT ALL FLAVOURS
-                Console.WriteLine("Enter ice cream flavours:");
+
+                Console.Write("Regular Flavours: ");
+                Console.WriteLine(string.Join(", ", flavours.Where(kvp => kvp.Value == 0).Select(kvp => kvp.Key)));
+
+                Console.Write("Premium Flavours (+$2 per scoop):");
+                Console.WriteLine(string.Join(", ", flavours.Where(kvp => kvp.Value == 2).Select(kvp => kvp.Key)));
+
+                Console.Write("Enter ice cream flavours: ");
                 string flavourInput = Console.ReadLine();
-                   
 
-                flavours.Add(new Flavour(flavourInput, false, 1)); 
-                
 
-                List<Topping> toppings = new List<Topping>();
+                flavours.Add(flavourInput, 1);
 
-                // TO DO: LIST OUT ALL TOPPINGS
+
+
+                Console.Write("Toppings:");
+                Console.WriteLine(string.Join(", ", toppings.Where(kvp => kvp.Value == 1).Select(kvp => kvp.Key)));
+
                 Console.WriteLine("Enter ice cream toppings (press Enter when finished):");
                 while (true)
                 {
                     Console.Write("Topping (or press Enter to finish): ");
                     string toppingInput = Console.ReadLine();
+
                     if (string.IsNullOrEmpty(toppingInput))
                     {
                         break;
                     }
 
-                    toppings.Add(new Topping(toppingInput));
+                    toppings.Add(toppingInput, 1);
                 }
 
 
@@ -518,17 +527,23 @@ namespace S10257176_PRG2Assignment
                 switch (option.ToLower())
                 {
                     case "cup":
-                        iceCream = new Cup(option, scoops, flavours, toppings);
+                        List<Flavour> cupFlavours = flavours.Keys.Select(key => new Flavour(key, false, 1)).ToList();
+                        List<Topping> cupToppings = toppings.Keys.Select(key => new Topping(key)).ToList();
+                        iceCream = new Cup(option, scoops, cupFlavours, cupToppings);
                         break;
                     case "cone":
                         Console.Write("Is it a chocolate-dipped cone? (true/false): ");
                         bool dipped = Convert.ToBoolean(Console.ReadLine());
-                        iceCream = new Cone(option, scoops, flavours, toppings, dipped);
+                        List<Flavour> coneFlavours = flavours.Keys.Select(key => new Flavour(key, false, 1)).ToList();
+                        List<Topping> coneToppings = toppings.Keys.Select(key => new Topping(key)).ToList();
+                        iceCream = new Cone(option, scoops, coneFlavours, coneToppings, dipped);
                         break;
                     case "waffle":
                         Console.Write("Enter waffle flavour (or 'n' for no additional cost): ");
                         string waffleFlavour = Console.ReadLine();
-                        iceCream = new Waffle(option, scoops, flavours, toppings, waffleFlavour);
+                        List<Flavour> waffleFlavours = flavours.Keys.Select(key => new Flavour(key, false, 1)).ToList();
+                        List<Topping> waffleToppings = toppings.Keys.Select(key => new Topping(key)).ToList();
+                        iceCream = new Waffle(option, scoops, waffleFlavours, waffleToppings, waffleFlavour);
                         break;
                     default:
                         Console.WriteLine("Invalid ice cream option. Please try again.");
@@ -566,7 +581,7 @@ namespace S10257176_PRG2Assignment
                 regularQueue.Enqueue(selectedCustomer.CurrentOrder);
 
             Console.WriteLine("Order has been made successfully!");
-        }
+        }   
 
         static void AddIceCream(Customer customer)
         {
@@ -992,17 +1007,15 @@ namespace S10257176_PRG2Assignment
                 double cost = Convert.ToDouble(data[1]);
 
                 toppings.Add(name, cost);
+
             }
 
-            foreach (var kvp in toppings)
-            {
-                Console.WriteLine($"Topping : {kvp.Key}\nCost : {kvp.Value}");
-            }
+
         }
 
-        static void ReadFileFlavors(Dictionary<string, double> flavours)
+        static void ReadFileFlavours(Dictionary<string, double> flavours)
         {
-            string[] lines = File.ReadAllLines("flavors.csv");
+            string[] lines = File.ReadAllLines("flavours.csv");
 
             for (int i = 1; i < lines.Length; i++)
             {
@@ -1011,6 +1024,7 @@ namespace S10257176_PRG2Assignment
                 double cost = Convert.ToDouble(data[1]);
 
                 flavours.Add(name, cost);
+
             }
         }
 
