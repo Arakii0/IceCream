@@ -497,18 +497,31 @@ namespace S10257176_PRG2Assignment
                 Console.Write("Enter number of scoops (1, 2, 3): ");
                 int scoops = Convert.ToInt32(Console.ReadLine());
 
+                Console.WriteLine();
                 Console.Write("Regular Flavours: ");
                 Console.WriteLine(string.Join(", ", flavours.Where(kvp => kvp.Value == 0).Select(kvp => kvp.Key)));
 
+                Console.WriteLine();
                 Console.Write("Premium Flavours (+$2 per scoop):");
                 Console.WriteLine(string.Join(", ", flavours.Where(kvp => kvp.Value == 2).Select(kvp => kvp.Key)));
 
-                Console.WriteLine();
-                Console.Write("Enter ice cream flavours: ");
-                string flavourInput = Console.ReadLine();
+                Console.Write("Enter ice cream flavours for scoop: ");
+                string flavourInputScoop1 = Console.ReadLine();
+        flavourselect.Add(flavourInputScoop1, 1);
 
+        if (scoops > 1)
+        {
+            Console.Write("Enter ice cream flavours for scoop 2: ");
+            string flavourInputScoop2 = Console.ReadLine();
+            flavourselect.Add(flavourInputScoop2, 1);
+        }
 
-                flavourselect.Add(flavourInput, 1);
+        if (scoops > 2)
+        {
+            Console.Write("Enter ice cream flavours for scoop 3: ");
+            string flavourInputScoop3 = Console.ReadLine();
+            flavourselect.Add(flavourInputScoop3, 1);
+        }
 
 
 
@@ -574,15 +587,12 @@ namespace S10257176_PRG2Assignment
 
             selectedCustomer.CurrentOrder = newOrder;
             
-
-
-
-
             if (selectedCustomer.Rewards.Tier == "Gold")
                 goldQueue.Enqueue(selectedCustomer.CurrentOrder);
             else
                 regularQueue.Enqueue(selectedCustomer.CurrentOrder);
 
+            Console.WriteLine();
             Console.WriteLine("Order has been made successfully!");
         }   
 
@@ -858,8 +868,10 @@ namespace S10257176_PRG2Assignment
             // check if it's the customer's birthday
             if (customer.IsBirthday())
             {
+                IceCream mostExpensiveIceCream = currentOrder.IceCreamList.OrderByDescending(iceCream => iceCream.CalculatePrice()).FirstOrDefault();
                 // calculate the final bill with the most expensive ice cream costing $0.00
-                totalBill -= CalculateBillForBirthday(currentOrder);
+                totalBill -= mostExpensiveIceCream.CalculatePrice();
+                // totalBill -= CalculateBillForBirthday(currentOrder);//
             }
 
             // check if the punch card is completed
@@ -878,7 +890,7 @@ namespace S10257176_PRG2Assignment
                 // Check if the customer is silver tier or above
                 if (customer.Rewards.Tier == "Silver" || customer.Rewards.Tier == "Gold")
                 {
-                    Console.Write("How many points do you want to use to offset the bill? ");
+                    Console.Write("How many points do you want to use to offset the bill? (1 point = $1)");
                     int pointsToRedeem = Convert.ToInt32(Console.ReadLine());
 
                     // Redeem points, if necessary
