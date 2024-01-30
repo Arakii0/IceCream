@@ -62,8 +62,6 @@ namespace S10257176_PRG2Assignment
                         break;
 
                     case "4":
-                        ReadFileFlavours(flavours);
-                        ReadFileToppings(toppings);
                         CreateCustomerOrder(customers, orders, goldQueue, regularQueue, flavours, toppings);
                         break;
 
