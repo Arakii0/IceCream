@@ -467,7 +467,20 @@ namespace S10257176_PRG2Assignment
 
             customers.Add(newCustomer);
 
-            Console.WriteLine("Customer registered successfully!");
+            string fileName = "customers.csv";
+            string customerCsvLine = $"{newCustomer.Name},{newCustomer.MemberId},{newCustomer.Dob:dd/MM/yyyy},{newCustomer.Rewards.Tier},{newCustomer.Rewards.Points},{newCustomer.Rewards.PunchCards}";
+
+            try
+            {
+                File.AppendAllText(fileName, $"{customerCsvLine}\n");
+                Console.WriteLine("Customer registered successfully!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error appending to the file: {ex.Message}");
+            }
+
+            
 
         }
 
@@ -483,6 +496,12 @@ namespace S10257176_PRG2Assignment
             if (selectedCustomer == null)
             {
                 Console.WriteLine("Customer not found!");
+                return;
+            }
+
+            if (selectedCustomer.CurrentOrder != null)
+            {
+                Console.WriteLine("You already have an existing order.");
                 return;
             }
 
