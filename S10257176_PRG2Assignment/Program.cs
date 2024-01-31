@@ -596,53 +596,39 @@ namespace S10257176_PRG2Assignment
                 Console.Write("Premium Flavours (+$2 per scoop):");
                 Console.WriteLine(string.Join(", ", flavours.Where(kvp => kvp.Value == 2).Select(kvp => kvp.Key)));
 
-                while (true)
+                for (int scoop = 1; scoop <= scoops; scoop++)
                 {
-                    try
+                    while (true)
                     {
-                        Console.Write("Enter ice cream flavours for scoop: ");
-                        string flavourInputScoop1 = Console.ReadLine().ToLower();
-
-
-
-                        flavourselect.Add(flavourInputScoop1, 1);
-
-                        if (scoops > 1)
+                        try
                         {
-                            Console.Write("Enter ice cream flavours for scoop 2: ");
-                            string flavourInputScoop2 = Console.ReadLine().ToLower();
-                            if (flavourselect.ContainsKey(flavourInputScoop1))
+                            Console.Write($"Enter ice cream flavours for scoop {scoop}: ");
+                            string flavourInput = Console.ReadLine().ToLower();
+
+                            if (!(flavourInput == "vanilla" || flavourInput == "chocolate" || flavourInput == "strawberry" || flavourInput == "durian" || flavourInput == "ube" || flavourInput == "sea salt"))
                             {
-                                flavourselect[flavourInputScoop1]++;
+                                Console.WriteLine("Invalid flavor. Choose from options above.");
+                                continue;
+                            }
+
+                            if (flavourselect.ContainsKey(flavourInput))
+                            {
+                                flavourselect[flavourInput]++;
                             }
                             else
                             {
-                                flavourselect.Add(flavourInputScoop1, 1);
+                                flavourselect.Add(flavourInput, 1);
                             }
-                        }
 
-                        if (scoops > 2)
+                            break;
+                        }
+                        catch (FormatException e)
                         {
-                            Console.Write("Enter ice cream flavours for scoop 3: ");
-                            string flavourInputScoop3 = Console.ReadLine().ToLower();
-                            if (flavourselect.ContainsKey(flavourInputScoop1))
-                            {
-                                flavourselect[flavourInputScoop1]++;
-                            }
-                            else
-                            {
-                                flavourselect.Add(flavourInputScoop1, 1);
-                            }
+                            Console.WriteLine("Invalid input. Choose from options above.");
                         }
-
-                        break;
-                    }
-
-                    catch (FormatException e)
-                    {
-                        Console.WriteLine("Choose from options above");
                     }
                 }
+
 
 
                 Console.Write("Toppings: ");
