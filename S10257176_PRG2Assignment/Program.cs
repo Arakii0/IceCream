@@ -538,14 +538,29 @@ namespace S10257176_PRG2Assignment
                 }
             }
 
-
             Order newOrder = new Order();
+
             do
             {
                 Dictionary<string, int> flavourselect = new Dictionary<string, int>();
                 Dictionary<string, int> toppingselect = new Dictionary<string, int>();
-                Console.Write("Enter ice cream option (Cup, Cone, Waffle): ");
-                string option = Console.ReadLine().ToLower();
+
+                string option;
+
+                while (true)
+                {
+                    Console.Write("Enter ice cream option (Cup, Cone, Waffle): ");
+                    option = Console.ReadLine().ToLower();
+
+                    if (option == "cup" || option == "cone" || option == "waffle")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid ice cream option. Please enter Cup, Cone, or Waffle.");
+                    }
+                }
 
 
                 Console.Write("Enter number of scoops (1, 2, 3): ");
