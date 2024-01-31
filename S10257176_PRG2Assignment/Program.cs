@@ -103,24 +103,28 @@ namespace S10257176_PRG2Assignment
                         {
                             Console.WriteLine("============================================");
                             Console.WriteLine($"{"Customer",-10} {"Member ID"}");
+                            // Get the customer name and member id
                             foreach (Customer customer in customers)
                             {
                                 Console.WriteLine($"{customer.Name,-10} {customer.MemberId}");
                             }
                             try
                             {
+                                // Ask for the member id
                                 Console.Write("Enter Option : ");
                                 int memberoption5 = Convert.ToInt32(Console.ReadLine());
                                 Console.WriteLine("=====================================");
                                 bool memberFound = false;
                                 foreach (Customer customer in customers)
                                 {
+                                    // Check if the member id is the same as the one keyed in
                                     if (customer.MemberId == memberoption5)
                                     {
                                         Customer Targetcus = customer;
                                         Console.WriteLine("Current Order : ");
                                         if (Targetcus.CurrentOrder != null)
                                         {
+                                            // Display the current order
                                             Console.WriteLine($"{"ID",-7} {"Time Recieved"}");
                                             Console.WriteLine(Targetcus.CurrentOrder);
                                             Console.WriteLine("\tIceCreams : ");
@@ -131,6 +135,7 @@ namespace S10257176_PRG2Assignment
                                         Console.WriteLine("Order History : ");
                                         if (Targetcus.OrderHistory.Count != 0)
                                         {
+                                            // Display the order history
                                             Console.WriteLine($"{"ID",-7} {"Time Recieved",-25} {"Time Fulfuilled"}");
                                             foreach (Order order in Targetcus.OrderHistory)
                                             {
@@ -189,18 +194,21 @@ namespace S10257176_PRG2Assignment
                                                 int option6 = Convert.ToInt32(Console.ReadLine());
 
                                                 if (option6 == 1)
+                                                    // Modify the ice cream
                                                     if (customerTarget.CurrentOrder != null)
                                                     { customerTarget.CurrentOrder.ModifyIceCream(); break; }
                                                     else
                                                     { Console.WriteLine("No Current Order!"); break; }
                                                 else if (option6 == 2)
                                                 {
+                                                    // Create a new ice cream
                                                     if (customerTarget.CurrentOrder != null)
                                                     { AddIceCream(customerTarget); break; }
                                                     else
                                                     { Console.WriteLine("Please Create An Order First!"); break; }
                                                 }
                                                 else if (option6 == 3)
+                                                    // Delete an ice cream
                                                     DeleteAnIceCream(customerTarget);
                                                 else
                                                 { Console.WriteLine("Invalid Option"); }
@@ -292,13 +300,15 @@ namespace S10257176_PRG2Assignment
                 {
                     try
                     {
-
+                        // Create a list of flavours
                         List<Flavour> flavs = new List<Flavour>();
+                        // From the data, add the flavoure
                         List<string> Flavoursdata = new List<string>();
                         Flavoursdata.Add(data[8]);
                         Flavoursdata.Add(data[9]);
                         Flavoursdata.Add(data[10]);
                         Dictionary<string, int> flacounter = new Dictionary<string, int>();
+                        // Count the number of flavours and add it to the dictionary
                         foreach (string flav in Flavoursdata)
                         {
                             if (flacounter.ContainsKey(flav))
@@ -313,6 +323,7 @@ namespace S10257176_PRG2Assignment
                         }
                         foreach (KeyValuePair<string, int> k in flacounter)
                         {
+                            // Check if the flavour is premium
                             bool prem = false;
                             if (k.Key == "Sea Salt" || k.Key == "Ube" || k.Key == "Durian")
                             {
@@ -322,13 +333,16 @@ namespace S10257176_PRG2Assignment
                                 flavs.Add(new Flavour(k.Key, prem, k.Value));
                         }
 
+                        // Create a list of toppings
                         List<Topping> tops = new List<Topping>();
+                        // From the data, add the toppings
                         List<string> Toppingdata = new List<string>();
                         Toppingdata.Add(data[11]);
                         Toppingdata.Add(data[12]);
                         Toppingdata.Add(data[13]);
                         Toppingdata.Add(data[14]);
                         List<string> newToppingdata = new List<string>();
+                        //Add the toppings to the list
                         foreach (string topping in Toppingdata)
                         {
                             if (topping != "")
@@ -338,11 +352,13 @@ namespace S10257176_PRG2Assignment
                         }
                         if (data[4].ToLower() == "cup")
                         {
+                            // Create a cup ice cream
                             Cup icecream = new Cup(data[4], Convert.ToInt32(data[5]), flavs, tops);
                             foreach (Customer customer in customers)
                             {
                                 if (customer.MemberId == Convert.ToInt32(data[1]))
                                 {
+                                    // Check if the customer has an order history
                                     if (customer.OrderHistory.Count == 0)
                                     {
                                         Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
@@ -355,6 +371,7 @@ namespace S10257176_PRG2Assignment
                                         bool seen = false;
                                         for (int i = 0; i < customer.OrderHistory.Count; i++)
                                         {
+                                            // Check if the order id is the same as the one in the order history
                                             if (customer.OrderHistory[i].Id == Convert.ToInt32(data[0]))
                                             {
                                                 customer.OrderHistory[i].AddIceCream(icecream);
@@ -363,6 +380,7 @@ namespace S10257176_PRG2Assignment
                                         }
                                         if (!seen)
                                         {
+                                            // Create a new order
                                             Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
                                             neworder.ParseDateString(data[3]);
                                             neworder.AddIceCream(icecream);
@@ -375,11 +393,13 @@ namespace S10257176_PRG2Assignment
                         }
                         else if (data[4].ToLower() == "cone")
                         {
+                            // Create a cone ice cream
                             Cone icecream = new Cone(data[4], Convert.ToInt32(data[5]), flavs, tops, Convert.ToBoolean(data[6]));
                             foreach (Customer customer in customers)
                             {
                                 if (customer.MemberId == Convert.ToInt32(data[1]))
                                 {
+                                    // Check if the customer has an order history
                                     if (customer.OrderHistory.Count == 0)
                                     {
                                         Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
@@ -392,6 +412,7 @@ namespace S10257176_PRG2Assignment
                                         bool seen = false;
                                         for (int i = 0; i < customer.OrderHistory.Count; i++)
                                         {
+                                            // Check if the order id is the same as the one in the order history
                                             if (customer.OrderHistory[i].Id == Convert.ToInt32(data[0]))
                                             {
                                                 customer.OrderHistory[i].AddIceCream(icecream);
@@ -400,6 +421,7 @@ namespace S10257176_PRG2Assignment
                                         }
                                         if (!seen)
                                         {
+                                            // Create a new order
                                             Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
                                             neworder.ParseDateString(data[3]);
                                             neworder.AddIceCream(icecream);
@@ -412,11 +434,13 @@ namespace S10257176_PRG2Assignment
                         }
                         else if (data[4].ToLower() == "waffle")
                         {
+                            // Create a waffle ice cream
                             Waffle icecream = new Waffle(data[4], Convert.ToInt32(data[5]), flavs, tops, data[7]);
                             foreach (Customer customer in customers)
                             {
                                 if (customer.MemberId == Convert.ToInt32(data[1]))
                                 {
+                                    // Check if the customer has an order history
                                     if (customer.OrderHistory.Count == 0)
                                     {
                                         Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
@@ -426,6 +450,7 @@ namespace S10257176_PRG2Assignment
                                     }
                                     else
                                     {
+                                        // Check if the order id is the same as the one in the order history
                                         bool seen = false;
                                         for (int i = 0; i < customer.OrderHistory.Count; i++)
                                         {
@@ -437,6 +462,7 @@ namespace S10257176_PRG2Assignment
                                         }
                                         if (!seen)
                                         {
+                                            // Create a new order
                                             Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
                                             neworder.ParseDateString(data[3]);
                                             neworder.AddIceCream(icecream);
@@ -964,6 +990,7 @@ namespace S10257176_PRG2Assignment
 
             while (loop)
             {
+                //Choose the options
                 Console.WriteLine("1. Scoops");
                 Console.WriteLine("2. Toppings");
                 Console.WriteLine("3. Flavours");
@@ -1033,57 +1060,75 @@ namespace S10257176_PRG2Assignment
                                 continue;
 
                             if (opt3 == 1)
+                                // Check if the flavour is already in the list
                                 if (icecream.Flavours.Any(flavour => flavour.Type == "Vanilla"))
                                 {
+                                    // Get the index of the flavour
                                     int index = icecream.Flavours.FindIndex(flavour => flavour.Type == "Vanilla");
                                     icecream.Flavours[index].Quantity += 1;
                                 }
                                 else
+                                    // Add the flavour to the list
                                     icecream.Flavours.Add(new Flavour("Vanilla", false, 1));
 
                             if (opt3 == 2)
+                                // Check if the flavour is already in the list
                                 if (icecream.Flavours.Any(flavour => flavour.Type == "Chocolate"))
                                 {
+                                    // Get the index of the flavour
                                     int index = icecream.Flavours.FindIndex(flavour => flavour.Type == "Chocolate");
                                     icecream.Flavours[index].Quantity += 1;
                                 }
                                 else
+                                    // Add the flavour to the list
                                     icecream.Flavours.Add(new Flavour("Chocolate", false, 1));
 
                             if (opt3 == 3)
+                                // Check if the flavour is already in the list
                                 if (icecream.Flavours.Any(flavour => flavour.Type == "Strawberry"))
                                 {
+                                    // Get the index of the flavour
                                     int index = icecream.Flavours.FindIndex(flavour => flavour.Type == "Strawberry");
                                     icecream.Flavours[index].Quantity += 1;
                                 }
                                 else
+                                    // Add the flavour to the list
                                     icecream.Flavours.Add(new Flavour("Strawberry", false, 1));
 
                             if (opt3 == 4)
+                                // Check if the flavour is already in the list
                                 if (icecream.Flavours.Any(flavour => flavour.Type == "Durian"))
                                 {
+                                    // Get the index of the flavour
                                     int index = icecream.Flavours.FindIndex(flavour => flavour.Type == "Durian");
                                     icecream.Flavours[index].Quantity += 1;
                                 }
                                 else
+                                    // Add the flavour to the list
                                     icecream.Flavours.Add(new Flavour("Durain", true, 1));
 
                             if (opt3 == 5)
+                                // Check if the flavour is already in the list
                                 if (icecream.Flavours.Any(flavour => flavour.Type == "Ube"))
                                 {
+                                    // Get the index of the flavour
                                     int index = icecream.Flavours.FindIndex(flavour => flavour.Type == "Ube");
                                     icecream.Flavours[index].Quantity += 1;
                                 }
                                 else
+                                    // Add the flavour to the list
                                     icecream.Flavours.Add(new Flavour("Ube", true, 1));
 
                             if (opt3 == 6)
+                                // Check if the flavour is already in the list
                                 if (icecream.Flavours.Any(flavour => flavour.Type == "Sea Salt"))
                                 {
+                                    // Get the index of the flavour
                                     int index = icecream.Flavours.FindIndex(flavour => flavour.Type == "Sea Salt");
                                     icecream.Flavours[index].Quantity += 1;
                                 }
                                 else
+                                    // Add the flavour to the list
                                     icecream.Flavours.Add(new Flavour("Sea Salt", true, 1));
                         }
                         break;
@@ -1304,14 +1349,17 @@ namespace S10257176_PRG2Assignment
                 {
                     foreach (Order order in customer.OrderHistory)
                     {
+                        // Check if the order is fulfilled in the year
                         int? isityear = order.TimeFulfilled?.Year;
                         if (isityear.HasValue)
                         {
                             if (isityear == year)
                             {
+                                // Check if the order is fulfilled in the month
                                 int? isitmonth = order.TimeFulfilled?.Month;
                                 if (isitmonth.HasValue)
                                 {
+                                    // Add the total price of the order to the monthly charges
                                     monthlyCharges[(int)isitmonth] += order.CalculateTotal();
                                 }
                             }
@@ -1320,6 +1368,7 @@ namespace S10257176_PRG2Assignment
                 }
                 for (int i = 1; i <= 12; i++)
                 {
+                    // Display the monthly charges
                     Console.WriteLine($"{new DateTime(1, i, 1).ToString("MMM")} {year} : \t${monthlyCharges[i].ToString("F2")}");
                 }
                 Console.WriteLine($"\nTotal : \t${monthlyCharges.Values.Sum().ToString("F2")}");
