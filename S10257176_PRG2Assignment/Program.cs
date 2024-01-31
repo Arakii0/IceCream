@@ -6,6 +6,7 @@
 
 using System;
 using System.Buffers.Text;
+using System.Collections.Generic;
 using System.Data;
 using System.Runtime.Serialization;
 
@@ -1385,13 +1386,17 @@ namespace S10257176_PRG2Assignment
             // Student Number : S10262171E
             // Student Name : Benjamin Hwang
             //==========================================================
+
+            // Check if it's the customer's birthday or if there are no ice creams in order
             if (!isBirthday || currentOrder.IceCreamList.Count == 0)
             {
                 return currentOrder.CalculateTotal();
             }
 
-
+            // make the most expensive ice cream as first ice cream in order
             IceCream mostExpensiveIceCream = currentOrder.IceCreamList[0];
+
+            // find the most expensive ice cream in the order
             foreach (IceCream iceCream in currentOrder.IceCreamList)
             {
                 if (iceCream.CalculatePrice() > mostExpensiveIceCream.CalculatePrice())
