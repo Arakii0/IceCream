@@ -454,10 +454,63 @@ namespace S10257176_PRG2Assignment
         static void RegisterNewCustomer(List<Customer> customers)
         {
             Console.Write("Enter customer name: ");
-            string name = Console.ReadLine();
+            string name;
+
+            while (true)
+            {
+                try
+                {
+                    name = Console.ReadLine();
+
+                    // Validate that the name contains only letters and no special characters
+                    bool isValidName = true;
+
+                    foreach (char c in name)
+                    {
+                        if (!Char.IsLetter(c))
+                        {
+                            isValidName = false;
+                            Console.Write("Enter a valid name: ");
+                            break;
+                        }
+                    }
+
+                    if (isValidName)
+                    {
+                        break;
+                    }
+                    
+                }
+                catch (FormatException)
+                {
+                    Console.Write("Enter a valid name ");
+                }
+            }
 
             Console.Write("Enter customer ID number: ");
-            int memberId = Convert.ToInt32(Console.ReadLine());
+            int memberId;
+
+            while (true)
+            {
+                try
+                {
+                    memberId = Convert.ToInt32(Console.ReadLine());
+
+                    if (!customers.Any(customer => customer.MemberId == memberId))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error: Member ID already exists. Enter a different customer ID number.");
+                        Console.Write("Enter a valid customer ID number: ");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.Write("Enter a valid customer ID number: ");
+                }
+            }
 
             DateTime dob;
 
@@ -476,6 +529,7 @@ namespace S10257176_PRG2Assignment
                     Console.WriteLine("Enter date of birth in format DD/MM/YYYY");
                 }
             }
+
             Customer newCustomer = new Customer(name, memberId, dob);
             newCustomer.Rewards = new PointCard();
 
