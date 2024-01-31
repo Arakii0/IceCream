@@ -743,7 +743,7 @@ namespace S10257176_PRG2Assignment
 
                             if (!(flavourInput == "vanilla" || flavourInput == "chocolate" || flavourInput == "strawberry" || flavourInput == "durian" || flavourInput == "ube" || flavourInput == "sea salt"))
                             {
-                                Console.WriteLine("Invalid flavor. Choose from options above.");
+                                Console.WriteLine("Invalid flavour. Choose from options above.");
                                 continue;
                             }
 
@@ -845,10 +845,12 @@ namespace S10257176_PRG2Assignment
                                 break;
                             }
 
-                            Console.Write("Invalid waffle flavor. Choose from options above: .");
+                            Console.Write("Invalid waffle flavour. Choose from options above: .");
                             
                         }
 
+                        // SelectMany is  used to flatten  sequence into a single list
+                        // Enumerable.Repeat generates a sequence that contains a repeated value
                         List<Flavour> waffleFlavours = flavourselect.SelectMany(kv => Enumerable.Repeat(new Flavour(kv.Key, false, 1), kv.Value)).ToList();
                         List<Topping> waffleToppings = toppingselect.SelectMany(kv => Enumerable.Repeat(new Topping(kv.Key), kv.Value)).ToList();
                         iceCream = new Waffle(option, scoops, waffleFlavours, waffleToppings, waffleFlavour);
@@ -1184,15 +1186,36 @@ namespace S10257176_PRG2Assignment
 
             if (customer.Rewards.Points > 0)
             {
-                // Check if the customer is silver tier or above
                 if (customer.Rewards.Tier == "Silver" || customer.Rewards.Tier == "Gold")
                 {
-                    Console.Write("How many points do you want to use to offset the bill? (1 point = $0.02): ");
-                    int pointsToRedeem = (int)(Convert.ToInt32(Console.ReadLine()) * 0.02);
+                    int pointsToRedeem;
 
-                    // Redeem points
-                    totalBill -= Math.Min(pointsToRedeem, customer.Rewards.Points);
-                    customer.Rewards.RedeemPoints(Math.Min(pointsToRedeem, customer.Rewards.Points));
+                    while (true)
+                    {
+                        Console.Write("How many points do you want to use to offset the bill? (1 point = $0.02): ");
+                        string input = Console.ReadLine();
+
+                        try
+                        {
+                            pointsToRedeem = Convert.ToInt32(input);
+
+                            if (pointsToRedeem >= 0)
+                            {
+                                int actualPointsToRedeem = Math.Min(pointsToRedeem, customer.Rewards.Points);
+                                totalBill -= actualPointsToRedeem * 0.02;
+                                customer.Rewards.RedeemPoints(actualPointsToRedeem);
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Please enter a valid number for the points.");
+                            }
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Please enter a valid number for the points.");
+                        }
+                    }
                 }
             }
 
@@ -1214,6 +1237,8 @@ namespace S10257176_PRG2Assignment
 
             customer.OrderHistory.Add(currentOrder);
             customer.CurrentOrder = null;
+
+            UpdateCustomerCSV(customers);
 
         }
 
@@ -1394,6 +1419,33 @@ namespace S10257176_PRG2Assignment
                 if (option == "Waffle")
                     options.Add(new Waffle(option, scoops, new List<Flavour>(), new List<Topping>(), waffleFlavour), cost);
             }
+        }
+
+        static void UpdateCustomerCSV(List<Customer> customers)
+        {
+            // Read all lines from the existing customer CSV file
+            string[] lines = File.ReadAllLines("customers.csv");
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string[] data = lines[i].Split(',');
+                int memberId = Convert.ToInt32(data[1]);
+
+                Customer customer = customers.Find(c => c.MemberId == memberId);
+
+                if (customer != null)
+                {
+                    // Update the points and punch card values
+                    data[4] = customer.Rewards.Points.ToString();
+                    data[5] = customer.Rewards.PunchCards.ToString();
+
+                    // Update the line in the lines array
+                    lines[i] = string.Join(",", data);
+                }
+            }
+
+            // Write the updated lines back to the customer CSV file
+            File.WriteAllLines("customers.csv", lines);
         }
 
     }
