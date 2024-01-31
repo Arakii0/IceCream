@@ -1,7 +1,7 @@
 //==========================================================
-// Student Number : 
-// Student Name : 
-// Partner Name : 
+// Student Number : S10257176H
+// Student Name : Araki Yeo
+// Partner Name : Benjamin Hwang
 //==========================================================
 
 using System;
@@ -136,45 +136,69 @@ namespace S10257176_PRG2Assignment
                         break;
 
                     case "6":
-                        foreach (Customer customer in customers)
+                        
+                        while (true)
                         {
-                            Console.WriteLine($"{customer.Name,-10} {customer.MemberId}");
-                        }
-                        Console.Write("Enter Option : ");
-                        int memberoption6 = Convert.ToInt32(Console.ReadLine());
-                        bool memberFound6 = false;
-                        foreach (Customer customer in customers)
-                        {
-                            if (customer.MemberId == memberoption6)
+                            try
                             {
-                                memberFound6 = true;
-                                Customer customerTarget = customer;
-                                Console.WriteLine("1) Modify Existing IceCream");
-                                Console.WriteLine("2) Create New IceCream");
-                                Console.WriteLine("3) Delete Existing IceCream");
-                                Console.Write("Enter Option : ");
-                                int option6 = Convert.ToInt32(Console.ReadLine());
-
-                                if (option6 == 1)
-                                    if (customerTarget.CurrentOrder != null)
-                                    { customerTarget.CurrentOrder.ModifyIceCream(); break; }
-                                    else
-                                    { Console.WriteLine("No Current Order!"); break; }
-                                else if (option6 == 2)
+                                foreach (Customer customer in customers)
                                 {
-                                    if (customerTarget.CurrentOrder != null)
-                                    { AddIceCream(customerTarget); break; }
-                                    else
-                                    { Console.WriteLine("Please Create An Order First!"); break; }
+                                    Console.WriteLine($"{customer.Name,-10} {customer.MemberId}");
                                 }
-                                else if (option6 == 3)
-                                    DeleteAnIceCream(customerTarget);
+                                Console.Write("Enter Option : ");
+                                int memberoption6 = Convert.ToInt32(Console.ReadLine());
+                                bool memberFound6 = false;
+                                foreach (Customer customer in customers)
+                                {
+                                    if (customer.MemberId == memberoption6)
+                                    {
+                                        memberFound6 = true;
+                                        Customer customerTarget = customer;
+                                        while (true)
+                                        {
+                                            try
+                                            {
+                                                Console.WriteLine("1) Modify Existing IceCream");
+                                                Console.WriteLine("2) Create New IceCream");
+                                                Console.WriteLine("3) Delete Existing IceCream");
+                                                Console.Write("Enter Option : ");
+                                                int option6 = Convert.ToInt32(Console.ReadLine());
+
+                                                if (option6 == 1)
+                                                    if (customerTarget.CurrentOrder != null)
+                                                    { customerTarget.CurrentOrder.ModifyIceCream(); break; }
+                                                    else
+                                                    { Console.WriteLine("No Current Order!"); break; }
+                                                else if (option6 == 2)
+                                                {
+                                                    if (customerTarget.CurrentOrder != null)
+                                                    { AddIceCream(customerTarget); break; }
+                                                    else
+                                                    { Console.WriteLine("Please Create An Order First!"); break; }
+                                                }
+                                                else if (option6 == 3)
+                                                    DeleteAnIceCream(customerTarget);
+                                                else
+                                                { Console.WriteLine("Invalid Option"); }
+                                            }
+                                            catch (FormatException e)
+                                            {
+                                                Console.WriteLine("Invalid Option! Integer only!");
+                                            }
+                                        }
+                                    }
+                                }
+                                if (!memberFound6)
+                                    Console.WriteLine("Member Not Found!");
                                 else
-                                { Console.WriteLine("Invalid Option"); break; }
+                                    break;
+                            }
+                            catch (FormatException e)
+                            {
+                                Console.WriteLine("Invalid Option! Integer only!");
                             }
                         }
-                        if (!memberFound6)
-                            Console.WriteLine("Member Not Found!");
+                        
                         break;
 
                     case "7":
@@ -828,6 +852,7 @@ namespace S10257176_PRG2Assignment
                 {
                     case 0:
                         Console.WriteLine("Exiting...");
+                        loop = false;
                         break;
 
                     case 1:
