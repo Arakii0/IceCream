@@ -491,6 +491,12 @@ namespace S10257176_PRG2Assignment
             Console.Write("Enter the Member ID of the customer to create an order: ");
             int memberId = Convert.ToInt32(Console.ReadLine());
 
+            if (memberId <= 0)
+            {
+                Console.WriteLine("Invalid Member ID. Please enter a valid number.");
+                return;
+            }
+
             Customer selectedCustomer = customers.Find(customer => customer.MemberId == memberId);
 
             if (selectedCustomer == null)
