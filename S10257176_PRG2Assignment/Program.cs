@@ -811,7 +811,6 @@ namespace S10257176_PRG2Assignment
                         {
                             Console.WriteLine($"Created {icecream.Option}");
                             customer.CurrentOrder.AddIceCream(icecream);
-                            Console.WriteLine("asdasddddddddddddddddddddd");
                             loop = false;
                             break;
                         }
