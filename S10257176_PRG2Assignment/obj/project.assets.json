@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\benja\\.nuget\\packages\\": {}
+    "C:\\Users\\Admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
+      "projectUniqueName": "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
       "projectName": "S10257176_PRG2Assignment",
-      "projectPath": "E:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
-      "packagesPath": "C:\\Users\\benja\\.nuget\\packages\\",
-      "outputPath": "E:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\obj\\",
+      "projectPath": "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\benja\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

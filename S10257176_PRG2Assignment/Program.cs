@@ -38,14 +38,14 @@ namespace S10257176_PRG2Assignment
             {
                 string[] data = lines[i].Split(',');
                 if (!seen.Contains(data[0]))
-                    { orderId += 1; seen.Add(data[0]); }
+                { orderId += 1; seen.Add(data[0]); }
             }
 
 
             while (true)
             {
                 Console.WriteLine("==================================");
-                Console.WriteLine($"{"Main Menu", 22}");
+                Console.WriteLine($"{"Main Menu",22}");
                 Console.WriteLine("==================================");
                 Console.WriteLine("1) List all customers");
                 Console.WriteLine("2) List all current orders");
@@ -128,7 +128,7 @@ namespace S10257176_PRG2Assignment
                                 else
                                     break;
                             }
-                            catch(FormatException e)
+                            catch (FormatException e)
                             {
                                 Console.WriteLine("Invalid Option! Integer only!");
                             }
@@ -170,7 +170,7 @@ namespace S10257176_PRG2Assignment
                                 else if (option6 == 3)
                                     DeleteAnIceCream(customerTarget);
                                 else
-                                    { Console.WriteLine("Invalid Option"); break; }
+                                { Console.WriteLine("Invalid Option"); break; }
                             }
                         }
                         if (!memberFound6)
@@ -254,7 +254,7 @@ namespace S10257176_PRG2Assignment
                             {
                                 prem = true;
                             }
-                            if(k.Key != "")
+                            if (k.Key != "")
                                 flavs.Add(new Flavour(k.Key, prem, k.Value));
                         }
 
@@ -275,7 +275,7 @@ namespace S10257176_PRG2Assignment
                         if (data[4].ToLower() == "cup")
                         {
                             Cup icecream = new Cup(data[4], Convert.ToInt32(data[5]), flavs, tops);
-                            foreach(Customer customer in customers)
+                            foreach (Customer customer in customers)
                             {
                                 if (customer.MemberId == Convert.ToInt32(data[1]))
                                 {
@@ -297,7 +297,7 @@ namespace S10257176_PRG2Assignment
                                                 seen = true;
                                             }
                                         }
-                                        if(!seen)
+                                        if (!seen)
                                         {
                                             Order neworder = new Order(Convert.ToInt32(data[0]), DateTime.ParseExact(data[2], "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
                                             neworder.ParseDateString(data[3]);
@@ -307,7 +307,7 @@ namespace S10257176_PRG2Assignment
                                     }
                                 }
                             }
-                            
+
                         }
                         else if (data[4].ToLower() == "cone")
                         {
@@ -346,7 +346,7 @@ namespace S10257176_PRG2Assignment
                             }
 
                         }
-                        else if(data[4].ToLower() == "waffle")
+                        else if (data[4].ToLower() == "waffle")
                         {
                             Waffle icecream = new Waffle(data[4], Convert.ToInt32(data[5]), flavs, tops, data[7]);
                             foreach (Customer customer in customers)
@@ -404,7 +404,7 @@ namespace S10257176_PRG2Assignment
             }
         }
 
-        static void ListAllCurrentOrders(Queue<Order> regular, Queue<Order>gold)
+        static void ListAllCurrentOrders(Queue<Order> regular, Queue<Order> gold)
         {
             Console.WriteLine("==========================");
             Console.WriteLine("List of all current orders");
@@ -445,11 +445,11 @@ namespace S10257176_PRG2Assignment
                         Console.WriteLine($"{x}. {order,5}");
                         Console.WriteLine("\tIceCreams : ");
                         PrintIceCreams(order.IceCreamList);
-                        x++;  
+                        x++;
                     }
                 }
             }
-        }   
+        }
 
         static void RegisterNewCustomer(List<Customer> customers)
         {
@@ -494,36 +494,50 @@ namespace S10257176_PRG2Assignment
                 Console.WriteLine($"Error appending to the file: {ex.Message}");
             }
 
-            
+
 
         }
 
-        static void CreateCustomerOrder(List<Customer> customers, Dictionary<int, Order> orders, Queue<Order> goldQueue, Queue<Order> regularQueue, Dictionary<string, double> flavours,Dictionary<string, double> toppings)
+        static void CreateCustomerOrder(List<Customer> customers, Dictionary<int, Order> orders, Queue<Order> goldQueue, Queue<Order> regularQueue, Dictionary<string, double> flavours, Dictionary<string, double> toppings)
         {
             ListAllCustomers(customers);
 
-            Console.Write("Enter the Member ID of the customer to create an order: ");
-            int memberId = Convert.ToInt32(Console.ReadLine());
+            Customer selectedCustomer = null;
 
-            if (memberId <= 0)
+            while (selectedCustomer == null)
             {
-                Console.WriteLine("Invalid Member ID. Please enter a valid number.");
-                return;
+                Console.Write("Enter the Member ID of the customer to create an order: ");
+                string input = Console.ReadLine().ToLower();
+
+                try
+                {
+                    int memberId = Convert.ToInt32(input);
+
+                    if (memberId > 0)
+                    {
+                        selectedCustomer = customers.Find(customer => customer.MemberId == memberId);
+
+                        if (selectedCustomer == null)
+                        {
+                            Console.WriteLine("Customer not found! Please try again.");
+                        }
+                        else if (selectedCustomer.CurrentOrder != null)
+                        {
+                            Console.WriteLine("You already have an existing order.");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid Member ID. Please enter a positive number.");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid Member ID.");
+                }
             }
 
-            Customer selectedCustomer = customers.Find(customer => customer.MemberId == memberId);
-
-            if (selectedCustomer == null)
-            {
-                Console.WriteLine("Customer not found!");
-                return;
-            }
-
-            if (selectedCustomer.CurrentOrder != null)
-            {
-                Console.WriteLine("You already have an existing order.");
-                return;
-            }
 
             Order newOrder = new Order();
             do
@@ -532,7 +546,7 @@ namespace S10257176_PRG2Assignment
                 Dictionary<string, int> toppingselect = new Dictionary<string, int>();
                 Console.Write("Enter ice cream option (Cup, Cone, Waffle): ");
                 string option = Console.ReadLine().ToLower();
-              
+
 
                 Console.Write("Enter number of scoops (1, 2, 3): ");
                 int scoops = Convert.ToInt32(Console.ReadLine());
@@ -551,7 +565,7 @@ namespace S10257176_PRG2Assignment
                     {
                         Console.Write("Enter ice cream flavours for scoop: ");
                         string flavourInputScoop1 = Console.ReadLine().ToLower();
-                        
+
 
 
                         flavourselect.Add(flavourInputScoop1, 1);
@@ -597,7 +611,7 @@ namespace S10257176_PRG2Assignment
                 Console.Write("Toppings: ");
                 Console.WriteLine(string.Join(", ", toppings.Where(kvp => kvp.Value == 1).Select(kvp => kvp.Key)));
 
-               
+
                 while (true)
                 {
                     Console.Write("Topping (or press Enter to finish): ");
@@ -655,13 +669,13 @@ namespace S10257176_PRG2Assignment
                 newOrder.TimeRecieved = DateTime.Now;
 
                 Console.Write("Do you want to add another ice cream to the order? (Y/N): ");
-            } 
-            
+            }
+
             while (Console.ReadLine().ToLower() == "y");
 
 
             selectedCustomer.CurrentOrder = newOrder;
-            
+
             if (selectedCustomer.Rewards.Tier == "Gold")
                 goldQueue.Enqueue(selectedCustomer.CurrentOrder);
             else
@@ -669,7 +683,7 @@ namespace S10257176_PRG2Assignment
 
             Console.WriteLine();
             Console.WriteLine("Order has been made successfully!");
-        }   
+        }
 
         static void AddIceCream(Customer customer)
         {
@@ -877,7 +891,7 @@ namespace S10257176_PRG2Assignment
 
                     if (icecreamOption == 0)
                         break;
-                    
+
                     Console.Write($"You are deleting {currentorder[icecreamOption - 1].Option} (y/n): ");
                     string confirm = Console.ReadLine();
                     if (confirm.ToLower() == "n")
@@ -1005,7 +1019,7 @@ namespace S10257176_PRG2Assignment
         {
             Console.WriteLine("Displaying monthly charges breakdown and total charged amounts for the year");
             Console.WriteLine("===========================================================================");
-            
+
             Dictionary<int, double> monthlyCharges = new Dictionary<int, double>();
             for (int i = 1; i <= 12; i++)
             {
@@ -1063,7 +1077,7 @@ namespace S10257176_PRG2Assignment
                 }
             }
 
-            
+
             double discount = mostExpensiveIceCream.CalculatePrice();
             double finalBill = currentOrder.CalculateTotal() - discount;
 
@@ -1099,7 +1113,7 @@ namespace S10257176_PRG2Assignment
                 }
                 if (ice.Option.ToLower() == "waffle")
                 {
-                    Waffle waffle= (Waffle)ice;
+                    Waffle waffle = (Waffle)ice;
                     Console.WriteLine($"\t\tWaffle Flavour: {waffle.WaffleFlavour}");
                 }
             }
