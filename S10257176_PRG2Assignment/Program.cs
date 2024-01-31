@@ -563,8 +563,30 @@ namespace S10257176_PRG2Assignment
                 }
 
 
-                Console.Write("Enter number of scoops (1, 2, 3): ");
-                int scoops = Convert.ToInt32(Console.ReadLine());
+                int scoops;
+
+                while (true)
+                {
+                    Console.Write("Enter number of scoops (1, 2, 3): ");
+
+                    try
+                    {
+                        scoops = Convert.ToInt32(Console.ReadLine());
+
+                        if (scoops >= 1 && scoops <= 3)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input. Please enter a number between 1 and 3.");
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid number.");
+                    }
+                }
 
                 Console.WriteLine();
                 Console.Write("Regular Flavours: ");
