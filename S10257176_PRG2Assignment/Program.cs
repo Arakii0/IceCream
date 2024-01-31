@@ -638,17 +638,20 @@ namespace S10257176_PRG2Assignment
                 while (true)
                 {
                     Console.Write("Topping (or press Enter to finish): ");
-                    string toppingInput = Console.ReadLine();
+                    string toppingInput = Console.ReadLine().ToLower();
 
                     if (string.IsNullOrEmpty(toppingInput))
                     {
                         break;
                     }
-                    if (toppingselect.ContainsKey(toppingInput))
+
+                    if (!(toppingInput == "sprinkles" || toppingInput == "mochi" || toppingInput == "sago" || toppingInput == "oreos"))
                     {
-                        toppingselect[toppingInput]++;
+                        Console.WriteLine("Invalid topping. Choose from options above.");
+                        continue;
                     }
-                    else
+
+                    if (!toppingselect.ContainsKey(toppingInput))
                     {
                         toppingselect.Add(toppingInput, 1);
                     }
