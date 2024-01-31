@@ -62,6 +62,10 @@ namespace S10257176_PRG2Assignment
                 switch (choice)
                 {
                     case "1":
+                        //==========================================================
+                        // Student Number : S10262171E
+                        // Student Name : Benjamin Hwang
+                        //==========================================================
                         ListAllCustomers(customers);
                         break;
 
@@ -74,10 +78,18 @@ namespace S10257176_PRG2Assignment
                         break;
 
                     case "3":
+                        //==========================================================
+                        // Student Number : S10262171E
+                        // Student Name : Benjamin Hwang
+                        //==========================================================
                         RegisterNewCustomer(customers);
                         break;
 
                     case "4":
+                        //==========================================================
+                        // Student Number : S10262171E
+                        // Student Name : Benjamin Hwang
+                        //==========================================================
                         CreateCustomerOrder(customers, orders, goldQueue, regularQueue, flavours, toppings);
                         break;
 
@@ -213,6 +225,10 @@ namespace S10257176_PRG2Assignment
                         break;
 
                     case "7":
+                        //==========================================================
+                        // Student Number : S10262171E
+                        // Student Name : Benjamin Hwang
+                        //==========================================================
                         ProcessOrderAndCheckout(goldQueue, regularQueue, customers);
                         break;
 
@@ -237,6 +253,10 @@ namespace S10257176_PRG2Assignment
 
         static void ReadfileCustomer(List<Customer> customers)
         {
+            //==========================================================
+            // Student Number : S10262171E
+            // Student Name : Benjamin Hwang
+            //==========================================================
             string[] lines = File.ReadAllLines("customers.csv");
 
             for (int i = 1; i < lines.Length; i++)
@@ -438,6 +458,10 @@ namespace S10257176_PRG2Assignment
 
         static void ListAllCustomers(List<Customer> customers)
         {
+            //==========================================================
+            // Student Number : S10262171E
+            // Student Name : Benjamin Hwang
+            //==========================================================
             Console.WriteLine("List of all customers:");
             Console.WriteLine("======================");
             Console.WriteLine($"{"Name",-10} {"Member ID",-15} {"Date of Birth",-28} {"Points",-10} {"PunchCard",-12} {"Tier"}");
@@ -500,6 +524,10 @@ namespace S10257176_PRG2Assignment
 
         static void RegisterNewCustomer(List<Customer> customers)
         {
+            //==========================================================
+            // Student Number : S10262171E
+            // Student Name : Benjamin Hwang
+            //==========================================================
             Console.Write("Enter customer name: ");
             string name;
 
@@ -602,6 +630,10 @@ namespace S10257176_PRG2Assignment
 
         static void CreateCustomerOrder(List<Customer> customers, Dictionary<int, Order> orders, Queue<Order> goldQueue, Queue<Order> regularQueue, Dictionary<string, double> flavours, Dictionary<string, double> toppings)
         {
+            //==========================================================
+            // Student Number : S10262171E
+            // Student Name : Benjamin Hwang
+            //==========================================================
             ListAllCustomers(customers);
 
             // place holder for selectedCustomer
@@ -1057,6 +1089,10 @@ namespace S10257176_PRG2Assignment
 
         static void ProcessOrderAndCheckout(Queue<Order> goldQueue, Queue<Order> regularQueue, List<Customer> customers)
         {
+            //==========================================================
+            // Student Number : S10262171E
+            // Student Name : Benjamin Hwang
+            //==========================================================
             //dequeue the first order in the queue
             Order currentOrder;
 
@@ -1207,6 +1243,10 @@ namespace S10257176_PRG2Assignment
 
         static double CalculateBillForBirthday(Order currentOrder, bool isBirthday)
         {
+            //==========================================================
+            // Student Number : S10262171E
+            // Student Name : Benjamin Hwang
+            //==========================================================
             if (!isBirthday || currentOrder.IceCreamList.Count == 0)
             {
                 return currentOrder.CalculateTotal();
@@ -1270,6 +1310,10 @@ namespace S10257176_PRG2Assignment
 
         static void ReadFileToppings(Dictionary<string, double> toppings)
         {
+            //==========================================================
+            // Student Number : S10262171E
+            // Student Name : Benjamin Hwang
+            //==========================================================
             string[] lines = File.ReadAllLines("toppings.csv");
 
             for (int i = 1; i < lines.Length; i++)
@@ -1287,6 +1331,10 @@ namespace S10257176_PRG2Assignment
 
         static void ReadFileFlavours(Dictionary<string, double> flavours)
         {
+            //==========================================================
+            // Student Number : S10262171E
+            // Student Name : Benjamin Hwang
+            //==========================================================
             string[] lines = File.ReadAllLines("flavours.csv");
 
             for (int i = 1; i < lines.Length; i++)
@@ -1302,6 +1350,7 @@ namespace S10257176_PRG2Assignment
 
         static void ReadFileOptions(Dictionary<IceCream, double> options)
         {
+
             string[] lines = File.ReadAllLines("options.csv");
 
             for (int i = 1; i < lines.Length; i++)
