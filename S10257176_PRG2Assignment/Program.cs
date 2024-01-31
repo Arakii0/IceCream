@@ -804,21 +804,56 @@ namespace S10257176_PRG2Assignment
                         List<Topping> cupToppings = toppingselect.SelectMany(kv => Enumerable.Repeat(new Topping(kv.Key), kv.Value)).ToList();
                         iceCream = new Cup(option, scoops, cupFlavours, cupToppings);
                         break;
+
                     case "cone":
-                        Console.Write("Is it a chocolate-dipped cone? (true/false): ");
-                        bool dipped = Convert.ToBoolean(Console.ReadLine());
+                        bool isValidDippedInput = false;
+                        bool dipped = false;
+
+                        while (!isValidDippedInput)
+                        {
+                            Console.Write("Is it a chocolate-dipped cone? (true/false): ");
+                            string input = Console.ReadLine();
+
+                            try
+                            {
+                                dipped = Convert.ToBoolean(input);
+                                isValidDippedInput = true;
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Invalid input. Please enter 'true' or 'false'.");
+                            }
+                        }
+
                         List<Flavour> coneFlavours = flavourselect.SelectMany(kv => Enumerable.Repeat(new Flavour(kv.Key, false, 1), kv.Value)).ToList();
                         List<Topping> coneToppings = toppingselect.SelectMany(kv => Enumerable.Repeat(new Topping(kv.Key), kv.Value)).ToList();
                         iceCream = new Cone(option, scoops, coneFlavours, coneToppings, dipped);
                         break;
+
                     case "waffle":
-                        Console.WriteLine("Waffle Flavour: Red Velvet, Charcoal or Pandan");
+                        Console.WriteLine("Waffle Flavour: Red Velvet, Charcoal, or Pandan");
                         Console.Write("Enter waffle flavour (or 'n' for no additional cost): ");
-                        string waffleFlavour = Console.ReadLine();
+
+                        string waffleFlavour;
+
+                        while (true)
+                        {
+                            waffleFlavour = Console.ReadLine().ToLower();
+
+                            if (waffleFlavour == "red velvet" || waffleFlavour == "charcoal" || waffleFlavour == "pandan" || waffleFlavour == "n")
+                            {
+                                break;
+                            }
+
+                            Console.Write("Invalid waffle flavor. Choose from options above: .");
+                            
+                        }
+
                         List<Flavour> waffleFlavours = flavourselect.SelectMany(kv => Enumerable.Repeat(new Flavour(kv.Key, false, 1), kv.Value)).ToList();
                         List<Topping> waffleToppings = toppingselect.SelectMany(kv => Enumerable.Repeat(new Topping(kv.Key), kv.Value)).ToList();
                         iceCream = new Waffle(option, scoops, waffleFlavours, waffleToppings, waffleFlavour);
                         break;
+
                     default:
                         Console.WriteLine("Invalid ice cream option. Please try again.");
                         return;
@@ -1110,14 +1145,12 @@ namespace S10257176_PRG2Assignment
                 return;
             }
 
-            //display all the ice creams in the order
             Console.WriteLine("Ice Creams in the Order:");
             foreach (IceCream iceCream in currentOrder.IceCreamList)
             {
                 Console.WriteLine(iceCream.ToString());
             }
 
-            //display the total bill amount
             double totalBill = currentOrder.CalculateTotal();
             Console.WriteLine($"Total Bill Amount: ${totalBill}");
 
@@ -1135,24 +1168,20 @@ namespace S10257176_PRG2Assignment
                 Console.WriteLine("Customer not found.");
             }
 
-            // check if it's the customer's birthday
             if (customer.IsBirthday())
             {
                 // calculate the final bill with the most expensive ice cream costing $0.00
                 totalBill = CalculateBillForBirthday(currentOrder, true);
             }
 
-            // check if the punch card is completed
             if (customer.Rewards.PunchCards >= 10)
             {
                 // Calculate final bill with the first ice cream costing $0.00
                 totalBill -= currentOrder.IceCreamList.First().CalculatePrice();
 
-                // Reset punch card to 0
                 customer.Rewards.PunchCards = 0;
             }
 
-            // Check Pointcard status for redeeming points
             if (customer.Rewards.Points > 0)
             {
                 // Check if the customer is silver tier or above
@@ -1167,10 +1196,8 @@ namespace S10257176_PRG2Assignment
                 }
             }
 
-            // Display the final total bill amount
             Console.WriteLine($"Final Total Bill: ${totalBill}");
 
-            // Increment punch card for every ice cream in the order (up to 10)
             foreach (IceCream iceCream in currentOrder.IceCreamList)
             {
                 if (customer.Rewards.PunchCards < 10)
@@ -1183,10 +1210,8 @@ namespace S10257176_PRG2Assignment
             double pointsEarned = Math.Floor(totalBill * 0.72);
             customer.Rewards.AddPoints((int)pointsEarned);
 
-            // Mark the order as fulfilled with the current datetime
             currentOrder.TimeFulfilled = DateTime.Now;
 
-            // Add the fulfilled order to the customer's order history
             customer.OrderHistory.Add(currentOrder);
             customer.CurrentOrder = null;
 
