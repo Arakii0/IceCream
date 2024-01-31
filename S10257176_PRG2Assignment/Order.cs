@@ -6,6 +6,7 @@
 
 using System;
 using System.Globalization;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace S10257176_PRG2Assignment
 {
@@ -153,6 +154,7 @@ namespace S10257176_PRG2Assignment
                                 continue;
                             else
                                 iceCream.Scoops = opt2;
+                                iceCream.Flavours.Clear();
                             break;
 
                         case 3:
@@ -177,73 +179,77 @@ namespace S10257176_PRG2Assignment
                             break;
 
                         case 4:
-                            Console.WriteLine(@"1. Vanilla");
-                            Console.WriteLine("2. Chocolate");
-                            Console.WriteLine("3. Strawberry");
-                            Console.WriteLine("4. Durian (Premium)");
-                            Console.WriteLine("5. Ube (Premium)");
-                            Console.WriteLine("6. Sea Salt (Premium)");
-                            Console.WriteLine("0. Exit");
-                            Console.Write("Enter Option : ");
+                            for (int i = 1; i <= iceCream.Scoops; i++)
+                            {
+                                Console.WriteLine($"Enter ice cream flavours for scoop {i}: ");
+                                Console.WriteLine("1. Vanilla");
+                                Console.WriteLine("2. Chocolate");
+                                Console.WriteLine("3. Strawberry");
+                                Console.WriteLine("4. Durian (Premium)");
+                                Console.WriteLine("5. Ube (Premium)");
+                                Console.WriteLine("6. Sea Salt (Premium)");
+                                Console.WriteLine("0. Exit");
+                                Console.Write("Enter Option : ");
 
-                        int opt4 = Convert.ToInt32(Console.ReadLine());
-                            if (opt4 == 0)
-                                continue;
+                                int opt4 = Convert.ToInt32(Console.ReadLine());
+                                if (opt4 == 0)
+                                    continue;
 
-                            if (opt4 == 1)
-                                if (iceCream.Flavours.Any(flavour => flavour.Type == "Vanilla"))
-                                {
-                                    int index = iceCream.Flavours.FindIndex(flavour => flavour.Type == "Vanilla");
-                                    iceCream.Flavours[index].Quantity += 1;
-                                }
-                                else
-                                    iceCream.Flavours.Add(new Flavour("Vanilla", false, 1));
+                                if (opt4 == 1)
+                                    if (iceCream.Flavours.Any(flavour => flavour.Type == "Vanilla"))
+                                    {
+                                        int index = iceCream.Flavours.FindIndex(flavour => flavour.Type == "Vanilla");
+                                        iceCream.Flavours[index].Quantity += 1;
+                                    }
+                                    else
+                                        iceCream.Flavours.Add(new Flavour("Vanilla", false, 1));
 
-                            if (opt4 == 2)
-                                if (iceCream.Flavours.Any(flavour => flavour.Type == "Chocolate"))
-                                {
-                                    int index = iceCream.Flavours.FindIndex(flavour => flavour.Type == "Chocolate");
-                                    iceCream.Flavours[index].Quantity += 1;
-                                }
-                                else
-                                    iceCream.Flavours.Add(new Flavour("Chocolate", false, 1));
+                                if (opt4 == 2)
+                                    if (iceCream.Flavours.Any(flavour => flavour.Type == "Chocolate"))
+                                    {
+                                        int index = iceCream.Flavours.FindIndex(flavour => flavour.Type == "Chocolate");
+                                        iceCream.Flavours[index].Quantity += 1;
+                                    }
+                                    else
+                                        iceCream.Flavours.Add(new Flavour("Chocolate", false, 1));
 
-                            if (opt4 == 3)
-                                if (iceCream.Flavours.Any(flavour => flavour.Type == "Strawberry"))
-                                {
-                                    int index = iceCream.Flavours.FindIndex(flavour => flavour.Type == "Strawberry");
-                                    iceCream.Flavours[index].Quantity += 1;
-                                }
-                                else
-                                    iceCream.Flavours.Add(new Flavour("Strawberry", false, 1));
+                                if (opt4 == 3)
+                                    if (iceCream.Flavours.Any(flavour => flavour.Type == "Strawberry"))
+                                    {
+                                        int index = iceCream.Flavours.FindIndex(flavour => flavour.Type == "Strawberry");
+                                        iceCream.Flavours[index].Quantity += 1;
+                                    }
+                                    else
+                                        iceCream.Flavours.Add(new Flavour("Strawberry", false, 1));
 
-                            if (opt4 == 4)
-                                if (iceCream.Flavours.Any(flavour => flavour.Type == "Durian"))
-                                {
-                                    int index = iceCream.Flavours.FindIndex(flavour => flavour.Type == "Durian");
-                                    iceCream.Flavours[index].Quantity += 1;
-                                }
-                                else
-                                    iceCream.Flavours.Add(new Flavour("Durain", true, 1));
+                                if (opt4 == 4)
+                                    if (iceCream.Flavours.Any(flavour => flavour.Type == "Durian"))
+                                    {
+                                        int index = iceCream.Flavours.FindIndex(flavour => flavour.Type == "Durian");
+                                        iceCream.Flavours[index].Quantity += 1;
+                                    }
+                                    else
+                                        iceCream.Flavours.Add(new Flavour("Durain", true, 1));
 
-                            if (opt4 == 5)
-                                if (iceCream.Flavours.Any(flavour => flavour.Type == "Ube"))
-                                {
-                                    int index = iceCream.Flavours.FindIndex(flavour => flavour.Type == "Ube");
-                                    iceCream.Flavours[index].Quantity += 1;
-                                }
-                                else
-                                    iceCream.Flavours.Add(new Flavour("Ube", true, 1));
+                                if (opt4 == 5)
+                                    if (iceCream.Flavours.Any(flavour => flavour.Type == "Ube"))
+                                    {
+                                        int index = iceCream.Flavours.FindIndex(flavour => flavour.Type == "Ube");
+                                        iceCream.Flavours[index].Quantity += 1;
+                                    }
+                                    else
+                                        iceCream.Flavours.Add(new Flavour("Ube", true, 1));
 
-                            if (opt4 == 6)
-                                if (iceCream.Flavours.Any(flavour => flavour.Type == "Sea Salt"))
-                                {
-                                    int index = iceCream.Flavours.FindIndex(flavour => flavour.Type == "Sea Salt");
-                                    iceCream.Flavours[index].Quantity += 1;
-                                }
-                                else
-                                    iceCream.Flavours.Add(new Flavour("Sea Salt", true, 1));
-                            break;
+                                if (opt4 == 6)
+                                    if (iceCream.Flavours.Any(flavour => flavour.Type == "Sea Salt"))
+                                    {
+                                        int index = iceCream.Flavours.FindIndex(flavour => flavour.Type == "Sea Salt");
+                                        iceCream.Flavours[index].Quantity += 1;
+                                    }
+                                    else
+                                        iceCream.Flavours.Add(new Flavour("Sea Salt", true, 1));
+                            }
+                             break;
 
                         case 5:
                             Console.WriteLine(iceCream.Option);

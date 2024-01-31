@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj": {}
+    "E:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj": {}
   },
   "projects": {
-    "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj": {
+    "E:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
+        "projectUniqueName": "E:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
         "projectName": "S10257176_PRG2Assignment",
-        "projectPath": "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\obj\\",
+        "projectPath": "E:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\S10257176_PRG2Assignment.csproj",
+        "packagesPath": "C:\\Users\\benja\\.nuget\\packages\\",
+        "outputPath": "E:\\NP Stuff\\PRG2\\Assignment\\Assignment\\S10257176_PRG2Assignment\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\benja\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

@@ -66,6 +66,7 @@ namespace S10257176_PRG2Assignment
                 return true;
             }
             else
+
             {
                 return false;
             }
@@ -73,7 +74,7 @@ namespace S10257176_PRG2Assignment
 
         public override string ToString()
         {
-            return $"{Name,-10} {MemberId,-15} {Dob} \t{Rewards} ";
+            return $"{Name,-10} {MemberId,-15} {Dob.ToString("dd/MM/yyyy"), -20} \t{Rewards} ";
         }
 
     }
