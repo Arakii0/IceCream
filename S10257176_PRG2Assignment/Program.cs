@@ -1186,34 +1186,36 @@ namespace S10257176_PRG2Assignment
 
             if (customer.Rewards.Points > 0)
             {
+                // Check if the customer is silver tier or above
                 if (customer.Rewards.Tier == "Silver" || customer.Rewards.Tier == "Gold")
                 {
                     int pointsToRedeem;
 
                     while (true)
                     {
-                        Console.Write("How many points do you want to use to offset the bill? (1 point = $0.02): ");
+                        Console.Write($"How many points do you want to use to offset the bill? (1 point = $0.02, available points: {customer.Rewards.Points}): ");
                         string input = Console.ReadLine();
 
                         try
                         {
                             pointsToRedeem = Convert.ToInt32(input);
 
-                            if (pointsToRedeem >= 0)
+                            if (pointsToRedeem >= 0 && pointsToRedeem <= customer.Rewards.Points)
                             {
-                                int actualPointsToRedeem = Math.Min(pointsToRedeem, customer.Rewards.Points);
+                                // Redeem points
+                                int actualPointsToRedeem = pointsToRedeem;
                                 totalBill -= actualPointsToRedeem * 0.02;
                                 customer.Rewards.RedeemPoints(actualPointsToRedeem);
                                 break;
                             }
                             else
                             {
-                                Console.WriteLine("Please enter a valid number for the points.");
+                                Console.WriteLine($"Please enter a non-negative integer equal to or less than the available points ({customer.Rewards.Points}).");
                             }
                         }
                         catch (FormatException)
                         {
-                            Console.WriteLine("Please enter a valid number for the points.");
+                            Console.WriteLine("Please enter a valid integer for the points.");
                         }
                     }
                 }
@@ -1423,7 +1425,11 @@ namespace S10257176_PRG2Assignment
 
         static void UpdateCustomerCSV(List<Customer> customers)
         {
-            // Read all lines from the existing customer CSV file
+            //==========================================================
+            // Student Number : S10262171E
+            // Student Name : Benjamin Hwang
+            //==========================================================
+
             string[] lines = File.ReadAllLines("customers.csv");
 
             for (int i = 1; i < lines.Length; i++)
@@ -1435,7 +1441,6 @@ namespace S10257176_PRG2Assignment
 
                 if (customer != null)
                 {
-                    // Update the points and punch card values
                     data[4] = customer.Rewards.Points.ToString();
                     data[5] = customer.Rewards.PunchCards.ToString();
 
@@ -1444,7 +1449,6 @@ namespace S10257176_PRG2Assignment
                 }
             }
 
-            // Write the updated lines back to the customer CSV file
             File.WriteAllLines("customers.csv", lines);
         }
 
