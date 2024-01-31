@@ -32,10 +32,24 @@ namespace S10257176_PRG2Assignment
         {
             Points += point;
 
-            if(Points >= 100 && Tier != "Gold")
-                Tier = "Gold";
-            if (Points >= 50 && Tier != "Silver")
-                Tier = "Silver";
+            if (Tier == "Ordinary")
+            {
+                if (Points >= 100)
+                {
+                    Tier = "Gold";
+                }
+                else if (Points >= 50)
+                {
+                    Tier = "Silver";
+                }
+            }
+            else if (Tier == "Silver")
+            {
+                if (Points >= 100)
+                {
+                    Tier = "Gold";
+                }
+            }
         }
 
         public void RedeemPoints(int point)

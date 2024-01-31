@@ -525,22 +525,36 @@ namespace S10257176_PRG2Assignment
                 Console.WriteLine(string.Join(", ", flavours.Where(kvp => kvp.Value == 2).Select(kvp => kvp.Key)));
 
                 Console.Write("Enter ice cream flavours for scoop: ");
-                string flavourInputScoop1 = Console.ReadLine();
-        flavourselect.Add(flavourInputScoop1, 1);
+                string flavourInputScoop1 = Console.ReadLine().ToLower();
+                flavourselect.Add(flavourInputScoop1, 1);
 
-        if (scoops > 1)
-        {
-            Console.Write("Enter ice cream flavours for scoop 2: ");
-            string flavourInputScoop2 = Console.ReadLine();
-            flavourselect.Add(flavourInputScoop2, 1);
-        }
+                if (scoops > 1)
+                {
+                    Console.Write("Enter ice cream flavours for scoop 2: ");
+                    string flavourInputScoop2 = Console.ReadLine().ToLower();
+                    if (flavourselect.ContainsKey(flavourInputScoop1))
+                    {
+                        flavourselect[flavourInputScoop1]++;
+                    }
+                    else
+                    {
+                        flavourselect.Add(flavourInputScoop1, 1);
+                    }
+                }
 
-        if (scoops > 2)
-        {
-            Console.Write("Enter ice cream flavours for scoop 3: ");
-            string flavourInputScoop3 = Console.ReadLine();
-            flavourselect.Add(flavourInputScoop3, 1);
-        }
+                if (scoops > 2)
+                {
+                    Console.Write("Enter ice cream flavours for scoop 3: ");
+                    string flavourInputScoop3 = Console.ReadLine().ToLower();
+                    if (flavourselect.ContainsKey(flavourInputScoop1))
+                    {
+                        flavourselect[flavourInputScoop1]++;
+                    }
+                    else
+                    {
+                        flavourselect.Add(flavourInputScoop1, 1);
+                    }
+                }
 
 
 
@@ -557,8 +571,14 @@ namespace S10257176_PRG2Assignment
                     {
                         break;
                     }
-
-                    toppingselect.Add(toppingInput, 1);
+                    if (toppingselect.ContainsKey(toppingInput))
+                    {
+                        toppingselect[toppingInput]++;
+                    }
+                    else
+                    {
+                        toppingselect.Add(toppingInput, 1);
+                    }
                 }
 
 
@@ -568,23 +588,23 @@ namespace S10257176_PRG2Assignment
                 switch (option.ToLower())
                 {
                     case "cup":
-                        List<Flavour> cupFlavours = flavourselect.Keys.Select(key => new Flavour(key, false, 1)).ToList();
-                        List<Topping> cupToppings = toppingselect.Keys.Select(key => new Topping(key)).ToList();
+                        List<Flavour> cupFlavours = flavourselect.SelectMany(kv => Enumerable.Repeat(new Flavour(kv.Key, false, 1), kv.Value)).ToList();
+                        List<Topping> cupToppings = toppingselect.SelectMany(kv => Enumerable.Repeat(new Topping(kv.Key), kv.Value)).ToList();
                         iceCream = new Cup(option, scoops, cupFlavours, cupToppings);
                         break;
                     case "cone":
                         Console.Write("Is it a chocolate-dipped cone? (true/false): ");
                         bool dipped = Convert.ToBoolean(Console.ReadLine());
-                        List<Flavour> coneFlavours = flavourselect.Keys.Select(key => new Flavour(key, false, 1)).ToList();
-                        List<Topping> coneToppings = toppingselect.Keys.Select(key => new Topping(key)).ToList();
+                        List<Flavour> coneFlavours = flavourselect.SelectMany(kv => Enumerable.Repeat(new Flavour(kv.Key, false, 1), kv.Value)).ToList();
+                        List<Topping> coneToppings = toppingselect.SelectMany(kv => Enumerable.Repeat(new Topping(kv.Key), kv.Value)).ToList();
                         iceCream = new Cone(option, scoops, coneFlavours, coneToppings, dipped);
                         break;
                     case "waffle":
                         Console.WriteLine("Waffle Flavour: Red Velvet, Charcoal or Pandan");
                         Console.Write("Enter waffle flavour (or 'n' for no additional cost): ");
                         string waffleFlavour = Console.ReadLine();
-                        List<Flavour> waffleFlavours = flavourselect.Keys.Select(key => new Flavour(key, false, 1)).ToList();
-                        List<Topping> waffleToppings = toppingselect.Keys.Select(key => new Topping(key)).ToList();
+                        List<Flavour> waffleFlavours = flavourselect.SelectMany(kv => Enumerable.Repeat(new Flavour(kv.Key, false, 1), kv.Value)).ToList();
+                        List<Topping> waffleToppings = toppingselect.SelectMany(kv => Enumerable.Repeat(new Topping(kv.Key), kv.Value)).ToList();
                         iceCream = new Waffle(option, scoops, waffleFlavours, waffleToppings, waffleFlavour);
                         break;
                     default:
@@ -914,7 +934,7 @@ namespace S10257176_PRG2Assignment
 
                     // Redeem points, if necessary
                     totalBill -= Math.Min(pointsToRedeem, customer.Rewards.Points);
-                    customer.Rewards.Points -= Math.Min(pointsToRedeem, customer.Rewards.Points);
+                    customer.Rewards.RedeemPoints(Math.Min(pointsToRedeem, customer.Rewards.Points));
                 }
             }
 
@@ -931,17 +951,8 @@ namespace S10257176_PRG2Assignment
             }
 
             // Earn points and upgrade membership status accordingly
-            double pointsEarned = Math.Floor(totalBill / 10);
-            customer.Rewards.Points += (int)pointsEarned;
-
-            if (customer.Rewards.Points >= 100 && customer.Rewards.Tier != "Gold")
-            {
-                customer.Rewards.Tier = "Gold";
-            }
-            else if (customer.Rewards.Points >= 50 && customer.Rewards.Tier != "Silver")
-            {
-                customer.Rewards.Tier = "Silver";
-            }
+            double pointsEarned = Math.Floor(totalBill * 0.72);
+            customer.Rewards.AddPoints((int)pointsEarned);
 
             // Mark the order as fulfilled with the current datetime
             currentOrder.TimeFulfilled = DateTime.Now;
