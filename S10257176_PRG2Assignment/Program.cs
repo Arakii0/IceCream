@@ -66,6 +66,10 @@ namespace S10257176_PRG2Assignment
                         break;
 
                     case "2":
+                        //==========================================================
+                        // Student Number : S10257176H
+                        // Student Name : Araki Yeo
+                        //==========================================================
                         ListAllCurrentOrders(regularQueue, goldQueue);
                         break;
 
@@ -78,6 +82,10 @@ namespace S10257176_PRG2Assignment
                         break;
 
                     case "5":
+                        //==========================================================
+                        // Student Number : S10257176H
+                        // Student Name : Araki Yeo
+                        //==========================================================
                         while (true)
                         {
                             Console.WriteLine("============================================");
@@ -136,7 +144,10 @@ namespace S10257176_PRG2Assignment
                         break;
 
                     case "6":
-                        
+                        //==========================================================
+                        // Student Number : S10257176H
+                        // Student Name : Araki Yeo
+                        //==========================================================
                         while (true)
                         {
                             try
@@ -206,6 +217,10 @@ namespace S10257176_PRG2Assignment
                         break;
 
                     case "8":
+                        //==========================================================
+                        // Student Number : S10257176H
+                        // Student Name : Araki Yeo
+                        //==========================================================
                         DisplayMonthlyCharges(customers);
                         break;
 
@@ -240,6 +255,10 @@ namespace S10257176_PRG2Assignment
 
         static void ReadFileOrders(List<Customer> customers)
         {
+            //==========================================================
+            // Student Number : S10257176H
+            // Student Name : Araki Yeo
+            //==========================================================
             using (StreamReader sr = new StreamReader("Orders.csv"))
             {
                 string line = sr.ReadLine();
@@ -430,6 +449,10 @@ namespace S10257176_PRG2Assignment
 
         static void ListAllCurrentOrders(Queue<Order> regular, Queue<Order> gold)
         {
+            //==========================================================
+            // Student Number : S10257176H
+            // Student Name : Araki Yeo
+            //==========================================================
             Console.WriteLine("==========================");
             Console.WriteLine("List of all current orders");
             Console.WriteLine("==========================");
@@ -796,6 +819,10 @@ namespace S10257176_PRG2Assignment
 
         static void AddIceCream(Customer customer)
         {
+            //==========================================================
+            // Student Number : S10257176H
+            // Student Name : Araki Yeo
+            //==========================================================
             bool loop = true;
             bool scooped = false;
             IceCream icecream = null;
@@ -986,6 +1013,10 @@ namespace S10257176_PRG2Assignment
 
         static void DeleteAnIceCream(Customer customer)
         {
+            //==========================================================
+            // Student Number : S10257176H
+            // Student Name : Araki Yeo
+            //==========================================================
             while (true)
             {
                 List<IceCream> currentorder = customer.CurrentOrder.IceCreamList;
@@ -1127,6 +1158,10 @@ namespace S10257176_PRG2Assignment
 
         static void DisplayMonthlyCharges(List<Customer> customers)
         {
+            //==========================================================
+            // Student Number : S10257176H
+            // Student Name : Araki Yeo
+            //==========================================================
             Console.WriteLine("Displaying monthly charges breakdown and total charged amounts for the year");
             Console.WriteLine("===========================================================================");
 
@@ -1198,6 +1233,10 @@ namespace S10257176_PRG2Assignment
 
         static void PrintIceCreams(List<IceCream> icl)
         {
+            //==========================================================
+            // Student Number : S10257176H
+            // Student Name : Araki Yeo
+            //==========================================================
             int x = 1;
             foreach (IceCream ice in icl)
             {
