@@ -907,10 +907,8 @@ namespace S10257176_PRG2Assignment
             // check if it's the customer's birthday
             if (customer.IsBirthday())
             {
-                IceCream mostExpensiveIceCream = currentOrder.IceCreamList.OrderByDescending(iceCream => iceCream.CalculatePrice()).FirstOrDefault();
                 // calculate the final bill with the most expensive ice cream costing $0.00
-                totalBill -= mostExpensiveIceCream.CalculatePrice();
-                // totalBill -= CalculateBillForBirthday(currentOrder);//
+                totalBill = CalculateBillForBirthday(currentOrder, true);
             }
 
             // check if the punch card is completed
@@ -929,10 +927,10 @@ namespace S10257176_PRG2Assignment
                 // Check if the customer is silver tier or above
                 if (customer.Rewards.Tier == "Silver" || customer.Rewards.Tier == "Gold")
                 {
-                    Console.Write("How many points do you want to use to offset the bill? (1 point = $1)");
-                    int pointsToRedeem = Convert.ToInt32(Console.ReadLine());
+                    Console.Write("How many points do you want to use to offset the bill? (1 point = $0.02): ");
+                    int pointsToRedeem = (int)(Convert.ToInt32(Console.ReadLine()) * 0.02);
 
-                    // Redeem points, if necessary
+                    // Redeem points
                     totalBill -= Math.Min(pointsToRedeem, customer.Rewards.Points);
                     customer.Rewards.RedeemPoints(Math.Min(pointsToRedeem, customer.Rewards.Points));
                 }
@@ -1007,14 +1005,14 @@ namespace S10257176_PRG2Assignment
             }
         }
 
-        static double CalculateBillForBirthday(Order currentOrder)
+        static double CalculateBillForBirthday(Order currentOrder, bool isBirthday)
         {
-            if (currentOrder.IceCreamList.Count == 0)
+            if (!isBirthday || currentOrder.IceCreamList.Count == 0)
             {
-                return currentOrder.CalculateTotal(); 
+                return currentOrder.CalculateTotal();
             }
 
-           
+
             IceCream mostExpensiveIceCream = currentOrder.IceCreamList[0];
             foreach (IceCream iceCream in currentOrder.IceCreamList)
             {
