@@ -462,7 +462,7 @@ namespace S10257176_PRG2Assignment
                 {
                     name = Console.ReadLine();
 
-                    // Validate that the name contains only letters and no special characters
+                    // checks that the name contains only letters
                     bool isValidName = true;
 
                     foreach (char c in name)
@@ -496,6 +496,7 @@ namespace S10257176_PRG2Assignment
                 {
                     memberId = Convert.ToInt32(Console.ReadLine());
 
+                    // checks if there is any existing memberId that is the same
                     if (!customers.Any(customer => customer.MemberId == memberId))
                     {
                         break;
@@ -543,9 +544,9 @@ namespace S10257176_PRG2Assignment
                 File.AppendAllText(fileName, $"{customerCsvLine}\n");
                 Console.WriteLine("Customer registered successfully!");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine($"Error appending to the file: {ex.Message}");
+                Console.WriteLine("Customer not registered.");
             }
 
 
@@ -556,6 +557,7 @@ namespace S10257176_PRG2Assignment
         {
             ListAllCustomers(customers);
 
+            // place holder for selectedCustomer
             Customer selectedCustomer = null;
 
             while (selectedCustomer == null)
@@ -569,6 +571,7 @@ namespace S10257176_PRG2Assignment
 
                     if (memberId > 0)
                     {
+                        // Find the customer with the matching Member ID
                         selectedCustomer = customers.Find(customer => customer.MemberId == memberId);
 
                         if (selectedCustomer == null)
@@ -743,6 +746,7 @@ namespace S10257176_PRG2Assignment
                 }
 
                 newOrder.AddIceCream(iceCream);
+
                 orderId++;
                 newOrder.Id = orderId;
 
@@ -755,6 +759,7 @@ namespace S10257176_PRG2Assignment
 
 
             selectedCustomer.CurrentOrder = newOrder;
+
 
             if (selectedCustomer.Rewards.Tier == "Gold")
                 goldQueue.Enqueue(selectedCustomer.CurrentOrder);
