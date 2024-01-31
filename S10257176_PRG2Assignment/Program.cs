@@ -5,6 +5,7 @@
 //==========================================================
 
 using System;
+using System.Buffers.Text;
 using System.Data;
 using System.Runtime.Serialization;
 
@@ -462,9 +463,14 @@ namespace S10257176_PRG2Assignment
             // Student Number : S10262171E
             // Student Name : Benjamin Hwang
             //==========================================================
+
             Console.WriteLine("List of all customers:");
             Console.WriteLine("======================");
+
+            // column header
             Console.WriteLine($"{"Name",-10} {"Member ID",-15} {"Date of Birth",-28} {"Points",-10} {"PunchCard",-12} {"Tier"}");
+
+            // find customer
             foreach (Customer customer in customers)
             {
                 Console.WriteLine(customer.ToString());
@@ -528,6 +534,8 @@ namespace S10257176_PRG2Assignment
             // Student Number : S10262171E
             // Student Name : Benjamin Hwang
             //==========================================================
+
+            // ask user for customer name and validate it
             Console.Write("Enter customer name: ");
             string name;
 
@@ -537,7 +545,7 @@ namespace S10257176_PRG2Assignment
                 {
                     name = Console.ReadLine();
 
-                    // checks that the name contains only letters
+                    // checks that the name contains only letters and nothing else
                     bool isValidName = true;
 
                     foreach (char c in name)
@@ -562,6 +570,7 @@ namespace S10257176_PRG2Assignment
                 }
             }
 
+            // ask user for customer ID and validate it
             Console.Write("Enter customer ID number: ");
             int memberId;
 
@@ -571,7 +580,7 @@ namespace S10257176_PRG2Assignment
                 {
                     memberId = Convert.ToInt32(Console.ReadLine());
 
-                    // checks if there is any existing memberId that is the same
+                    // checks if there is  existing memberId that is the same as the one keyed in
                     if (!customers.Any(customer => customer.MemberId == memberId))
                     {
                         break;
@@ -590,6 +599,7 @@ namespace S10257176_PRG2Assignment
 
             DateTime dob;
 
+            // ask user for customer date of birth and validate it
             while (true)
             {
                 Console.Write("Enter customer date of birth (DD/MM//YYYY): ");
@@ -606,11 +616,14 @@ namespace S10257176_PRG2Assignment
                 }
             }
 
+            // create a new customer 
             Customer newCustomer = new Customer(name, memberId, dob);
             newCustomer.Rewards = new PointCard();
 
+            // add the  customer to the list
             customers.Add(newCustomer);
 
+            // save customer information to customer.csv
             string fileName = "customers.csv";
             string customerCsvLine = $"{newCustomer.Name},{newCustomer.MemberId},{newCustomer.Dob:dd/MM/yyyy},{newCustomer.Rewards.Tier},{newCustomer.Rewards.Points},{newCustomer.Rewards.PunchCards}";
 
@@ -634,11 +647,14 @@ namespace S10257176_PRG2Assignment
             // Student Number : S10262171E
             // Student Name : Benjamin Hwang
             //==========================================================
+
+            // display all customers
             ListAllCustomers(customers);
 
             // place holder for selectedCustomer
             Customer selectedCustomer = null;
 
+            // loop until a valid customer is selected
             while (selectedCustomer == null)
             {
                 Console.Write("Enter the Member ID of the customer to create an order: ");
@@ -650,7 +666,7 @@ namespace S10257176_PRG2Assignment
 
                     if (memberId > 0)
                     {
-                        // Find the customer with the matching Member ID
+                        // find customer with matching member id
                         selectedCustomer = customers.Find(customer => customer.MemberId == memberId);
 
                         if (selectedCustomer == null)
@@ -673,14 +689,17 @@ namespace S10257176_PRG2Assignment
                     Console.WriteLine("Invalid input. Please enter a valid Member ID.");
                 }
             }
-
+            //  new order object for the selected customer
             Order newOrder = new Order();
 
+            // loop to add ice cream to the order
             do
             {
+                // dictionaries to store selected flavors and toppings
                 Dictionary<string, int> flavourselect = new Dictionary<string, int>();
                 Dictionary<string, int> toppingselect = new Dictionary<string, int>();
 
+                // ask for option and validate it
                 string option;
 
                 while (true)
@@ -698,7 +717,7 @@ namespace S10257176_PRG2Assignment
                     }
                 }
 
-
+                // ask for number of scoops and validate it
                 int scoops;
 
                 while (true)
@@ -725,6 +744,8 @@ namespace S10257176_PRG2Assignment
                 }
 
                 Console.WriteLine();
+
+                //display available flavors
                 Console.Write("Regular Flavours: ");
                 Console.WriteLine(string.Join(", ", flavours.Where(kvp => kvp.Value == 0).Select(kvp => kvp.Key)));
 
@@ -732,6 +753,7 @@ namespace S10257176_PRG2Assignment
                 Console.Write("Premium Flavours (+$2 per scoop):");
                 Console.WriteLine(string.Join(", ", flavours.Where(kvp => kvp.Value == 2).Select(kvp => kvp.Key)));
 
+                // loop to select flavours for each scoop and validate it 
                 for (int scoop = 1; scoop <= scoops; scoop++)
                 {
                     while (true)
@@ -747,6 +769,7 @@ namespace S10257176_PRG2Assignment
                                 continue;
                             }
 
+                            // update the selected flavour
                             if (flavourselect.ContainsKey(flavourInput))
                             {
                                 flavourselect[flavourInput]++;
@@ -766,11 +789,11 @@ namespace S10257176_PRG2Assignment
                 }
 
 
-
+                // display available toppings
                 Console.Write("Toppings: ");
                 Console.WriteLine(string.Join(", ", toppings.Where(kvp => kvp.Value == 1).Select(kvp => kvp.Key)));
 
-
+                // loop to get toppings and validate it 
                 while (true)
                 {
                     Console.Write("Topping (or press Enter to finish): ");
@@ -787,19 +810,22 @@ namespace S10257176_PRG2Assignment
                         continue;
                     }
 
+                    // ppdate the topping selection
                     if (!toppingselect.ContainsKey(toppingInput))
                     {
                         toppingselect.Add(toppingInput, 1);
                     }
                 }
 
-
+                // create ice cream based on use input
                 IceCream iceCream;
 
 
                 switch (option.ToLower())
                 {
                     case "cup":
+                        // SelectMany is  used to flatten  sequence into a single list
+                        // Enumerable.Repeat generates a sequence that contains a repeated value
                         List<Flavour> cupFlavours = flavourselect.SelectMany(kv => Enumerable.Repeat(new Flavour(kv.Key, false, 1), kv.Value)).ToList();
                         List<Topping> cupToppings = toppingselect.SelectMany(kv => Enumerable.Repeat(new Topping(kv.Key), kv.Value)).ToList();
                         iceCream = new Cup(option, scoops, cupFlavours, cupToppings);
@@ -849,8 +875,7 @@ namespace S10257176_PRG2Assignment
                             
                         }
 
-                        // SelectMany is  used to flatten  sequence into a single list
-                        // Enumerable.Repeat generates a sequence that contains a repeated value
+                        
                         List<Flavour> waffleFlavours = flavourselect.SelectMany(kv => Enumerable.Repeat(new Flavour(kv.Key, false, 1), kv.Value)).ToList();
                         List<Topping> waffleToppings = toppingselect.SelectMany(kv => Enumerable.Repeat(new Topping(kv.Key), kv.Value)).ToList();
                         iceCream = new Waffle(option, scoops, waffleFlavours, waffleToppings, waffleFlavour);
@@ -861,8 +886,10 @@ namespace S10257176_PRG2Assignment
                         return;
                 }
 
+                // add ice cream to order
                 newOrder.AddIceCream(iceCream);
 
+                // increment order id and set timestamp
                 orderId++;
                 newOrder.Id = orderId;
 
@@ -871,12 +898,13 @@ namespace S10257176_PRG2Assignment
                 Console.Write("Do you want to add another ice cream to the order? (Y/N): ");
             }
 
+            // loops whole code if customer want to add new ice cream
             while (Console.ReadLine().ToLower() == "y");
 
-
+            // set the current order for the selected customer
             selectedCustomer.CurrentOrder = newOrder;
 
-
+            // enqueue order based on tier
             if (selectedCustomer.Rewards.Tier == "Gold")
                 goldQueue.Enqueue(selectedCustomer.CurrentOrder);
             else
@@ -1130,7 +1158,8 @@ namespace S10257176_PRG2Assignment
             // Student Number : S10262171E
             // Student Name : Benjamin Hwang
             //==========================================================
-            //dequeue the first order in the queue
+
+            //dequeue the first order to come in both queues
             Order currentOrder;
 
             if (goldQueue.Count > 0)
@@ -1147,17 +1176,19 @@ namespace S10257176_PRG2Assignment
                 return;
             }
 
+            // display ice creams in the order
             Console.WriteLine("Ice Creams in the Order:");
             foreach (IceCream iceCream in currentOrder.IceCreamList)
             {
                 Console.WriteLine(iceCream.ToString());
             }
 
+            // calculate and display the total bill amount
             double totalBill = currentOrder.CalculateTotal();
             Console.WriteLine($"Total Bill Amount: ${totalBill}");
 
 
-            // Display customer's membership status and points
+            // display customer's membership status and points
             Customer customer = customers.Find(c => c.CurrentOrder == currentOrder);
 
             if (customer != null)
@@ -1170,23 +1201,25 @@ namespace S10257176_PRG2Assignment
                 Console.WriteLine("Customer not found.");
             }
 
+            // check if it's customer's birthday
             if (customer.IsBirthday())
             {
-                // calculate the final bill with the most expensive ice cream costing $0.00
+                // calculate the final bill with the most expensive ice cream costing $0
                 totalBill = CalculateBillForBirthday(currentOrder, true);
             }
 
+            // check if the customer has enough punch cards for discount
             if (customer.Rewards.PunchCards >= 10)
             {
-                // Calculate final bill with the first ice cream costing $0.00
+                // calculate final bill with the first ice cream costing $0
                 totalBill -= currentOrder.IceCreamList.First().CalculatePrice();
 
                 customer.Rewards.PunchCards = 0;
             }
 
+            // check if customer has any points to redeem
             if (customer.Rewards.Points > 0)
             {
-                // Check if the customer is silver tier or above
                 if (customer.Rewards.Tier == "Silver" || customer.Rewards.Tier == "Gold")
                 {
                     int pointsToRedeem;
@@ -1202,7 +1235,7 @@ namespace S10257176_PRG2Assignment
 
                             if (pointsToRedeem >= 0 && pointsToRedeem <= customer.Rewards.Points)
                             {
-                                // Redeem points
+                                // redeem points
                                 int actualPointsToRedeem = pointsToRedeem;
                                 totalBill -= actualPointsToRedeem * 0.02;
                                 customer.Rewards.RedeemPoints(actualPointsToRedeem);
@@ -1221,6 +1254,7 @@ namespace S10257176_PRG2Assignment
                 }
             }
 
+            // display the final total bill
             Console.WriteLine($"Final Total Bill: ${totalBill}");
 
             foreach (IceCream iceCream in currentOrder.IceCreamList)
@@ -1231,15 +1265,18 @@ namespace S10257176_PRG2Assignment
                 }
             }
 
-            // Earn points and upgrade membership status accordingly
+            // earn points and upgrade membership status 
             double pointsEarned = Math.Floor(totalBill * 0.72);
             customer.Rewards.AddPoints((int)pointsEarned);
 
+            // set the fulfillment time for order
             currentOrder.TimeFulfilled = DateTime.Now;
 
+            // add order to the customer's order history and reset current order
             customer.OrderHistory.Add(currentOrder);
             customer.CurrentOrder = null;
 
+            // update customer info in the customers.csv
             UpdateCustomerCSV(customers);
 
         }
@@ -1402,6 +1439,10 @@ namespace S10257176_PRG2Assignment
 
         static void ReadFileOptions(Dictionary<IceCream, double> options)
         {
+            //==========================================================
+            // Student Number : S10262171E
+            // Student Name : Benjamin Hwang
+            //==========================================================
 
             string[] lines = File.ReadAllLines("options.csv");
 
@@ -1435,20 +1476,23 @@ namespace S10257176_PRG2Assignment
             for (int i = 1; i < lines.Length; i++)
             {
                 string[] data = lines[i].Split(',');
-                int memberId = Convert.ToInt32(data[1]);
+                int id = Convert.ToInt32(data[1]);
 
-                Customer customer = customers.Find(c => c.MemberId == memberId);
+                //find corresponding customer in the list based on memberId.
+                Customer customer = customers.Find(c => c.MemberId == id);
 
+                // if customer is found, update points and punch cards
                 if (customer != null)
                 {
                     data[4] = customer.Rewards.Points.ToString();
                     data[5] = customer.Rewards.PunchCards.ToString();
 
-                    // Update the line in the lines array
+                    // update the line in data 
                     lines[i] = string.Join(",", data);
                 }
             }
 
+            // write the updated lines to the customers.csv
             File.WriteAllLines("customers.csv", lines);
         }
 
